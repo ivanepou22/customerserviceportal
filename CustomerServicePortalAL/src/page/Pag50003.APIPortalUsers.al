@@ -34,7 +34,6 @@ page 50003 "API Portal Users"
                 field(customerNo; Rec."Customer No.")
                 {
                     ApplicationArea = All;
-                    Editable = false;
                     ToolTip = 'Specifies the value of the Customer No. field.', Comment = '%';
                 }
                 field(customerName; Rec."Customer Name")
