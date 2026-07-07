@@ -9,7 +9,6 @@ page 50001 "API Sales Orders"
     EntityName = 'salesOrder';
     EntitySetName = 'salesOrders';
     SourceTable = "Sales Header";
-    SourceTableView = where("Document Type" = const(Order));
     ODataKeyFields = "Document Type", "No.";
     Editable = false;
     InsertAllowed = false;
