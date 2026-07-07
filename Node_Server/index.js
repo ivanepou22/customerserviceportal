@@ -1,15 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import winston from "winston";
+import { routes } from "./src/startup/routes.js";
+import { logging } from "./src/startup/logging.js";
 
-const app = express();
-app.use(express.json());
 dotenv.config();
+const app = express();
+app.use(helmet());
 
-app.get("/api/v1/", (req, res) => {
-    res.send("Welcome to the Customer Portal API");
-});
+logging();
+routes(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    winston.info(`Server is running on port ${PORT}`);
 });
