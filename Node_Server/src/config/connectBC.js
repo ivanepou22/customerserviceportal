@@ -6,7 +6,7 @@ const username = process.env.BC_USERNAME;
 
 const base64Credentials = Buffer.from(`${username}:${password}`).toString('base64');
 
-export default connectBc = {
+export const connectBC = {
     headers: {
         Authorization: `Basic ${base64Credentials}`,
         Accept: 'application/json',
