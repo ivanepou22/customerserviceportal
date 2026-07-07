@@ -13,3 +13,9 @@ export const connectBC = {
         'Content-Type': 'application/json',
     },
 };
+
+export const connectNav = {
+    headers: {
+        Authorization: `Basic ${base64Credentials}`,
+    },
+};
