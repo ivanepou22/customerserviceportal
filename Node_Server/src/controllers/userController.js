@@ -78,3 +78,27 @@ export const updateUser = asyncMiddleware(async (req, res) => {
 
     res.send(user);
 });
+
+//delete user
+export const deleteUser = asyncMiddleware(async (req, res) => {
+    const userId = req.params.userId;
+    const existingUserUrl = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    const existingUserResponse = await axios.get(existingUserUrl, connectBC);
+
+    if (!existingUserResponse.data) {
+        return res.status(404).send(`User with ID: ${userId} not found.`);
+    }
+
+    const etag = existingUserResponse.data['@odata.etag'];
+    if (!etag) {
+        return res.status(400).send("ETag not found for the user. Cannot perform delete.");
+    }
+    connectBC.headers['If-Match'] = etag;
+
+    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    await axios.delete(url, connectBC);
+
+    const user = _.pick(existingUserResponse.data, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active']);
+
+    res.status(204).send(user);
+});
