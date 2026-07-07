@@ -5,7 +5,7 @@ page 50000 "Portal Users"
     UsageCategory = Lists;
     SourceTable = PortalUser;
     InsertAllowed = false;
-    editable = false;
+    // editable = false;
 
     layout
     {

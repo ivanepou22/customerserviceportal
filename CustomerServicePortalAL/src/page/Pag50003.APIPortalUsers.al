@@ -9,6 +9,7 @@ page 50003 "API Portal Users"
     EntitySetName = 'portalUsers';
     SourceTable = PortalUser;
     DelayedInsert = true;
+    ModifyAllowed = true;
     ODataKeyFields = email;
 
     layout
