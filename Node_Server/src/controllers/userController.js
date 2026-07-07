@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import axios from "axios";
 import { asyncMiddleware } from "../middleware/async.js";
+import { connectBC } from "../config/connectBC.js";
 
 dotenv.config();
 
