@@ -3,8 +3,8 @@
 .alpackages/
 .snapshots/
 .output/
-*.app
 rad.json
 *.g.xlf
 *.flf
 TestResults.xml
+*.app
