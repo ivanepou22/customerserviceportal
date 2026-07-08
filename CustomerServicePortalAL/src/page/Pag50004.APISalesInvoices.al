@@ -1,15 +1,15 @@
-page 50001 "API Sales Orders"
+page 50004 "API Sales Invoices"
 {
     PageType = API;
     APIPublisher = 'serviceportal';
     APIGroup = 'customerserviceportal';
     DelayedInsert = true;
-    Caption = 'API Sales Orders';
+    Caption = 'API Sales Invoices';
     APIVersion = 'v1.0';
-    EntityName = 'salesOrder';
-    EntitySetName = 'salesOrders';
+    EntityName = 'salesInvoice';
+    EntitySetName = 'salesInvoices';
     SourceTable = "Sales Header";
-    SourceTableView = where("Document Type" = const(Order), Amount = filter('>0'));
+    SourceTableView = where("Document Type" = const(Invoice), Amount = filter('>0'));
     ODataKeyFields = "No.";
     Editable = false;
     InsertAllowed = false;

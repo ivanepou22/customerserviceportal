@@ -1,15 +1,15 @@
-page 50001 "API Sales Orders"
+page 50006 "API Sales Credit Memos"
 {
     PageType = API;
     APIPublisher = 'serviceportal';
     APIGroup = 'customerserviceportal';
     DelayedInsert = true;
-    Caption = 'API Sales Orders';
+    Caption = 'API Sales Credit Memos';
     APIVersion = 'v1.0';
-    EntityName = 'salesOrder';
-    EntitySetName = 'salesOrders';
+    EntityName = 'salesCreditMemo';
+    EntitySetName = 'salesCreditMemos';
     SourceTable = "Sales Header";
-    SourceTableView = where("Document Type" = const(Order), Amount = filter('>0'));
+    SourceTableView = where("Document Type" = const("Credit Memo"), Amount = filter('>0'));
     ODataKeyFields = "No.";
     Editable = false;
     InsertAllowed = false;

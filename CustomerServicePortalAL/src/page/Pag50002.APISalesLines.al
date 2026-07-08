@@ -1,10 +1,10 @@
-page 50002 "API Sales Order Lines"
+page 50002 "API Sales Lines"
 {
     PageType = API;
     APIPublisher = 'serviceportal';
     APIGroup = 'customerserviceportal';
     DelayedInsert = true;
-    Caption = 'Sales Order Lines';
+    Caption = 'Sales Lines';
     APIVersion = 'v1.0';
     EntityName = 'salesline';
     EntitySetName = 'saleslines';
