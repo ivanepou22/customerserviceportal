@@ -51,7 +51,7 @@ page 50005 "API Sales Quotes"
             {
                 EntityName = 'salesline';
                 EntitySetName = 'saleslines';
-                SubPageLink = "Document No." = field("No.");
+                SubPageLink = "Document No." = field("No."), "Document Type" = field("Document Type");
             }
         }
 

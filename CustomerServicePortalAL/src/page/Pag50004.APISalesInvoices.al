@@ -51,7 +51,7 @@ page 50004 "API Sales Invoices"
             {
                 EntityName = 'salesline';
                 EntitySetName = 'saleslines';
-                SubPageLink = "Document No." = field("No.");
+                SubPageLink = "Document No." = field("No."), "Document Type" = field("Document Type");
             }
         }
 
