@@ -1,8 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import axios from "axios";
-import _ from "lodash";
 import bcrypt from "bcrypt";
+import http from 'http';
+import _ from "lodash";
 import { asyncMiddleware } from "../middleware/async.js";
 import { connectBC, connectNav } from "../config/connectBC.js";
 import { validateUpdateUser, validateUser } from "../validation/validateUser.js";
