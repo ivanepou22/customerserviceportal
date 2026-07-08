@@ -10,6 +10,7 @@ page 50003 "API Portal Users"
     SourceTable = PortalUser;
     DelayedInsert = true;
     ModifyAllowed = true;
+    DeleteAllowed = true;
     ODataKeyFields = email;
 
     layout
