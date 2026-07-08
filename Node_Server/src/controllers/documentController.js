@@ -7,11 +7,11 @@ dotenv.config();
 const getDocumentFromEndpoint = endpoint =>
     asyncMiddleware(async (req, res) => {
         const customerId = req.user.customerNo;
-        const orderId = req.params.orderId;
-        const url = `${process.env.BASE_URL}/${endpoint}('${orderId}')?$filter=sellToCustomerNo eq '${customerId}'&$expand=saleslines`;
+        const documentId = req.params.documentId;
+        const url = `${process.env.BASE_URL}/${endpoint}('${documentId}')?$filter=sellToCustomerNo eq '${customerId}'&$expand=saleslines`;
         const response = await axios.get(url, connectBC);
-        const order = response.data;
-        res.send(order);
+        const document = response.data;
+        res.send(document);
     });
 
 const getDocumentsFromEndpoint = endpoint =>
@@ -19,8 +19,8 @@ const getDocumentsFromEndpoint = endpoint =>
         const customerId = req.user.customerNo;
         const url = `${process.env.BASE_URL}/${endpoint}?$filter=sellToCustomerNo eq '${customerId}'`;
         const response = await axios.get(url, connectBC);
-        const orders = response.data;
-        res.send(orders);
+        const documents = response.data;
+        res.send(documents);
     });
 
 export const getOrders = getDocumentsFromEndpoint(process.env.BC_ORDERS);

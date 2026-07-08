@@ -4,6 +4,6 @@ import { getOrder, getOrders } from "../controllers/documentController.js";
 const orderRouter = express.Router();
 
 orderRouter.get('/', auth, getOrders);
-orderRouter.get('/:orderId', auth, getOrder);
+orderRouter.get('/:documentId', auth, getOrder);
 
 export default orderRouter;
