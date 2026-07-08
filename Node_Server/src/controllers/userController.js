@@ -72,7 +72,7 @@ export const updateUser = asyncMiddleware(async (req, res) => {
     }
     connectBC.headers['If-Match'] = etag;
 
-    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')?$select=email,name,customerNo,customerName,lastLogin,role,active`;
     const response = await axios.put(url, allowedUpdate, connectBC);
     const updatedUser = response.data;
     const user = _.pick(updatedUser, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active']);
@@ -82,7 +82,7 @@ export const updateUser = asyncMiddleware(async (req, res) => {
 
 export const deleteUser = asyncMiddleware(async (req, res) => {
     const userId = req.params.userId;
-    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')?$select=email,name,customerNo,customerName,lastLogin,role,active`;
     const existingUserResponse = await axios.get(url, connectBC);
     if (!existingUserResponse.data) {
         return res.status(404).json({ message: `User with ID: ${userId} not found.` });
