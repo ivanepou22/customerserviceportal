@@ -12,19 +12,19 @@ import { cleanETag } from "../startup/utils.js";
 dotenv.config();
 
 export const getUsers = asyncMiddleware(async (req, res) => {
-    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}`;
+    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}?$select=email,name,customerNo,customerName,lastLogin,role,active`;
     const response = await axios.get(url, connectBC);
     const users = response.data;
-    res.send(users);
+    res.status(200).send(users);
 });
 
 export const getUser = asyncMiddleware(async (req, res) => {
     const userId = req.params.userId;
-    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')?$select=email,name,customerNo,customerName,lastLogin,role,active`;
     const response = await axios.get(url, connectBC);
     const user = response.data;
-    const singleUser = _.pick(user, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active', '@odata.etag']);
-    res.send(singleUser);
+    const singleUser = _.pick(user, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active']);
+    res.status(200).send(singleUser);
 });
 
 export const createUser = asyncMiddleware(async (req, res) => {
@@ -45,7 +45,7 @@ export const createUser = asyncMiddleware(async (req, res) => {
     const userData = req.body;
     const response = await axios.post(url, userData, connectBC);
     const newUser = response.data;
-    const user = _.pick(newUser, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active', '@odata.etag']);
+    const user = _.pick(newUser, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active']);
     res.status(201).send(user);
 });
 
@@ -60,7 +60,7 @@ export const updateUser = asyncMiddleware(async (req, res) => {
         return res.status(400).send("No valid fields to update (name, role only)");
     }
 
-    const existingUserUrl = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
+    const existingUserUrl = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')?$select=email,name,customerNo,customerName,lastLogin,role,active`;
     const existingUserResponse = await axios.get(existingUserUrl, connectBC);
     if (!existingUserResponse.data) {
         return res.status(404).send(`User with ID: ${userId} not found.`);
@@ -75,21 +75,29 @@ export const updateUser = asyncMiddleware(async (req, res) => {
     const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
     const response = await axios.put(url, allowedUpdate, connectBC);
     const updatedUser = response.data;
-    const user = _.pick(updatedUser, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active', '@odata.etag']);
+    const user = _.pick(updatedUser, ['email', 'name', 'customerNo', 'customerName', 'lastLogin', 'role', 'active']);
 
-    res.send(user);
+    res.status(200).send(user);
 });
 
 export const deleteUser = asyncMiddleware(async (req, res) => {
     const userId = req.params.userId;
     const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}('${userId}')`;
-
     const existingUserResponse = await axios.get(url, connectBC);
-
     if (!existingUserResponse.data) {
         return res.status(404).json({ message: `User with ID: ${userId} not found.` });
     }
 
-    await axios.delete(url, connectNav);
-    res.status(204).send();
+    const etag = existingUserResponse.data['@odata.etag'];
+    if (!etag) {
+        return res.status(400).json({ message: "ETag not found for the user. Cannot perform delete." });
+    }
+    connectBC.headers['If-Match'] = etag;
+
+    const response = await fetch(url, {
+        method: 'DELETE',
+        ...connectBC
+    });
+
+    res.status(200).send(`User with ID: ${userId} has been deleted.`);
 });
