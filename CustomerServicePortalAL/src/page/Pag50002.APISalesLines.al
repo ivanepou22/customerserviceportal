@@ -29,9 +29,12 @@ page 50002 "API Sales Lines"
             field(unitOfMeasureCode; Rec."Unit of Measure Code") { }
             field(quantity; Rec.Quantity) { }
             field(unitPrice; Rec."Unit Price") { }
+            field(lineAmount; Rec."Line Amount") { }
             field(lineDiscountPercentange; Rec."Line Discount %") { }
             field(lineDiscountAmount; Rec."Line Discount Amount") { }
-            field(lineAmount; Rec."Line Amount") { }
+            field(invDiscountAmount; Rec."Inv. Discount Amount") { }
+            field(invDiscAmountToInvoice; Rec."Inv. Disc. Amount to Invoice") { }
+            field(pmtDiscountAmount; Rec."Pmt. Discount Amount") { }
             field(lineAmountExclVAT; Rec.Amount) { }
             field(lineAmountInclVAT; Rec."Amount Including VAT") { }
         }

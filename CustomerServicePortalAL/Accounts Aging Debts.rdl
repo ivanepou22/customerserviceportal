@@ -1,0 +1,1874 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>fb24a274-d934-4019-8253-98eaf658df6f</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="gCompanyInfo_Name">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!gCompanyInfo_Name.Value)</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0cm</Top>
+            <Left>0cm</Left>
+            <Height>0.423cm</Height>
+            <Width>14.93501cm</Width>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="CurrReport_PAGENO">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!CurrReport_PAGENO.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0cm</Top>
+            <Left>17.3275cm</Left>
+            <Height>0.423cm</Height>
+            <Width>0.6cm</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="PageCaption">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!PageCaption.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0cm</Top>
+            <Left>16.4275cm</Left>
+            <Height>0.423cm</Height>
+            <Width>0.75cm</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="gFilterstxt">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!gFilterstxt.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.846cm</Top>
+            <Left>0cm</Left>
+            <Height>0.423cm</Height>
+            <Width>14.93501cm</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="InvoicesOnly">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!InvoicesOnly.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.692cm</Top>
+            <Left>1.97639cm</Left>
+            <Height>0.423cm</Height>
+            <Width>1.95cm</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="Invoices_Only_Caption">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Invoices_Only_Caption.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.692cm</Top>
+            <Left>0cm</Left>
+            <Height>0.423cm</Height>
+            <Width>1.8cm</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <VerticalAlign>Bottom</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Tablix Name="Table1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.8cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>5.05764cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>3.82292cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.5cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.5cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.5cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.6cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox29">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!over90DaysDateRange_1.Value, "DataSet_Result")</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.67022cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Customer_No_Caption.Value)</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Customer_NameCaption.Value)</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Total Balance  over 90 days.</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox26</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox20">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.423cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Customer__No__">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Customer__No__.Value</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Customer_Name">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Customer_Name.Value</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="gvAgedBalancesLCY_7_">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!gvAgedBalancesLCY_7_.Value</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <Format>#,0.00</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>gvAgedBalancesLCY_7_</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TotalAmountOver90">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <Format>#,0.00</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>TotalAmountOver90</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <rd:Selected>true</rd:Selected>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox27">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.423cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox1">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Grand_TotalCaption">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Grand_TotalCaption.Value)</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox8">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox30">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox22">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.423cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TextBox12">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Grand_TotalCaption_Control1000000074">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Grand_TotalCaption_Control1000000074.Value)</Value>
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox16</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox31">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox31</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox23">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>7pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>0.075cm</PaddingLeft>
+                            <PaddingRight>0.075cm</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Top>2.53733cm</Top>
+            <Height>2.53922cm</Height>
+            <Width>18.18056cm</Width>
+            <ZIndex>6</ZIndex>
+            <Style />
+          </Tablix>
+          <Textbox Name="Ref__Date_Caption">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Ref__Date_Caption.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.269cm</Top>
+            <Left>0cm</Left>
+            <Height>0.423cm</Height>
+            <Width>1.5cm</Width>
+            <ZIndex>7</ZIndex>
+            <Style>
+              <VerticalAlign>Bottom</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="Accounts_Aged_ReportCaption">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!Accounts_Aged_ReportCaption.Value)</Value>
+                    <Style>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.423cm</Top>
+            <Left>0cm</Left>
+            <Height>0.423cm</Height>
+            <Width>14.93501cm</Width>
+            <ZIndex>8</ZIndex>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+          <Textbox Name="gvDateRange_1__Control1000000091">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=First(Fields!gvDateRange_1_.Value)</Value>
+                    <Style>
+                      <FontSize>7pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Format>dd-MMM-yy</Format>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.269cm</Top>
+            <Left>1.5cm</Left>
+            <Height>0.423cm</Height>
+            <Width>1.5cm</Width>
+            <ZIndex>9</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>6.02933cm</Height>
+        <Style />
+      </Body>
+      <Width>18.30111cm</Width>
+      <Page>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>26.1cm</PageWidth>
+        <LeftMargin>2.5cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>3ac06955-78c5-41fb-bf40-746370926dc4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="ThreeMonthAbove">
+          <DataField>ThreeMonthAbove</DataField>
+        </Field>
+        <Field Name="over90DaysDateRange_1">
+          <DataField>over90DaysDateRange_1</DataField>
+        </Field>
+        <Field Name="TotalAmountOver90">
+          <DataField>TotalAmountOver90</DataField>
+        </Field>
+        <Field Name="TotalAmountOver90Format">
+          <DataField>TotalAmountOver90Format</DataField>
+        </Field>
+        <Field Name="TotalAmountOver90LCY">
+          <DataField>TotalAmountOver90LCY</DataField>
+        </Field>
+        <Field Name="TotalAmountOver90LCYFormat">
+          <DataField>TotalAmountOver90LCYFormat</DataField>
+        </Field>
+        <Field Name="gvDateRange_1_">
+          <DataField>gvDateRange_1_</DataField>
+        </Field>
+        <Field Name="gvDateRange_2_">
+          <DataField>gvDateRange_2_</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_3__1_">
+          <DataField>FORMAT_gvDateRange_3__1_</DataField>
+        </Field>
+        <Field Name="gvDateRange_3_">
+          <DataField>gvDateRange_3_</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_4__1_">
+          <DataField>FORMAT_gvDateRange_4__1_</DataField>
+        </Field>
+        <Field Name="gvDateRange_4_">
+          <DataField>gvDateRange_4_</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_5__1_">
+          <DataField>FORMAT_gvDateRange_5__1_</DataField>
+        </Field>
+        <Field Name="gvDateRange_5_">
+          <DataField>gvDateRange_5_</DataField>
+        </Field>
+        <Field Name="gvDateRange_6__1__">
+          <DataField>gvDateRange_6__1__</DataField>
+        </Field>
+        <Field Name="FgvDateRange_6__">
+          <DataField>FgvDateRange_6__</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_7__1_">
+          <DataField>FORMAT_gvDateRange_7__1_</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_7__">
+          <DataField>FORMAT_gvDateRange_7__</DataField>
+        </Field>
+        <Field Name="FORMAT_gvDateRange_2__1_">
+          <DataField>FORMAT_gvDateRange_2__1_</DataField>
+        </Field>
+        <Field Name="gFilterstxt">
+          <DataField>gFilterstxt</DataField>
+        </Field>
+        <Field Name="gCompanyInfo_Name">
+          <DataField>gCompanyInfo_Name</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENO">
+          <DataField>CurrReport_PAGENO</DataField>
+        </Field>
+        <Field Name="gvDateRange_1__Control1000000091">
+          <DataField>gvDateRange_1__Control1000000091</DataField>
+        </Field>
+        <Field Name="InvoicesOnly">
+          <DataField>InvoicesOnly</DataField>
+        </Field>
+        <Field Name="CustBalanceDueLCY_1__Control26CaptionLbl">
+          <DataField>CustBalanceDueLCY_1__Control26CaptionLbl</DataField>
+        </Field>
+        <Field Name="CustBalanceDueLCY_2__Control27CaptionLbl">
+          <DataField>CustBalanceDueLCY_2__Control27CaptionLbl</DataField>
+        </Field>
+        <Field Name="CustBalanceDueLCY_3__Control28CaptionLbl">
+          <DataField>CustBalanceDueLCY_3__Control28CaptionLbl</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6_">
+          <DataField>gvAgedBalancesLCY_6_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6_Format">
+          <DataField>gvAgedBalancesLCY_6_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7_">
+          <DataField>gvAgedBalancesLCY_7_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7_Format">
+          <DataField>gvAgedBalancesLCY_7_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5_">
+          <DataField>gvAgedBalancesLCY_5_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5_Format">
+          <DataField>gvAgedBalancesLCY_5_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4_">
+          <DataField>gvAgedBalancesLCY_4_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4_Format">
+          <DataField>gvAgedBalancesLCY_4_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3_">
+          <DataField>gvAgedBalancesLCY_3_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3_Format">
+          <DataField>gvAgedBalancesLCY_3_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2_">
+          <DataField>gvAgedBalancesLCY_2_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2_Format">
+          <DataField>gvAgedBalancesLCY_2_Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1_">
+          <DataField>gvAgedBalancesLCY_1_</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1_Format">
+          <DataField>gvAgedBalancesLCY_1_Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY">
+          <DataField>gvBalanceToDateLCY</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCYFormat">
+          <DataField>gvBalanceToDateLCYFormat</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY">
+          <DataField>UnAppliedLCY</DataField>
+        </Field>
+        <Field Name="UnAppliedLCYFormat">
+          <DataField>UnAppliedLCYFormat</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000054">
+          <DataField>gvAgedBalancesLCY_6__Control1000000054</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000054Format">
+          <DataField>gvAgedBalancesLCY_6__Control1000000054Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000054">
+          <DataField>gvAgedBalancesLCY_7__Control1000000054</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000054Format">
+          <DataField>gvAgedBalancesLCY_7__Control1000000054Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000054">
+          <DataField>gvAgedBalancesLCY_5__Control1000000054</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000054Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000054Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000055">
+          <DataField>gvAgedBalancesLCY_4__Control1000000055</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000055Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000055Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000056">
+          <DataField>gvAgedBalancesLCY_3__Control1000000056</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000056Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000056Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000057">
+          <DataField>gvAgedBalancesLCY_2__Control1000000057</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000057Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000057Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000058">
+          <DataField>gvAgedBalancesLCY_1__Control1000000058</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000058Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000058Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000053">
+          <DataField>gvBalanceToDateLCY_Control1000000053</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000053Format">
+          <DataField>gvBalanceToDateLCY_Control1000000053Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000089">
+          <DataField>UnAppliedLCY_Control1000000089</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000089Format">
+          <DataField>UnAppliedLCY_Control1000000089Format</DataField>
+        </Field>
+        <Field Name="Customer__No__">
+          <DataField>Customer__No__</DataField>
+        </Field>
+        <Field Name="Customer_Name">
+          <DataField>Customer_Name</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000012">
+          <DataField>gvAgedBalancesLCY_6__Control1000000012</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000012Format">
+          <DataField>gvAgedBalancesLCY_6__Control1000000012Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000012">
+          <DataField>gvAgedBalancesLCY_7__Control1000000012</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000012Format">
+          <DataField>gvAgedBalancesLCY_7__Control1000000012Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000011">
+          <DataField>gvAgedBalancesLCY_5__Control1000000011</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000011Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000011Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000012">
+          <DataField>gvAgedBalancesLCY_4__Control1000000012</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000012Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000012Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000013">
+          <DataField>gvAgedBalancesLCY_3__Control1000000013</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000013Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000013Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000014">
+          <DataField>gvAgedBalancesLCY_2__Control1000000014</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000014Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000014Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000015">
+          <DataField>gvAgedBalancesLCY_1__Control1000000015</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000015Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000015Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000042">
+          <DataField>gvBalanceToDateLCY_Control1000000042</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000042Format">
+          <DataField>gvBalanceToDateLCY_Control1000000042Format</DataField>
+        </Field>
+        <Field Name="gvCustLedgerEntry__Currency_Code_">
+          <DataField>gvCustLedgerEntry__Currency_Code_</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000082">
+          <DataField>UnAppliedLCY_Control1000000082</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000082Format">
+          <DataField>UnAppliedLCY_Control1000000082Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000059">
+          <DataField>gvAgedBalancesLCY_1__Control1000000059</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000059Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000059Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000060">
+          <DataField>gvAgedBalancesLCY_6__Control1000000060</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_6__Control1000000060Format">
+          <DataField>gvAgedBalancesLCY_6__Control1000000060Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000060">
+          <DataField>gvAgedBalancesLCY_7__Control1000000060</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_7__Control1000000060Format">
+          <DataField>gvAgedBalancesLCY_7__Control1000000060Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000060">
+          <DataField>gvAgedBalancesLCY_5__Control1000000060</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000060Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000060Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000061">
+          <DataField>gvAgedBalancesLCY_4__Control1000000061</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000061Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000061Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000062">
+          <DataField>gvAgedBalancesLCY_3__Control1000000062</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000062Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000062Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000063">
+          <DataField>gvAgedBalancesLCY_2__Control1000000063</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000063Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000063Format</DataField>
+        </Field>
+        <Field Name="Customer_Name_Control1000000076">
+          <DataField>Customer_Name_Control1000000076</DataField>
+        </Field>
+        <Field Name="Customer__No___Control1000000077">
+          <DataField>Customer__No___Control1000000077</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000052">
+          <DataField>gvBalanceToDateLCY_Control1000000052</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000052Format">
+          <DataField>gvBalanceToDateLCY_Control1000000052Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000083">
+          <DataField>UnAppliedLCY_Control1000000083</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000083Format">
+          <DataField>UnAppliedLCY_Control1000000083Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000030">
+          <DataField>gvAgedBalancesLCY_5__Control1000000030</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000030Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000030Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000031">
+          <DataField>gvAgedBalancesLCY_4__Control1000000031</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000031Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000031Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000032">
+          <DataField>gvAgedBalancesLCY_3__Control1000000032</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000032Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000032Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000033">
+          <DataField>gvAgedBalancesLCY_2__Control1000000033</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000033Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000033Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000034">
+          <DataField>gvAgedBalancesLCY_1__Control1000000034</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000034Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000034Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000043">
+          <DataField>gvBalanceToDateLCY_Control1000000043</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000043Format">
+          <DataField>gvBalanceToDateLCY_Control1000000043Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000084">
+          <DataField>UnAppliedLCY_Control1000000084</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000084Format">
+          <DataField>UnAppliedLCY_Control1000000084Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000064">
+          <DataField>gvAgedBalancesLCY_1__Control1000000064</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000064Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000064Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000065">
+          <DataField>gvAgedBalancesLCY_5__Control1000000065</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000065Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000065Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000066">
+          <DataField>gvAgedBalancesLCY_4__Control1000000066</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000066Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000066Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000067">
+          <DataField>gvAgedBalancesLCY_3__Control1000000067</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000067Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000067Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000068">
+          <DataField>gvAgedBalancesLCY_2__Control1000000068</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000068Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000068Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000080">
+          <DataField>gvBalanceToDateLCY_Control1000000080</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000080Format">
+          <DataField>gvBalanceToDateLCY_Control1000000080Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000086">
+          <DataField>UnAppliedLCY_Control1000000086</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000086Format">
+          <DataField>UnAppliedLCY_Control1000000086Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000036">
+          <DataField>gvAgedBalancesLCY_5__Control1000000036</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000036Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000036Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000037">
+          <DataField>gvAgedBalancesLCY_4__Control1000000037</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000037Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000037Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000038">
+          <DataField>gvAgedBalancesLCY_3__Control1000000038</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000038Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000038Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000039">
+          <DataField>gvAgedBalancesLCY_2__Control1000000039</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000039Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000039Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000040">
+          <DataField>gvAgedBalancesLCY_1__Control1000000040</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000040Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000040Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000044">
+          <DataField>gvBalanceToDateLCY_Control1000000044</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000044Format">
+          <DataField>gvBalanceToDateLCY_Control1000000044Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000085">
+          <DataField>UnAppliedLCY_Control1000000085</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000085Format">
+          <DataField>UnAppliedLCY_Control1000000085Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000069">
+          <DataField>gvAgedBalancesLCY_1__Control1000000069</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_1__Control1000000069Format">
+          <DataField>gvAgedBalancesLCY_1__Control1000000069Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000070">
+          <DataField>gvAgedBalancesLCY_5__Control1000000070</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_5__Control1000000070Format">
+          <DataField>gvAgedBalancesLCY_5__Control1000000070Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000071">
+          <DataField>gvAgedBalancesLCY_4__Control1000000071</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_4__Control1000000071Format">
+          <DataField>gvAgedBalancesLCY_4__Control1000000071Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000072">
+          <DataField>gvAgedBalancesLCY_3__Control1000000072</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_3__Control1000000072Format">
+          <DataField>gvAgedBalancesLCY_3__Control1000000072Format</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000073">
+          <DataField>gvAgedBalancesLCY_2__Control1000000073</DataField>
+        </Field>
+        <Field Name="gvAgedBalancesLCY_2__Control1000000073Format">
+          <DataField>gvAgedBalancesLCY_2__Control1000000073Format</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000081">
+          <DataField>gvBalanceToDateLCY_Control1000000081</DataField>
+        </Field>
+        <Field Name="gvBalanceToDateLCY_Control1000000081Format">
+          <DataField>gvBalanceToDateLCY_Control1000000081Format</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000087">
+          <DataField>UnAppliedLCY_Control1000000087</DataField>
+        </Field>
+        <Field Name="UnAppliedLCY_Control1000000087Format">
+          <DataField>UnAppliedLCY_Control1000000087Format</DataField>
+        </Field>
+        <Field Name="Customer_No_Caption">
+          <DataField>Customer_No_Caption</DataField>
+        </Field>
+        <Field Name="Customer_NameCaption">
+          <DataField>Customer_NameCaption</DataField>
+        </Field>
+        <Field Name="V0___30DAYSCaption">
+          <DataField>V0___30DAYSCaption</DataField>
+        </Field>
+        <Field Name="V30_60_DAYSCaption">
+          <DataField>V30_60_DAYSCaption</DataField>
+        </Field>
+        <Field Name="V60DAYS___1YEARCaption">
+          <DataField>V60DAYS___1YEARCaption</DataField>
+        </Field>
+        <Field Name="V1___2_YEARSCaption">
+          <DataField>V1___2_YEARSCaption</DataField>
+        </Field>
+        <Field Name="V2_YEARSCaption">
+          <DataField>V2_YEARSCaption</DataField>
+        </Field>
+        <Field Name="Balance_Caption">
+          <DataField>Balance_Caption</DataField>
+        </Field>
+        <Field Name="PageCaption">
+          <DataField>PageCaption</DataField>
+        </Field>
+        <Field Name="Accounts_Aged_ReportCaption">
+          <DataField>Accounts_Aged_ReportCaption</DataField>
+        </Field>
+        <Field Name="UnApplied_Docs_Caption">
+          <DataField>UnApplied_Docs_Caption</DataField>
+        </Field>
+        <Field Name="Ref__Date_Caption">
+          <DataField>Ref__Date_Caption</DataField>
+        </Field>
+        <Field Name="Invoices_Only_Caption">
+          <DataField>Invoices_Only_Caption</DataField>
+        </Field>
+        <Field Name="Continued__________________________________________________________________________________________________Caption">
+          <DataField>Continued__________________________________________________________________________________________________Caption</DataField>
+        </Field>
+        <Field Name="DataItem1000000079">
+          <DataField>DataItem1000000079</DataField>
+        </Field>
+        <Field Name="Sub_TotalCaption">
+          <DataField>Sub_TotalCaption</DataField>
+        </Field>
+        <Field Name="Sub_TotalCaption_Control1000000075">
+          <DataField>Sub_TotalCaption_Control1000000075</DataField>
+        </Field>
+        <Field Name="Grand_TotalCaption">
+          <DataField>Grand_TotalCaption</DataField>
+        </Field>
+        <Field Name="Grand_TotalCaption_Control1000000074">
+          <DataField>Grand_TotalCaption_Control1000000074</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
