@@ -22,6 +22,7 @@ page 50011 "API Customer Payments"
             repeater(GroupName)
             {
                 field(postingDate; Rec."Posting Date") { }
+                field(documentType; Rec."Document Type") { }
                 field(documentNo; Rec."Document No.") { }
                 field(description; Rec.Description) { }
                 field(customerNo; Rec."Customer No.") { }
