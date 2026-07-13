@@ -8,15 +8,19 @@ import { asyncMiddleware } from "../middleware/async.js";
 import { connectBC, connectNav } from "../config/connectBC.js";
 import { validateUpdateUser, validateUser } from "../validation/validateUser.js";
 import { cleanETag } from "../startup/utils.js";
+import { addPaginationToUrl, createPaginatedResponse, getPagination } from "../startup/pagination.js";
 
 dotenv.config();
 
 export const getUsers = asyncMiddleware(async (req, res) => {
     const customerId = req.user.customerNo;
-    const url = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}?$filter=customerNo eq '${customerId}'&$select=email,name,customerNo,customerName,lastLogin,role,active`;
+    const pagination = getPagination(req.query);
+    if (pagination.error) return res.status(400).json({ message: pagination.error });
+
+    const baseUrl = `${process.env.BASE_URL}/${process.env.BC_PORTAL_USERS}?$filter=customerNo eq '${customerId}'&$select=email,name,customerNo,customerName,lastLogin,role,active`;
+    const url = addPaginationToUrl(baseUrl, pagination);
     const response = await axios.get(url, connectBC);
-    const users = response.data;
-    res.status(200).send(users);
+    res.status(200).send(createPaginatedResponse(response.data, pagination));
 });
 
 export const getUser = asyncMiddleware(async (req, res) => {
