@@ -31,6 +31,10 @@ page 50012 "API Customer Ledgers"
                 field(amount; Rec.Amount) { }
                 field(amountLCY; Rec."Amount (LCY)") { }
                 field(documentDate; Rec."Document Date") { }
+                field(remainingAmount; Rec."Remaining Amount") { }
+                field(remainingAmt_LCY; Rec."Remaining Amt. (LCY)") { }
+                field(Reversed; Rec.Reversed) { }
+                field(Open; Rec.Open) { }
             }
         }
     }

@@ -31,6 +31,10 @@ page 50011 "API Customer Payments"
                 field(currencyCode; Rec."Currency Code") { }
                 field(amount; Rec.Amount) { }
                 field(amountLCY; Rec."Amount (LCY)") { }
+                field(remainingAmount; Rec."Remaining Amount") { }
+                field(remainingAmt_LCY; Rec."Remaining Amt. (LCY)") { }
+                field(Reversed; Rec.Reversed) { }
+                field(Open; Rec.Open) { }
             }
         }
     }

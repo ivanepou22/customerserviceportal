@@ -14305,7 +14305,7 @@ Cstr(Fields!EmailCaption.Value)
               <MIMEType>image/bmp</MIMEType>
               <Sizing>Fit</Sizing>
               <Left>12.92537cm</Left>
-              <Height>40pt</Height>
+              <Height>50.75408pt</Height>
               <Width>5.8337cm</Width>
               <Visibility>
                 <Hidden>=iif(IsNothing(Fields!CompanyInfo2Picture.Value) = true,true,false)</Hidden>
@@ -14323,7 +14323,7 @@ Cstr(Fields!EmailCaption.Value)
               <MIMEType>image/bmp</MIMEType>
               <Sizing>Fit</Sizing>
               <Left>6.35384cm</Left>
-              <Height>40pt</Height>
+              <Height>50.75408pt</Height>
               <Width>6.53625cm</Width>
               <ZIndex>1</ZIndex>
               <Visibility>
@@ -14343,7 +14343,7 @@ Cstr(Fields!EmailCaption.Value)
               <Sizing>Fit</Sizing>
               <Top>0pt</Top>
               <Left>2.82888pt</Left>
-              <Height>40pt</Height>
+              <Height>50.75408pt</Height>
               <Width>6.16cm</Width>
               <ZIndex>2</ZIndex>
               <Visibility>
@@ -16055,6 +16055,7 @@ Cstr(Fields!EmailCaption.Value)
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox4</rd:DefaultName>
+              <Top>0in</Top>
               <Left>4.66372in</Left>
               <Height>0.25209in</Height>
               <Width>1.92075in</Width>
