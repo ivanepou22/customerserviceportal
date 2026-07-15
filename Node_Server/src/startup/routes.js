@@ -10,6 +10,7 @@ import creditMemoRouter from '../routes/creditmemoRoutes.js';
 import postedSalesInvoiceRouter from '../routes/postedSalesInvoiceRoutes.js';
 import postedSalesCreditMemoRouter from '../routes/postedSalesCreditMemoRoutes.js';
 import customerLedgerRouter from '../routes/customerLedgerRoutes.js';
+import pdfRouter from '../routes/pdfRoutes.js';
 
 export function routes(app) {
     app.use(express.json());
@@ -23,5 +24,6 @@ export function routes(app) {
     app.use('/api/v1/customer-ledgers', customerLedgerRouter);
     app.use('/api/v1/users', userRouter);
     app.use('/api/v1/auth', authRouter);
+    app.use('/api/v1/pdf', pdfRouter);
     app.use(error);
 }
