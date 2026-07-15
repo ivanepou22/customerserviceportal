@@ -19,7 +19,13 @@ report 50000 "Accounts Aging - Debts"
             column(gvDateRange_1_; gvDateRange[1])
             {
             }
+            column(gvDateRange_1_1; gvDateRange[1] + 1)
+            {
+            }
             column(gvDateRange_2_; gvDateRange[2])
+            {
+            }
+            column(FORMAT_gvDateRange_2__1_; gvDateRange[2] + 1)
             {
             }
             column(FORMAT_gvDateRange_3__1_; gvDateRange[3] + 1)
@@ -28,33 +34,7 @@ report 50000 "Accounts Aging - Debts"
             column(gvDateRange_3_; gvDateRange[3])
             {
             }
-            column(FORMAT_gvDateRange_4__1_; gvDateRange[4] + 1)
-            {
-            }
-            column(gvDateRange_4_; gvDateRange[4])
-            {
-            }
-            column(FORMAT_gvDateRange_5__1_; gvDateRange[5] + 1)
-            {
-            }
-            column(gvDateRange_5_; gvDateRange[5])
-            {
-            }
-            column(gvDateRange_6__1__; gvDateRange[6] + 1)
-            {
-            }
-            column(FgvDateRange_6__; gvDateRange[6])
-            {
-                // 
-            }
-            column(FORMAT_gvDateRange_7__1_; gvDateRange[7] + 1)
-            {
-            }
-
             column(FORMAT_gvDateRange_7__; gvDateRange[7])
-            {
-            }
-            column(FORMAT_gvDateRange_2__1_; gvDateRange[2] + 1)
             {
             }
             column(gFilterstxt; gFilterstxt)
@@ -376,49 +356,44 @@ report 50000 "Accounts Aging - Debts"
                     IF gvCustLedgerEntry.FINDSET THEN
                         REPEAT
                             gvCustLedgerEntry.CALCFIELDS("Remaining Amount", "Amount (LCY)", "Remaining Amt. (LCY)");
-                            // IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[2] + 1) .. gvDateRange[1]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[1] := gvAgedBalances[1] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[1] := gvAgedBalancesLCY[1] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[3] + 1) .. gvDateRange[2]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[2] := gvAgedBalances[2] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[2] := gvAgedBalancesLCY[2] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[4] + 1) .. gvDateRange[3]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[3] := gvAgedBalances[3] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[3] := gvAgedBalancesLCY[3] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[5] + 1) .. gvDateRange[4]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[4] := gvAgedBalances[4] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[4] := gvAgedBalancesLCY[4] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[6] + 1) .. gvDateRange[5]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[5] := gvAgedBalances[5] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[5] := gvAgedBalancesLCY[5] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // if (gvCustLedgerEntry."Posting Date" >= (gvDateRange[7] + 1)) and (gvCustLedgerEntry."Posting Date" <= gvDateRange[6]) THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     gvAgedBalances[6] := gvAgedBalances[6] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     gvAgedBalancesLCY[6] := gvAgedBalancesLCY[6] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-                            // IF gvCustLedgerEntry."Posting Date" IN [0D .. gvDateRange[7]] THEN BEGIN
-                            //     ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                            //     // gvAgedBalances[7] := gvAgedBalances[7] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                            //     // gvAgedBalancesLCY[7] := gvAgedBalancesLCY[7] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
-                            // END;
-
                             IF gvCustLedgerEntry."Posting Date" IN [0D .. over90DaysDateRange[1]] THEN BEGIN
                                 ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
-                                gvAgedBalances[7] := gvAgedBalances[7] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
-                                gvAgedBalancesLCY[7] := gvAgedBalancesLCY[7] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
+                                gvAgedBalances[1] := gvAgedBalances[1] + gvCustLedgerEntry."Remaining Amount" - PostAppliedAmount;
+                                gvAgedBalancesLCY[1] := gvAgedBalancesLCY[1] + gvCustLedgerEntry."Remaining Amt. (LCY)" - PostAppliedAmountLCY;
                             END;
-
                         UNTIL gvCustLedgerEntry.NEXT = 0;
+
+                    gvCustLedgerEntry.RESET;
+                    gvCustLedgerEntry.SETCURRENTKEY("Customer No.", "Document Type", "Posting Date", "Document No.", "Global Dimension 2 Code");
+                    gvCustLedgerEntry.SETRANGE("Customer No.", "No.");
+                    gvCustLedgerEntry.SetFilter("Document Type", '%1|%2', gvCustLedgerEntry."Document Type"::Payment, gvCustLedgerEntry."Document Type"::Refund);
+                    IF gvCustLedgerEntry.FINDSET THEN
+                        REPEAT
+                            gvCustLedgerEntry.CalcFields(Amount, "Amount (LCY)");
+                            IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[1] + 1) .. gvDateRange[2]] THEN BEGIN
+                                ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
+                                gvAgedBalances[2] := gvAgedBalances[2] + gvCustLedgerEntry.Amount;
+                                gvAgedBalancesLCY[2] := gvAgedBalancesLCY[2] + gvCustLedgerEntry."Amount (LCY)";
+                            END;
+                            IF gvCustLedgerEntry."Posting Date" IN [(gvDateRange[2] + 1) .. gvDateRange[3]] THEN BEGIN
+                                ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
+                                gvAgedBalances[3] := gvAgedBalances[3] + gvCustLedgerEntry.Amount;
+                                gvAgedBalancesLCY[3] := gvAgedBalancesLCY[3] + gvCustLedgerEntry."Amount (LCY)";
+                            END;
+                        until gvCustLedgerEntry.Next() = 0;
+
+                    gvCustLedgerEntry.RESET;
+                    gvCustLedgerEntry.SETCURRENTKEY("Customer No.", "Document Type", "Posting Date", "Document No.", "Global Dimension 2 Code");
+                    gvCustLedgerEntry.SETRANGE("Customer No.", "No.");
+                    gvCustLedgerEntry.SetFilter("Document Type", '%1|%2', gvCustLedgerEntry."Document Type"::Payment, gvCustLedgerEntry."Document Type"::Refund);
+                    gvCustLedgerEntry.SetFilter("Posting Date", '%1..', (gvDateRange[3] + 1));
+                    IF gvCustLedgerEntry.FINDSET THEN
+                        REPEAT
+                            gvCustLedgerEntry.CalcFields(Amount, "Amount (LCY)");
+                            ApplnEntriesDtldtLedgEntry(gvCustLedgerEntry);
+                            gvAgedBalances[4] := gvAgedBalances[4] + gvCustLedgerEntry.Amount;
+                            gvAgedBalancesLCY[4] := gvAgedBalancesLCY[4] + gvCustLedgerEntry."Amount (LCY)";
+                        until gvCustLedgerEntry.Next() = 0;
                 END;
             end;
 
@@ -538,13 +513,15 @@ report 50000 "Accounts Aging - Debts"
         //  gvDateRange[4] := CALCDATE('-3M',gvDateRange[3]);
         //  gvDateRange[5] := CALCDATE('-4Y',gvDateRange[4]);
 
-        gvDateRange[2] := CALCDATE('-1M', gvDateRange[1]);
-        gvDateRange[3] := CALCDATE('-2M', gvDateRange[2]);
-        gvDateRange[4] := CALCDATE('-2M', gvDateRange[3]);
-        gvDateRange[5] := CALCDATE('-3M', gvDateRange[4]);
-        gvDateRange[6] := CALCDATE('-125D', gvDateRange[5]);
-        gvDateRange[7] := CalcDate('-1Y', gvDateRange[6]);
-        over90DaysDateRange[1] := CalcDate('-3M', gvDateRange[1])
+        // gvDateRange[2] := CALCDATE('-1M', gvDateRange[1]);
+        // gvDateRange[3] := CALCDATE('-2M', gvDateRange[2]);
+        // gvDateRange[4] := CALCDATE('-2M', gvDateRange[3]);
+        // gvDateRange[5] := CALCDATE('-3M', gvDateRange[4]);
+        // gvDateRange[6] := CALCDATE('-125D', gvDateRange[5]);
+        // gvDateRange[7] := CalcDate('-1Y', gvDateRange[6]);
+        over90DaysDateRange[1] := CalcDate('-3M', gvDateRange[1]);
+        gvDateRange[2] := CalcDate('+3M', gvDateRange[1]);
+        gvDateRange[3] := CalcDate('+9m', gvDateRange[2]);
     end;
 
     /// <summary>

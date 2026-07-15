@@ -1,10 +1,10 @@
-.vscode/*
-.alcache/
-.alpackages/
-.snapshots/
-.output/
 rad.json
 *.g.xlf
 *.flf
 TestResults.xml
 *.app
+.vscode/*
+.alcache/
+.alpackages/
+.snapshots/
+.output/
