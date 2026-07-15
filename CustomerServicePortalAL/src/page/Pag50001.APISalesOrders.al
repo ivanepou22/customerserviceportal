@@ -46,7 +46,6 @@ page 50001 "API Sales Orders"
             field(currencyCode; Rec."Currency Code") { }
             field(Amount; Rec.Amount) { }
             field(AmountIncludingVAT; Rec."Amount Including VAT") { }
-            field(VATAmount; Rec."Amount Including VAT" - Rec.Amount) { }
             part(salesLines; "API Sales Lines")
             {
                 EntityName = 'salesline';
@@ -60,5 +59,31 @@ page 50001 "API Sales Orders"
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
         Rec.Validate("Document Type");
+    end;
+
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure GetPdfBase64(): Text
+    var
+        ReportSelection: Record "Report Selections";
+        OutS: OutStream;
+        InS: InStream;
+        TempBlob: Codeunit "Temp Blob";
+        Base64: Codeunit "Base64 Convert";
+        RecRef: RecordRef;
+        ReportId: Integer;
+        Usage: Enum "Report Selection Usage";
+    begin
+        if Rec."No." = '' then
+            exit('');
+
+        ReportId := Report::"Standard Sales - Order Conf.";
+        RecRef.GetTable(Rec);
+
+        TempBlob.CreateOutStream(OutS);
+        Report.SaveAs(ReportId, '', ReportFormat::Pdf, OutS, RecRef);
+
+        TempBlob.CreateInStream(InS);
+        exit(Base64.ToBase64(InS));
     end;
 }

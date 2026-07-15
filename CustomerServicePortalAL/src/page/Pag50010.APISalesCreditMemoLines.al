@@ -34,6 +34,8 @@ page 50010 "API Sales Credit Memo Lines"
             field(invDiscountAmount; Rec."Inv. Discount Amount") { }
             field(pmtDiscountAmount; Rec."Pmt. Discount Amount") { }
             field(lineAmountExclVAT; Rec.Amount) { }
+            field(vat_Percentage; Rec."VAT %") { }
+            field(vatBaseAmount; Rec."VAT Base Amount") { }
             field(lineAmountInclVAT; Rec."Amount Including VAT") { }
         }
     }

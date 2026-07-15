@@ -61,4 +61,30 @@ page 50004 "API Sales Invoices"
     begin
         Rec.Validate("Document Type");
     end;
+
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure GetPdfBase64(): Text
+    var
+        ReportSelection: Record "Report Selections";
+        OutS: OutStream;
+        InS: InStream;
+        TempBlob: Codeunit "Temp Blob";
+        Base64: Codeunit "Base64 Convert";
+        RecRef: RecordRef;
+        ReportId: Integer;
+        Usage: Enum "Report Selection Usage";
+    begin
+        if Rec."No." = '' then
+            exit('');
+
+        ReportId := Report::"Sales Invoice - Print";
+        RecRef.GetTable(Rec);
+
+        TempBlob.CreateOutStream(OutS);
+        Report.SaveAs(ReportId, '', ReportFormat::Pdf, OutS, RecRef);
+
+        TempBlob.CreateInStream(InS);
+        exit(Base64.ToBase64(InS));
+    end;
 }

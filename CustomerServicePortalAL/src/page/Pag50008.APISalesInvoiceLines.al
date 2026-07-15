@@ -36,6 +36,8 @@ page 50008 "API Sales Invoice Lines"
             field(invDiscountAmount; Rec."Inv. Discount Amount") { }
             field(pmtDiscountAmount; Rec."Pmt. Discount Amount") { }
             field(lineAmountExclVAT; Rec.Amount) { }
+            field(vat_Percentage; Rec."VAT %") { }
+            field(vatBaseAmount; Rec."VAT Base Amount") { }
             field(lineAmountInclVAT; Rec."Amount Including VAT") { }
         }
     }
