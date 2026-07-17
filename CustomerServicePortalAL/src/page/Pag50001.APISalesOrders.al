@@ -10,7 +10,7 @@ page 50001 "API Sales Orders"
     EntitySetName = 'salesOrders';
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const(Order), Amount = filter('>0'));
-    ODataKeyFields = "No.";
+    ODataKeyFields = "No.", "Sell-to Customer No.";
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

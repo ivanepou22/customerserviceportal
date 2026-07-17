@@ -10,7 +10,7 @@ page 50006 "API Sales Credit Memos"
     EntitySetName = 'salesCreditMemos';
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const("Credit Memo"), Amount = filter('>0'));
-    ODataKeyFields = "No.";
+    ODataKeyFields = "No.", "Sell-to Customer No.";
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

@@ -10,7 +10,7 @@ page 50004 "API Sales Invoices"
     EntitySetName = 'salesInvoices';
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const(Invoice), Amount = filter('>0'));
-    ODataKeyFields = "No.";
+    ODataKeyFields = "No.", "Sell-to Customer No.";
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

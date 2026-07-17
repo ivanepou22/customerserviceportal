@@ -10,7 +10,7 @@ page 50005 "API Sales Quotes"
     EntitySetName = 'salesQuotes';
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const(Quote), Amount = filter('>0'));
-    ODataKeyFields = "No.";
+    ODataKeyFields = "No.", "Sell-to Customer No.";
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

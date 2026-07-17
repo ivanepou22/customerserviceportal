@@ -9,7 +9,7 @@ page 50007 "API Posted Sales Invoices"
     EntityName = 'postedSalesInvoice';
     EntitySetName = 'postedSalesInvoices';
     SourceTable = "Sales Invoice Header";
-    ODataKeyFields = "No.";
+    ODataKeyFields = "No.", "Sell-to Customer No.";
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
