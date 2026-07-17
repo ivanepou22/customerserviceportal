@@ -10,7 +10,6 @@ const getDocumentPdfAction = endpoint =>
         const documentId = req.params.documentId;
 
         const actionUrl = `${process.env.BASE_URL}/${endpoint}('${documentId}')/Microsoft.NAV.getPdfBase64`;
-
         const response = await axios.post(actionUrl, {}, connectBC);
 
         const base64Pdf = response.data.value ||
