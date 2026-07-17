@@ -15,6 +15,8 @@ export function auth(req, res, next) {
 }
 
 export const generateAuthToken = function (user) {
-    const token = jwt.sign(user, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign(user, process.env.JWT_SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRES_IN || '1h'
+    });
     return token;
 }
