@@ -86,4 +86,13 @@ page 50001 "API Sales Orders"
         TempBlob.CreateInStream(InS);
         exit(Base64.ToBase64(InS));
     end;
+
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure TrialProc(): Text
+    var
+        myInt: Integer;
+    begin
+        exit('This is successfull');
+    end;
 }
