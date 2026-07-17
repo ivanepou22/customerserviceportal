@@ -9,7 +9,7 @@ const getDocumentPdfAction = endpoint =>
         const customerId = req.user.customerNo;
         const documentId = req.params.documentId;
 
-        const actionUrl = `${process.env.BASE_URL}/${endpoint}('${documentId}')/Microsoft.NAV.getPdfBase64`;
+        const actionUrl = `${process.env.BASE_URL}/${endpoint}('${documentId}','${customerId}')/Microsoft.NAV.getPdfBase64`;
         const response = await axios.post(actionUrl, {}, connectBC);
 
         const base64Pdf = response.data.value ||
@@ -31,7 +31,7 @@ const getPostedDocumentPdfAction = endpoint =>
         const customerId = req.user.customerNo;
         const documentId = req.params.documentId;
 
-        const actionUrl = `${process.env.BASE_URL}/${endpoint}('${documentId}')/Microsoft.NAV.getPdfBase64`;
+        const actionUrl = `${process.env.BASE_URL}/${endpoint}('${documentId}','${customerId}')/Microsoft.NAV.getPdfBase64`;
 
         const response = await axios.post(actionUrl, {}, connectBC);
 

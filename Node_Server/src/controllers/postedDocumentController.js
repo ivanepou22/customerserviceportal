@@ -21,7 +21,7 @@ const getDocumentFromEndpoint = (endpoint, expandElement) =>
     asyncMiddleware(async (req, res) => {
         const customerId = req.user.customerNo;
         const documentId = req.params.documentId;
-        const url = `${process.env.BASE_URL}/${endpoint}('${documentId}')?$filter=sellToCustomerNo eq '${customerId}'&$expand=${expandElement}`;
+        const url = `${process.env.BASE_URL}/${endpoint}('${documentId}','${customerId}')?$filter=sellToCustomerNo eq '${customerId}'&$expand=${expandElement}`;
         const response = await axios.get(url, connectBC);
         const document = response.data;
         res.send(document);
