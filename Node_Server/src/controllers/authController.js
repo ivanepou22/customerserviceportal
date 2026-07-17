@@ -23,7 +23,6 @@ export const authenticate = asyncMiddleware(async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, existingUserResponse.data.password);
     if (!isMatch) return res.status(400).send('Invalid email or password');
 
-    //generate a JWT token and return it to the client
     const user = _.pick(existingUserResponse.data, ['email', 'name', 'customerNo', 'customerName', 'role', 'active']);
     const token = generateAuthToken(user);
 

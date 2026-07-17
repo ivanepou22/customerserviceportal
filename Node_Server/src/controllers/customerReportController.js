@@ -14,7 +14,7 @@ const getCustomerReport = (reportFunction) =>
         if (!customerNo)
             return res.status(400).json({ message: "Missing required parameters" });
 
-        const actionUrl = `${process.env.BASE_URL}/customerReports('${customerNo}')/Microsoft.NAV.${reportFunction}`;
+        const actionUrl = `${process.env.BASE_URL}/${process.env.BC_CUSTOMER_REPORT}('${customerNo}')/Microsoft.NAV.${reportFunction}`;
 
         let payload = {};
         if (reportFunction === "getARAging") {
@@ -56,7 +56,6 @@ const getCustomerReport = (reportFunction) =>
         }
     });
 
-// Routes
 export const getCustomerDetailedTrialBalance = getCustomerReport("getCustomerDetailedTrialBalance");
 export const getCustomerStatement = getCustomerReport("getCustomerStatement");
 export const getARAging = getCustomerReport("getARAging");
