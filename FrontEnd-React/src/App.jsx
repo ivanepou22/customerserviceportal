@@ -49,6 +49,20 @@ const navigation = [
     }
   },
   {
+    customerLedgers: {
+      caption: 'Customer Ledgers',
+      link: '',
+      customerPayments: {
+        caption: 'Customer Payments',
+        link: '#'
+      },
+      ledgerEntries: {
+        caption: 'Customer Ledger Entries',
+        link: '#'
+      }
+    }
+  },
+  {
     reports: {
       caption: 'Reports',
       link: '#',
@@ -68,27 +82,47 @@ const navigation = [
   }
 ];
 
-console.log(navigation);
-
-const metrics = [
+const documents = [
   {
-    title: "Requests sent",
-    value: "185",
-    description: "Data removal requests securely sent to brokers on your behalf.",
+    title: "Sales Invoices",
+    value: "12.00",
+    subtitle: "Due Today",
+    color: "bg-teal-600 hover:bg-teal-700",
   },
   {
-    title: "Requests in progress",
-    value: "104",
-    description: "Data brokers that have started processing your removal requests.",
+    title: "Sales Orders",
+    value: "7.00",
+    subtitle: "Next Week",
+    color: "bg-teal-600 hover:bg-teal-700",
   },
   {
-    title: "Requests completed",
-    value: "81",
-    description: "Data brokers that confirmed they no longer hold your data.",
+    title: "Sales Quotes",
+    value: "3.00",
+    subtitle: "Requires Attention",
+    color: "bg-teal-600 hover:bg-teal-700",
   },
+  {
+    title: "Sales Creditmemos",
+    value: "0.00",
+    subtitle: "Across all invoices",
+    color: "bg-teal-600 hover:bg-teal-700",
+  }
 ];
 
-navigation.map((nav, index) => console.log(nav))
+const postedDocuments = [
+  {
+    title: "Posted Sales Invoices",
+    value: "12.00",
+    subtitle: "Due Today",
+    color: "bg-teal-600 hover:bg-teal-700",
+  },
+  {
+    title: "Posted Sales Creditmemos",
+    value: "0.00",
+    subtitle: "Across all invoices",
+    color: "bg-teal-600 hover:bg-teal-700",
+  }
+];
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -294,36 +328,59 @@ function Dashboard() {
       </div>
 
       <main id="dashboard" className="mx-auto max-w-[1120px] px-5 pb-10 pt-4 lg:px-0 lg:pt-10">
-        {/* Your existing main content here */}
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
-            <p className="mb-1 text-sm font-medium text-muted-foreground">Overview</p>
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-[20px]">Documents</h1>
+            <p className="mb-1 text-sm font-medium text-muted-foreground">Documents</p>
           </div>
         </div>
 
-        <section className="grid gap-5 md:grid-cols-3">
-          {metrics.map((metric) => <MetricCard key={metric.title} {...metric} />)}
-        </section>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {documents.map((stat, index) => (
+            <TealStatCard
+              key={index}
+              title={stat.title}
+              value={stat.value}
+              subtitle={stat.subtitle}
+              className={stat.color}
+            />
+          ))}
+        </div>
 
-        <section className="mt-5 grid gap-5 md:grid-cols-2">
-          <MetricCard title="Time saved" value={<><span>10</span><small>hrs</small><span className="ml-2">26</span><small>min</small></>} description="Estimated time saved compared with sending each request manually." className="md:col-span-1" />
-          <MetricCard title="Suppression list entries" value="18" description="Brokers have added your information to their suppression lists, helping prevent it from being collected again." />
-        </section>
+        <div className="mt-4 flex items-end justify-between gap-4">
+          <div>
+            <p className="mb-1 text-sm font-medium text-muted-foreground">Posted Documents</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {postedDocuments.map((stat, index) => (
+            <TealStatCard
+              key={index}
+              title={stat.title}
+              value={stat.value}
+              subtitle={stat.subtitle}
+              className={stat.color}
+            />
+          ))}
+        </div>
+
       </main>
     </div>
   );
 }
 
-function MetricCard({ title, value, description, className = "" }) {
+function TealStatCard({ title, value, subtitle, className = "bg-teal-600 hover:bg-teal-700" }) {
   return (
-    <Card className={`min-h-[197px] ${className}`}>
-      <CardHeader className="px-5 pb-2 pt-5 sm:px-6 sm:pt-6"><CardTitle>{title}</CardTitle></CardHeader>
-      <CardContent className="px-5 pb-5 sm:px-6 sm:pb-6">
-        <div className="flex items-baseline text-[32px] font-semibold leading-none tracking-[-0.06em] sm:text-[34px]">{value}</div>
-        <div className="my-5 h-px bg-border" />
-        <p className="max-w-md text-[12px] leading-[18px] text-muted-foreground">{description}</p>
-      </CardContent>
+    <Card className={`${className} text-white border-0 shadow-sm transition-all cursor-pointer group min-h-[118px]  flex flex-col justify-between p-4`}>
+      <div>
+        <p className="text-[13px] font-medium opacity-90 line-clamp-2 leading-tight">{title}</p>
+        <div className="mt-2 text-[28px] font-semibold tracking-tight">{value}</div>
+      </div>
+
+      <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/20 text-xs">
+        <p className="opacity-75">{subtitle}</p>
+        <div className="text-white/70 group-hover:translate-x-0.5 transition-transform">→</div>
+      </div>
     </Card>
   );
 }
