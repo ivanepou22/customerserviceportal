@@ -53,7 +53,7 @@ const navigation = [
       caption: 'Reports',
       link: '#',
       detailedTrialBalance: {
-        caption: 'Customer Detailed Trial Balance',
+        caption: 'Detailed Trial Balance',
         link: '#'
       },
       statement: {
@@ -104,62 +104,116 @@ function Dashboard() {
     setOpenSubMenus(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Render menu item
-  const renderMenuItem = (item, isMobile = false) => {
+  // Check if item has children
+  const hasChildren = (menuData) => {
+    return Object.keys(menuData).some(k =>
+      k !== 'caption' && k !== 'link' && typeof menuData[k] === 'object'
+    );
+  };
+
+  // Render Desktop Dropdown Menu with Dividers Between Items
+  const renderDesktopMenuItem = (item) => {
     const key = Object.keys(item)[0];
     const menuData = item[key];
 
     if (!menuData?.caption) return null;
 
-    const hasChildren = Object.keys(menuData).some(k =>
-      k !== 'caption' && k !== 'link' && typeof menuData[k] === 'object'
-    );
+    const children = Object.entries(menuData)
+      .filter(([k]) => k !== 'caption' && k !== 'link')
+      .map(([_, sub]) => sub);
 
-    if (hasChildren) {
-      if (isMobile) {
-        const isOpen = openSubMenus[key] ?? false;
-        return (
-          <div key={key} className="py-1">
-            <button
-              onClick={() => toggleSubMenu(key)}
-              className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium hover:bg-muted text-left"
-            >
-              <span>{menuData.caption}</span>
-              <span className={`text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
-            </button>
-
-            {isOpen && (
-              <div className="ml-4 mt-1 border-l border-border pl-4 space-y-1">
-                {Object.entries(menuData)
-                  .filter(([k]) => k !== 'caption' && k !== 'link')
-                  .map(([_, subItem]) => renderMenuItem({ temp: subItem }, true))}
-              </div>
-            )}
-          </div>
-        );
-      } else {
-        // Desktop top nav - main items only
-        return (
-          <a
-            key={key}
-            href={menuData.link}
-            className="rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-          >
+    if (children.length > 0) {
+      return (
+        <div key={key} className="group relative z-50">
+          <button className="flex items-center gap-1 rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
             {menuData.caption}
-          </a>
-        );
-      }
+            <Icon name="chevron" size={15} className="text-muted-foreground" />
+          </button>
+
+          {/* Dropdown */}
+          <div className="absolute left-0 top-full z-50 hidden w-56 rounded-md border border-border bg-popover p-1 shadow-lg group-hover:block bg-slate-50">
+            {children.map((subItem, idx) => {
+              const subKey = Object.keys(subItem)[0] || idx;
+              const subData = subItem;
+
+              return (
+                <div key={subKey}>
+                  <a
+                    href={subData.link}
+                    className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    {subData.caption}
+                  </a>
+                  {idx < children.length - 1 && (
+                    <div className="border-t border-border"></div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
     }
 
-    // Regular menu item
     return (
       <a
         key={key}
         href={menuData.link}
-        className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${isMobile
-          ? "block text-muted-foreground hover:bg-muted hover:text-foreground"
-          : "text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground"
-          }`}
+        className="rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+      >
+        {menuData.caption}
+      </a>
+    );
+  };
+
+  // Render Mobile Menu Item
+  const renderMobileMenuItem = (item) => {
+    const key = Object.keys(item)[0];
+    const menuData = item[key];
+
+    if (!menuData?.caption) return null;
+
+    const children = Object.entries(menuData)
+      .filter(([k]) => k !== 'caption' && k !== 'link')
+      .map(([_, sub]) => sub);
+
+    if (children.length > 0) {
+      const isOpen = openSubMenus[key] ?? false;
+      return (
+        <div key={key} className="py-1">
+          <button
+            onClick={() => toggleSubMenu(key)}
+            className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium hover:bg-muted text-left"
+          >
+            <span>{menuData.caption}</span>
+            <span className={`text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+          </button>
+
+          {isOpen && (
+            <div className="ml-4 mt-1 border-l border-border pl-4 space-y-1">
+              {children.map((subItem, idx) => {
+                const subData = subItem;
+                return (
+                  <a
+                    key={idx}
+                    href={subData.link}
+                    className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    {subData.caption}
+                  </a>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <a
+        key={key}
+        href={menuData.link}
+        className="block rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
       >
         {menuData.caption}
       </a>
@@ -170,19 +224,16 @@ function Dashboard() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border/80 bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between px-5 lg:px-0">
-          <a href="#dashboard" className="flex items-center gap-2.5" aria-label="Vision Group">
+          <a href="#dashboard" className="flex items-center gap-2.5">
             <span className="text-[22px] font-bold tracking-[-0.08em]">Customer Portal</span>
           </a>
 
-          {/* Desktop Navigation using navigation object */}
+          {/* Desktop Navigation with Dropdowns */}
           <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
-            {navigation.map((item) => renderMenuItem(item, false))}
+            {navigation.map((item) => renderDesktopMenuItem(item))}
           </nav>
 
-          <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="icon" className="text-muted-foreground">
-              <Icon name="bell" size={18} />
-            </Button>
+          <div className="relative group hidden md:block z-50">
             <button className="flex items-center rounded-lg px-2 py-1.5 text-sm font-medium hover:bg-muted">
               <span className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-slate-600">
                 <Icon name="user" size={15} />
@@ -190,6 +241,28 @@ function Dashboard() {
               <span className="max-w-36 truncate">alex@domain.com</span>
               <Icon name="chevron" size={15} className="text-muted-foreground" />
             </button>
+
+            <div className="absolute right-0 top-full z-50 mt-1 w-48 rounded-md border border-border bg-popover p-1 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all bg-slate-50">
+              <a
+                href="#profile"
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted hover:text-foreground text-muted-foreground"
+              >
+                <Icon name="user" size={15} /> Profile
+              </a>
+
+              {/* Divider */}
+              <div className="border-t border-border"></div>
+
+              <button
+                onClick={() => {
+                  console.log("Logout clicked");
+                  // Add logout logic here
+                }}
+                className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-red-100 hover:text-red-600 text-muted-foreground text-left"
+              >
+                ⬅ Logout
+              </button>
+            </div>
           </div>
 
           <Button
@@ -205,12 +278,12 @@ function Dashboard() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="border-t border-border bg-background px-5 py-4 md:hidden space-y-1">
-            {navigation.map((item) => renderMenuItem(item, true))}
+            {navigation.map((item) => renderMobileMenuItem(item))}
           </nav>
         )}
       </header>
 
-      {/* Your existing banner and main content */}
+      {/* Banner and Main Content (unchanged) */}
       <div className="border-b border-emerald-100 bg-emerald-50">
         <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950">
           <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white">
@@ -221,6 +294,7 @@ function Dashboard() {
       </div>
 
       <main id="dashboard" className="mx-auto max-w-[1120px] px-5 pb-10 pt-4 lg:px-0 lg:pt-10">
+        {/* Your existing main content here */}
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <p className="mb-1 text-sm font-medium text-muted-foreground">Overview</p>
@@ -228,22 +302,13 @@ function Dashboard() {
           </div>
         </div>
 
-        <section className="grid gap-5 md:grid-cols-3" aria-label="Removal request metrics">
+        <section className="grid gap-5 md:grid-cols-3">
           {metrics.map((metric) => <MetricCard key={metric.title} {...metric} />)}
         </section>
 
-        <section className="mt-5 grid gap-5 md:grid-cols-2" aria-label="Additional privacy metrics">
-          <MetricCard
-            title="Time saved"
-            value={<><span>10</span><small>hrs</small><span className="ml-2">26</span><small>min</small></>}
-            description="Estimated time saved compared with sending each request manually."
-            className="md:col-span-1"
-          />
-          <MetricCard
-            title="Suppression list entries"
-            value="18"
-            description="Brokers have added your information to their suppression lists, helping prevent it from being collected again."
-          />
+        <section className="mt-5 grid gap-5 md:grid-cols-2">
+          <MetricCard title="Time saved" value={<><span>10</span><small>hrs</small><span className="ml-2">26</span><small>min</small></>} description="Estimated time saved compared with sending each request manually." className="md:col-span-1" />
+          <MetricCard title="Suppression list entries" value="18" description="Brokers have added your information to their suppression lists, helping prevent it from being collected again." />
         </section>
       </main>
     </div>
