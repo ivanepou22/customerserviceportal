@@ -5,68 +5,70 @@ import LoginPage from "./components/LoginPage";
 
 const nav = ['Dashboard', 'Documents', 'Posted Documents', 'Reports']
 
-// const navigation = [
-//   {
-//     dashboard: {
-//       caption: 'DashBoard',
-//       link: 'dashboard'
-//     }
-//   },
-//   {
-//     documents: {
-//       caption: 'Sales Documents',
-//       link: '#',
-//       sInvoices: {
-//         caption: 'Sales Invoices',
-//         link: '/sales-invoices'
-//       },
-//       sOrders: {
-//         caption: 'Sales Orders',
-//         link: '/sales-orders'
-//       },
-//       sCreditmemo: {
-//         caption: 'Sales Creditmemos',
-//         link: '/sales-credit-memos'
-//       },
-//       sQuotes: {
-//         caption: 'Sales Quotes',
-//         link: '/sales-quotes'
-//       }
-//     }
-//   },
-//   {
-//     postedDocuments: {
-//       caption: 'Posted Documents',
-//       link: '#',
-//       postedSalesInvoices: {
-//         caption: 'Posted Sales Invoices',
-//         link: '/posted-sales-invoices'
-//       },
-//       postedSalesCreditmemo: {
-//         caption: 'Posted Sales Creditmemos',
-//         link: '/posted-sales-creditmemos'
-//       }
-//     }
-//   },
-//   {
-//     reports: {
-//       caption: 'Reports',
-//       link: '#',
-//       detailedTrialBalance: {
-//         caption: 'Customer Detailed Trial Balance',
-//         link: '#'
-//       },
-//       statement: {
-//         caption: 'Customer Statement',
-//         link: '#'
-//       },
-//       customerAging: {
-//         caption: 'Customer Aging',
-//         link: '#'
-//       }
-//     }
-//   }
-// ];
+const navigation = [
+  {
+    dashboard: {
+      caption: 'DashBoard',
+      link: 'dashboard'
+    }
+  },
+  {
+    documents: {
+      caption: 'Sales Documents',
+      link: '#',
+      sInvoices: {
+        caption: 'Sales Invoices',
+        link: '/sales-invoices'
+      },
+      sOrders: {
+        caption: 'Sales Orders',
+        link: '/sales-orders'
+      },
+      sCreditmemo: {
+        caption: 'Sales Creditmemos',
+        link: '/sales-credit-memos'
+      },
+      sQuotes: {
+        caption: 'Sales Quotes',
+        link: '/sales-quotes'
+      }
+    }
+  },
+  {
+    postedDocuments: {
+      caption: 'Posted Documents',
+      link: '#',
+      postedSalesInvoices: {
+        caption: 'Posted Sales Invoices',
+        link: '/posted-sales-invoices'
+      },
+      postedSalesCreditmemo: {
+        caption: 'Posted Sales Creditmemos',
+        link: '/posted-sales-creditmemos'
+      }
+    }
+  },
+  {
+    reports: {
+      caption: 'Reports',
+      link: '#',
+      detailedTrialBalance: {
+        caption: 'Customer Detailed Trial Balance',
+        link: '#'
+      },
+      statement: {
+        caption: 'Customer Statement',
+        link: '#'
+      },
+      customerAging: {
+        caption: 'Customer Aging',
+        link: '#'
+      }
+    }
+  }
+];
+
+console.log(navigation);
 
 const metrics = [
   {
@@ -86,6 +88,8 @@ const metrics = [
   },
 ];
 
+navigation.map((nav, index) => console.log(nav))
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -94,52 +98,124 @@ function App() {
 
 function Dashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [noticeVisible, setNoticeVisible] = useState(true);
+  const [openSubMenus, setOpenSubMenus] = useState({});
+
+  const toggleSubMenu = (key) => {
+    setOpenSubMenus(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Render menu item
+  const renderMenuItem = (item, isMobile = false) => {
+    const key = Object.keys(item)[0];
+    const menuData = item[key];
+
+    if (!menuData?.caption) return null;
+
+    const hasChildren = Object.keys(menuData).some(k =>
+      k !== 'caption' && k !== 'link' && typeof menuData[k] === 'object'
+    );
+
+    if (hasChildren) {
+      if (isMobile) {
+        const isOpen = openSubMenus[key] ?? false;
+        return (
+          <div key={key} className="py-1">
+            <button
+              onClick={() => toggleSubMenu(key)}
+              className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium hover:bg-muted text-left"
+            >
+              <span>{menuData.caption}</span>
+              <span className={`text-xs transition-transform ${isOpen ? 'rotate-90' : ''}`}>▶</span>
+            </button>
+
+            {isOpen && (
+              <div className="ml-4 mt-1 border-l border-border pl-4 space-y-1">
+                {Object.entries(menuData)
+                  .filter(([k]) => k !== 'caption' && k !== 'link')
+                  .map(([_, subItem]) => renderMenuItem({ temp: subItem }, true))}
+              </div>
+            )}
+          </div>
+        );
+      } else {
+        // Desktop top nav - main items only
+        return (
+          <a
+            key={key}
+            href={menuData.link}
+            className="rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          >
+            {menuData.caption}
+          </a>
+        );
+      }
+    }
+
+    // Regular menu item
+    return (
+      <a
+        key={key}
+        href={menuData.link}
+        className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${isMobile
+          ? "block text-muted-foreground hover:bg-muted hover:text-foreground"
+          : "text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground"
+          }`}
+      >
+        {menuData.caption}
+      </a>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border/80 bg-background/95 backdrop-blur">
         <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between px-5 lg:px-0">
-          <a href="#dashboard" className="flex items-center gap-2.5" aria-label="Safely dashboard">
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-foreground text-background"><Icon name="shield" size={19} /></span>
-            <span className="text-[22px] font-bold tracking-[-0.08em]">Vision Group</span>
+          <a href="#dashboard" className="flex items-center gap-2.5" aria-label="Vision Group">
+            <span className="text-[22px] font-bold tracking-[-0.08em]">Customer Portal</span>
           </a>
 
+          {/* Desktop Navigation using navigation object */}
           <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
-            {nav.map((item, index) => (
-              <a
-                className={`rounded-md px-3 py-2 text-[13px] font-medium transition-colors ${index === 0 ? "bg-primary/8 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`}
-                href={`#${item.toLowerCase().replace(" ", "-")}`}
-                key={item}
-              >
-                {item}{item === "Custom removals" && <span className="ml-1.5 rounded bg-muted px-1 py-0.5 text-[8px] font-bold uppercase tracking-wide text-muted-foreground">Beta</span>}
-              </a>
-            ))}
+            {navigation.map((item) => renderMenuItem(item, false))}
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="icon" className="text-muted-foreground" aria-label="Notifications"><Icon name="bell" size={18} /></Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground">
+              <Icon name="bell" size={18} />
+            </Button>
             <button className="flex items-center rounded-lg px-2 py-1.5 text-sm font-medium hover:bg-muted">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-slate-600"><Icon name="user" size={15} /></span>
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-slate-600">
+                <Icon name="user" size={15} />
+              </span>
               <span className="max-w-36 truncate">alex@domain.com</span>
               <Icon name="chevron" size={15} className="text-muted-foreground" />
             </button>
           </div>
 
-          <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open navigation" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
             {isMenuOpen ? <Icon name="close" /> : <Icon name="menu" />}
           </Button>
         </div>
+
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <nav className="border-t border-border bg-background px-5 py-3 md:hidden">
-            {navigation.map((item, index) => <a className={`block rounded-md px-3 py-2.5 text-sm font-medium ${index === 0 ? "bg-primary/8 text-primary" : "text-muted-foreground"}`} href="#dashboard" key={item}>{item}</a>)}
+          <nav className="border-t border-border bg-background px-5 py-4 md:hidden space-y-1">
+            {navigation.map((item) => renderMenuItem(item, true))}
           </nav>
         )}
       </header>
 
+      {/* Your existing banner and main content */}
       <div className="border-b border-emerald-100 bg-emerald-50">
         <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950">
-          <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" size={11} strokeWidth={3.5} /></span>
+          <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white">
+            <Icon name="check" size={11} strokeWidth={3.5} />
+          </span>
           Welcome to the Vision Group Customer Portal
         </div>
       </div>
@@ -150,7 +226,6 @@ function Dashboard() {
             <p className="mb-1 text-sm font-medium text-muted-foreground">Overview</p>
             <h1 className="text-2xl font-semibold tracking-tight sm:text-[20px]">Documents</h1>
           </div>
-          <button className="hidden items-center gap-1.5 text-sm font-medium text-primary hover:underline sm:flex"></button>
         </div>
 
         <section className="grid gap-5 md:grid-cols-3" aria-label="Removal request metrics">
@@ -158,8 +233,17 @@ function Dashboard() {
         </section>
 
         <section className="mt-5 grid gap-5 md:grid-cols-2" aria-label="Additional privacy metrics">
-          <MetricCard title="Time saved" value={<><span>10</span><small>hrs</small><span className="ml-2">26</span><small>min</small></>} description="Estimated time saved compared with sending each request manually." className="md:col-span-1" />
-          <MetricCard title="Suppression list entries" value="18" description="Brokers have added your information to their suppression lists, helping prevent it from being collected again." />
+          <MetricCard
+            title="Time saved"
+            value={<><span>10</span><small>hrs</small><span className="ml-2">26</span><small>min</small></>}
+            description="Estimated time saved compared with sending each request manually."
+            className="md:col-span-1"
+          />
+          <MetricCard
+            title="Suppression list entries"
+            value="18"
+            description="Brokers have added your information to their suppression lists, helping prevent it from being collected again."
+          />
         </section>
       </main>
     </div>
