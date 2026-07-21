@@ -8,7 +8,7 @@ const nav = ['Dashboard', 'Documents', 'Posted Documents', 'Reports']
 const navigation = [
   {
     dashboard: {
-      caption: 'DashBoard',
+      caption: 'Dashboard',
       link: 'dashboard'
     }
   },
