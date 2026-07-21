@@ -82,6 +82,29 @@ const navigation = [
   }
 ];
 
+const metrics = [
+  {
+    title: "Total Sales",
+    value: "4,850,000",
+    description: "Count: 12",
+  },
+  {
+    title: "Total Creditmemos",
+    value: " 12.4M",
+    description: "Across 8 invoices",
+  },
+  {
+    title: "Total Payments",
+    value: "7,000,000",
+    description: "Generic",
+  },
+  {
+    title: "Total Balance",
+    value: "17,000,000",
+    description: "Generic",
+  },
+];
+
 const documents = [
   {
     title: "Sales Invoices",
@@ -346,7 +369,7 @@ function Dashboard() {
           ))}
         </div>
 
-        <div className="mt-4 flex items-end justify-between gap-4">
+        <div className="mt-5 mb-4 flex items-end justify-between gap-4">
           <div>
             <p className="mb-1 text-sm font-medium text-muted-foreground">Posted Documents</p>
           </div>
@@ -364,6 +387,16 @@ function Dashboard() {
           ))}
         </div>
 
+        <div className="mt-5 mb-4 flex items-end justify-between gap-4">
+          <div>
+            <p className="mb-1 text-sm font-medium text-muted-foreground">Analysis</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
+          {metrics.map((metric) => (
+            <MetricCard key={metric.title} {...metric} />
+          ))}
+        </div>
       </main>
     </div>
   );
@@ -371,7 +404,7 @@ function Dashboard() {
 
 function TealStatCard({ title, value, subtitle, className = "bg-teal-600 hover:bg-teal-700" }) {
   return (
-    <Card className={`${className} text-white border-0 shadow-sm transition-all cursor-pointer group min-h-[118px]  flex flex-col justify-between p-4`}>
+    <Card className={`${className} text-white border-0 shadow-sm transition-all cursor-pointer group min-h-[118px] rounded-lg md:rounded-none flex flex-col justify-between p-4`}>
       <div>
         <p className="text-[13px] font-medium opacity-90 line-clamp-2 leading-tight">{title}</p>
         <div className="mt-2 text-[28px] font-semibold tracking-tight">{value}</div>
@@ -381,6 +414,33 @@ function TealStatCard({ title, value, subtitle, className = "bg-teal-600 hover:b
         <p className="opacity-75">{subtitle}</p>
         <div className="text-white/70 group-hover:translate-x-0.5 transition-transform">→</div>
       </div>
+    </Card>
+  );
+}
+
+function MetricCard({ title, value, description, className = "" }) {
+  return (
+    <Card className={`min-h-[118px] rounded-lg md:rounded-none ${className}`}>
+      <CardHeader className="px-4 py-4 pb-2">
+        <CardTitle className="text-[13px] font-medium text-muted-foreground leading-tight line-clamp-2">
+          {title}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="px-4 pb-4 pt-0">
+        <div className="flex items-baseline text-[18px] font-semibold leading-none tracking-tight">
+          {value}
+        </div>
+
+        {description && (
+          <>
+            <div className="my-3 h-px bg-border" />
+            <p className="text-[12px] leading-[16px] text-muted-foreground line-clamp-2">
+              {description}
+            </p>
+          </>
+        )}
+      </CardContent>
     </Card>
   );
 }
