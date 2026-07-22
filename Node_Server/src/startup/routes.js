@@ -12,6 +12,7 @@ import postedSalesCreditMemoRouter from '../routes/postedSalesCreditMemoRoutes.j
 import customerLedgerRouter from '../routes/customerLedgerRoutes.js';
 import pdfRouter from '../routes/pdfRoutes.js';
 import customerReportRouter from '../routes/customerReportRoutes.js';
+import customerReceiptRouter from '../routes/verifyReceiptRoutes.js';
 
 export function routes(app) {
     app.use(express.json());
@@ -27,5 +28,6 @@ export function routes(app) {
     app.use('/api/v1/auth', authRouter);
     app.use('/api/v1/pdf', pdfRouter);
     app.use('/api/v1/customer-reports', customerReportRouter);
+    app.use('/api/v1/receipt', customerReceiptRouter);
     app.use(error);
 }
