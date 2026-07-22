@@ -14,6 +14,7 @@ page 50011 "API Customer Payments"
     InsertAllowed = false;
     ModifyAllowed = false;
     DeleteAllowed = false;
+    ODataKeyFields = "Customer No.";
 
     layout
     {
