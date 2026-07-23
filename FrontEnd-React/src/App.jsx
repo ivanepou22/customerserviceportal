@@ -1,10 +1,113 @@
+// import { useAuth } from "./context/AuthContext";
+// import LoginPage from "./components/LoginPage";
+// import Dashboard from "./components/Dashboard";
+
+// function App() {
+//   const { isAuthenticated } = useAuth();
+//   return isAuthenticated ? <Dashboard /> : <LoginPage />;
+// }
+
+// export default App;
+
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
 import Dashboard from "./components/Dashboard";
+import SalesInvoice from "./components/salesInvoice";
+import SalesOrder from "./components/salesOrder";
+import SalesCreditmemo from "./components/salesCreditmemo";
+import SalesQuote from "./components/salesQuote";
+import PostedSalesInvoices from "./components/postedSalesInvoices";
+import PostedSalesCreditmemo from "./components/postedSalesCreditmemo";
+import CustomerPayments from "./components/customerPayments";
+import CustomerLedgerEntries from "./components/customerLedgerEntries";
+
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/" replace />;
+}
 
 function App() {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Dashboard /> : <LoginPage />;
+  return (
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales-invoices"
+        element={
+          <ProtectedRoute>
+            <SalesInvoice />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales-orders"
+        element={
+          <ProtectedRoute>
+            <SalesOrder />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales-credit-memos"
+        element={
+          <ProtectedRoute>
+            <SalesCreditmemo />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales-quotes"
+        element={
+          <ProtectedRoute>
+            <SalesQuote />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/posted-sales-invoices"
+        element={
+          // <ProtectedRoute>
+          <PostedSalesInvoices />
+          // </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/posted-sales-creditmemos"
+        element={
+          // <ProtectedRoute>
+          <PostedSalesCreditmemo />
+          // </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer-payments"
+        element={
+          // <ProtectedRoute>
+          <CustomerPayments />
+          // </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer-ledger-entries"
+        element={
+          // <ProtectedRoute>
+          <CustomerLedgerEntries />
+          // </ProtectedRoute>
+        }
+      />
+      {/* Add more pages later */}
+      {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+    </Routes>
+  );
 }
 
 export default App;

@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -19,8 +21,8 @@ function LoginPage() {
     try {
       const { user, token } = await authService.login(email, password);
       login(user, token);
+      navigate('/dashboard');
     } catch (err) {
-      console.error(err);
       setError(err.message || "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
@@ -28,7 +30,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#a5d6ff] via-[#e0f0ff] to-[#f0f9ff] flex items-center justify-center p-4 relative overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-[#a5d6ff] via-[#e0f0ff] to-[#f0f9ff] flex items-center justify-center p-2 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.6),transparent)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.5),transparent)]" />
 
