@@ -25,6 +25,7 @@ export const authenticate = asyncMiddleware(async (req, res) => {
 
     const user = _.pick(existingUserResponse.data, ['email', 'name', 'customerNo', 'customerName', 'role', 'active']);
     const token = generateAuthToken(user);
+    const userShare = _.pick(existingUserResponse.data, ['email', 'name', 'customerName']);
 
-    res.status(200).send({ token });
+    res.status(200).send({ user: userShare, token });
 });
