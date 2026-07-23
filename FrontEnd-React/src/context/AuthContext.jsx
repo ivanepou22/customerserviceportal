@@ -19,12 +19,22 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
+    // const login = (userData, token) => {
+    //     setUser(userData);
+    //     setIsAuthenticated(true);
+
+    //     localStorage.setItem("user", JSON.stringify(userData));
+    //     if (token) localStorage.setItem("token", token);
+    // };
+
     const login = (userData, token) => {
         setUser(userData);
         setIsAuthenticated(true);
 
+        if (token) {
+            localStorage.setItem("token", token);
+        }
         localStorage.setItem("user", JSON.stringify(userData));
-        if (token) localStorage.setItem("token", token);
     };
 
     const logout = () => {
@@ -32,7 +42,6 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(false);
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        // Optional: call your Node.js logout endpoint
     };
 
     return (

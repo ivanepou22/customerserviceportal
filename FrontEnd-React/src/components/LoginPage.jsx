@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-// import { base_url } from "../utils/connect";
+import { authService } from "../services/authService";
 
 function LoginPage() {
   const { login } = useAuth();
@@ -11,32 +11,16 @@ function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // const base_url = base_url;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      console.log(response);
-
-      if (!response.ok) {
-        throw new Error("Invalid email or password");
-      }
-
-      const data = await response.json();
-
-      // Pass user + token to Context
-      login(data.user, data.token);
-
+      const { user, token } = await authService.login(email, password);
+      login(user, token);
     } catch (err) {
+      console.error(err);
       setError(err.message || "Login failed. Please try again.");
     } finally {
       setIsLoading(false);

@@ -166,7 +166,7 @@ function Dashboard() {
                             <span className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-slate-600">
                                 <Icon name="user" size={15} />
                             </span>
-                            <span className="max-w-36 truncate">{user?.email || "User"}</span>
+                            <span className="max-w-36 truncate">{user?.name || "User"}</span>
                             <Icon name="chevron" size={15} className="text-muted-foreground" />
                         </button>
 
