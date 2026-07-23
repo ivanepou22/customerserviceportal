@@ -353,7 +353,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.09261cm</Top>
-            <Left>5.9557cm</Left>
+            <Left>6.5907cm</Left>
             <Height>0.846cm</Height>
             <Width>4.35cm</Width>
             <ZIndex>13</ZIndex>
@@ -2271,7 +2271,7 @@
               </Paragraph>
             </Paragraphs>
             <Top>1.51561cm</Top>
-            <Left>10.48209cm</Left>
+            <Left>11.11709cm</Left>
             <Height>0.423cm</Height>
             <Width>2.16312cm</Width>
             <ZIndex>15</ZIndex>
@@ -2282,6 +2282,22 @@
               <VerticalAlign>Middle</VerticalAlign>
             </Style>
           </Textbox>
+          <Image Name="Image1">
+            <Source>Database</Source>
+            <Value>=First(Fields!QRImage.Value, "DataSet_Result")</Value>
+            <MIMEType>image/png</MIMEType>
+            <Sizing>FitProportional</Sizing>
+            <Top>2.115cm</Top>
+            <Left>3.17639cm</Left>
+            <Height>1.93961cm</Height>
+            <Width>2.67348cm</Width>
+            <ZIndex>16</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
         <Height>17.20987cm</Height>
         <Style />
@@ -2522,6 +2538,9 @@ Dg4ODg4O//cAAAAAAAAA////////////////////////////9gAAAAAAAAD2////////////////////
         </Field>
         <Field Name="Cust__Ledger_Entry_Entry_No_">
           <DataField>Cust__Ledger_Entry_Entry_No_</DataField>
+        </Field>
+        <Field Name="QRImage">
+          <DataField>QRImage</DataField>
         </Field>
       </Fields>
       <Query>

@@ -3,9 +3,6 @@
 /// </summary>
 report 50125 "Cash/Check Receipt (Customer)"
 {
-    // version rbm-AA,JOM-AA
-
-    // Company."Letter Head"
     DefaultLayout = RDLC;
     RDLCLayout = './CashCheck Receipt (Customer).rdl';
     UsageCategory = ReportsAndAnalysis;
@@ -163,6 +160,9 @@ report 50125 "Cash/Check Receipt (Customer)"
             column(Cust__Ledger_Entry_Entry_No_; "Entry No.")
             {
             }
+            column(QRImage; QRImage)
+            {
+            }
             dataitem(Integer; Integer)
             {
                 DataItemLinkReference = "Cust. Ledger Entry";
@@ -180,12 +180,17 @@ report 50125 "Cash/Check Receipt (Customer)"
             var
                 LCustLedEntryREC: Record "Cust. Ledger Entry";
                 LController: Integer;
+                VerificationURL: Text;
                 "====SAW": Integer;
                 CustLedgEntry: Record "Cust. Ledger Entry";
                 LDetCustLedEntry: Record "Detailed Cust. Ledg. Entry";
                 DtldCustLedgEntry1: Record "Detailed Cust. Ledg. Entry";
                 DtldCustLedgEntry2: Record "Detailed Cust. Ledg. Entry";
+                GLSetup: Record "General Ledger Setup";
             begin
+                GLSetup.Get();
+                GLSetup.TestField("QRCode Verification URL");
+
                 LController := 1;
                 FnPrintControl("Cust. Ledger Entry", LController);
 
@@ -321,6 +326,18 @@ report 50125 "Cash/Check Receipt (Customer)"
                         END;
                 END;
 
+                VerificationURL :=
+                          StrSubstNo(
+                            GLSetup."QRCode Verification URL" + '?customerNo=%1&entryNo=%2',
+                            "Cust. Ledger Entry"."Customer No.", "Cust. Ledger Entry"."Entry No.");
+
+                VerificationUrl := VerificationUrl.Replace(':', '%3A');
+                VerificationUrl := VerificationUrl.Replace('/', '%2F');
+                VerificationUrl := VerificationUrl.Replace('?', '%3F');
+                VerificationUrl := VerificationUrl.Replace('&', '%26');
+                VerificationUrl := VerificationUrl.Replace('=', '%3D');
+
+                QRImage := GenerateQRCode(VerificationURL);
             end;
 
             trigger OnPostDataItem();
@@ -409,6 +426,7 @@ report 50125 "Cash/Check Receipt (Customer)"
         txtNotify: Text[60];
         GCopyTxt: Text[30];
         txtReceipt: Text;
+        QRImage: Text;
         Receipt_No_CaptionLbl: Label 'Receipt No.';
         Phone_No___CaptionLbl: Label 'Phone No. :';
         Fax_No___CaptionLbl: Label 'Fax No. :';
@@ -581,6 +599,41 @@ report 50125 "Cash/Check Receipt (Customer)"
                         END;
                     END;
             END
+    end;
+
+
+    procedure GenerateQRCode(QRText: Text): Text
+    var
+        HttpClient: HttpClient;
+        HttpResponse: HttpResponseMessage;
+        InS: InStream;
+        OutS: OutStream;
+        EncodedURL: Text;
+        QRServiceURL: Text;
+        GLSetup: Record "General Ledger Setup";
+        TempBlob: Codeunit "Temp Blob";
+        Base64Convert: Codeunit "Base64 Convert";
+    begin
+        GLSetup.Get();
+        GLSetup.TestField("QrCode Url");
+        EncodedURL := QRText;
+
+        QRServiceURL :=
+          GLSetup."QrCode Url" +
+          EncodedURL;
+        Message(QRServiceURL);
+        if not HttpClient.Get(QRServiceURL, HttpResponse)
+        then
+            Error('Unable to get QR code.');
+
+        HttpResponse.Content.ReadAs(InS);
+
+        TempBlob.CreateOutStream(OutS);
+        CopyStream(OutS, InS);
+
+        TempBlob.CreateInStream(InS);
+
+        exit(Base64Convert.ToBase64(InS));
     end;
 }
 
