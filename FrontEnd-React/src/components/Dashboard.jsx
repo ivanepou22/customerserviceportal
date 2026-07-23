@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import Icon from "./Icon";
 import TealStatCard from "./TealStatCard";
 import MetricCard from "./MetricCard";
+import { useAuth } from "../context/AuthContext";
 
 const navigation = [
     { dashboard: { caption: 'Dashboard', link: 'dashboard' } },
@@ -63,6 +64,7 @@ const postedDocuments = [
 ];
 
 function Dashboard() {
+    const { user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState({});
 
@@ -164,7 +166,7 @@ function Dashboard() {
                             <span className="grid h-7 w-7 place-items-center rounded-full bg-slate-100 text-slate-600">
                                 <Icon name="user" size={15} />
                             </span>
-                            <span className="max-w-36 truncate">alex@domain.com</span>
+                            <span className="max-w-36 truncate">{user?.email || "User"}</span>
                             <Icon name="chevron" size={15} className="text-muted-foreground" />
                         </button>
 
@@ -173,7 +175,10 @@ function Dashboard() {
                                 <Icon name="user" size={15} /> Profile
                             </a>
                             <div className="border-t border-border"></div>
-                            <button onClick={() => console.log("Logout clicked")} className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-red-100 hover:text-red-600 text-muted-foreground text-left">
+                            <button
+                                onClick={logout}
+                                className="w-full flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-red-100 hover:text-red-600 text-muted-foreground text-left"
+                            >
                                 ⬅ Logout
                             </button>
                         </div>
