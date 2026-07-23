@@ -1,14 +1,3 @@
-// import { useAuth } from "./context/AuthContext";
-// import LoginPage from "./components/LoginPage";
-// import Dashboard from "./components/Dashboard";
-
-// function App() {
-//   const { isAuthenticated } = useAuth();
-//   return isAuthenticated ? <Dashboard /> : <LoginPage />;
-// }
-
-// export default App;
-
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
@@ -21,6 +10,7 @@ import PostedSalesInvoices from "./components/postedSalesInvoices";
 import PostedSalesCreditmemo from "./components/postedSalesCreditmemo";
 import CustomerPayments from "./components/customerPayments";
 import CustomerLedgerEntries from "./components/customerLedgerEntries";
+import VerifyReceipt from "./components/verifyReceipt";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -75,37 +65,50 @@ function App() {
       <Route
         path="/posted-sales-invoices"
         element={
-          // <ProtectedRoute>
-          <PostedSalesInvoices />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <PostedSalesInvoices />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/posted-sales-creditmemos"
         element={
-          // <ProtectedRoute>
-          <PostedSalesCreditmemo />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <PostedSalesCreditmemo />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/customer-payments"
         element={
-          // <ProtectedRoute>
-          <CustomerPayments />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <CustomerPayments />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/customer-ledger-entries"
         element={
-          // <ProtectedRoute>
-          <CustomerLedgerEntries />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <CustomerLedgerEntries />
+          </ProtectedRoute>
         }
       />
-      {/* Add more pages later */}
-      {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+      <Route
+        path="/receipt"
+        element={
+          <ProtectedRoute>
+            <VerifyReceipt />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/verify/receipt"
+        element={
+          <VerifyReceipt />
+        }
+      />
+
     </Routes>
   );
 }

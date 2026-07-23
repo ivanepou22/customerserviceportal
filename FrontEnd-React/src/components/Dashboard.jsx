@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import Icon from "./Icon";
 import TealStatCard from "./TealStatCard";
@@ -93,9 +94,10 @@ function Dashboard() {
                             const subData = subItem;
                             return (
                                 <div key={idx}>
-                                    <a href={subData.link} className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <Link to={subData.link}
+                                        className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
                                         {subData.caption}
-                                    </a>
+                                    </Link>
                                     {idx < children.length - 1 && <div className="border-t border-border"></div>}
                                 </div>
                             );
@@ -106,9 +108,10 @@ function Dashboard() {
         }
 
         return (
-            <a key={key} href={menuData.link} className="rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+            <Link key={key} to={menuData.link}
+                className="rounded-md px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
                 {menuData.caption}
-            </a>
+            </Link>
         );
     };
 
@@ -132,9 +135,9 @@ function Dashboard() {
                     {isOpen && (
                         <div className="ml-4 mt-1 border-l border-border pl-4 space-y-1">
                             {children.map((subItem, idx) => (
-                                <a key={idx} href={subItem.link} className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
+                                <Link key={idx} to={subItem.link} className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
                                     {subItem.caption}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     )}
@@ -143,9 +146,9 @@ function Dashboard() {
         }
 
         return (
-            <a key={key} href={menuData.link} className="block rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+            <Link key={key} to={menuData.link} className="block rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                 {menuData.caption}
-            </a>
+            </Link>
         );
     };
 
@@ -153,9 +156,9 @@ function Dashboard() {
         <div className="min-h-screen bg-background text-foreground">
             <header className="sticky top-0 z-20 border-b border-border/80 bg-background/95 backdrop-blur">
                 <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between px-5 lg:px-0">
-                    <a href="#dashboard" className="flex items-center gap-2.5">
+                    <Link to="#dashboard" className="flex items-center gap-2.5">
                         <span className="text-[22px] font-bold tracking-[-0.08em]">Customer Portal</span>
-                    </a>
+                    </Link>
 
                     <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
                         {navigation.map((item) => renderDesktopMenuItem(item))}
@@ -171,9 +174,9 @@ function Dashboard() {
                         </button>
 
                         <div className="absolute right-0 top-full z-50 mt-1 w-48 rounded-md border border-border bg-popover p-1 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all bg-slate-50">
-                            <a href="#profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted hover:text-foreground text-muted-foreground">
+                            <Link to="#profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted hover:text-foreground text-muted-foreground">
                                 <Icon name="user" size={15} /> Profile
-                            </a>
+                            </Link>
                             <div className="border-t border-border"></div>
                             <button
                                 onClick={logout}
