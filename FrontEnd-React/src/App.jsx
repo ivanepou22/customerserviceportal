@@ -3,7 +3,6 @@ import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
 import Dashboard from "./components/Dashboard";
 import SalesInvoice from "./components/salesInvoice";
-import SalesOrder from "./components/salesOrder";
 import SalesCreditmemo from "./components/salesCreditmemo";
 import SalesQuote from "./components/salesQuote";
 import PostedSalesInvoices from "./components/postedSalesInvoices";
@@ -11,6 +10,7 @@ import PostedSalesCreditmemo from "./components/postedSalesCreditmemo";
 import CustomerPayments from "./components/customerPayments";
 import CustomerLedgerEntries from "./components/customerLedgerEntries";
 import VerifyReceipt from "./components/verifyReceipt";
+import SalesOrders from "./components/salesOrders";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -42,7 +42,7 @@ function App() {
         path="/sales-orders"
         element={
           <ProtectedRoute>
-            <SalesOrder />
+            <SalesOrders />
           </ProtectedRoute>
         }
       />

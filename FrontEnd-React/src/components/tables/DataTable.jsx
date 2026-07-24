@@ -1,5 +1,5 @@
 import { flexRender } from '@tanstack/react-table';
-import { useDataTable } from '../hooks/useDataTable';
+import { useDataTable } from '../../hooks/useDataTable';
 import { useState } from 'react';
 
 export default function DataTable({ data, columns }) {
@@ -52,7 +52,7 @@ export default function DataTable({ data, columns }) {
                                 {headerGroup.headers.map(header => (
                                     <th
                                         key={header.id}
-                                        className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer select-none"
+                                        className="px-2 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer select-none"
                                         onClick={header.column.getToggleSortingHandler()}
                                     >
                                         {flexRender(header.column.columnDef.header, header.getContext())}
@@ -69,7 +69,7 @@ export default function DataTable({ data, columns }) {
                             table.getRowModel().rows.map(row => (
                                 <tr key={row.id} className="hover:bg-muted transition-colors">
                                     {row.getVisibleCells().map(cell => (
-                                        <td key={cell.id} className="px-6 py-4 whitespace-nowrap text-sm text-foreground">
+                                        <td key={cell.id} className="px-2 py-1 whitespace-nowrap text-sm text-foreground">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </td>
                                     ))}
