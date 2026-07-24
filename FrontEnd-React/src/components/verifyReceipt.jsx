@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { receiptVerificationService } from '../services/receiptVerificationService';
 import Icon from './Icon';
-import { base64ToPdfUrl } from '../hooks/ReceiptVerification';
-// import { SpinnerEmpty } from './ui/Spinner';
+import { base64ToPdfUrl } from '../functions/ReceiptVerification';
 
 const VerifyReceipt = () => {
     const [data, setData] = useState("")
