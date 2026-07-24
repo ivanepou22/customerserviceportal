@@ -12,6 +12,7 @@ const getDocumentFromEndpoint = endpoint =>
         const url = `${process.env.BASE_URL}/${endpoint}('${documentId}','${customerId}')?$filter=sellToCustomerNo eq '${customerId}'&$expand=saleslines`;
         const response = await axios.get(url, connectBC);
         const document = response.data;
+
         res.send(document);
     });
 
