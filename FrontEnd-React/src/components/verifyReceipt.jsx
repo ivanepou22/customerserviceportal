@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { receiptVerificationService } from '../services/receiptVerificationService';
 import Icon from './Icon';
 import { base64ToPdfUrl } from '../functions/ReceiptVerification';
+import { Loader2 } from "lucide-react";
 
 const VerifyReceipt = () => {
     const [data, setData] = useState("")
@@ -51,8 +52,8 @@ const VerifyReceipt = () => {
             <main id="dashboard" className="mx-auto max-w-[1000px] px-5 pb-10 pt-2 lg:px-0 lg:pt-4">
                 {
                     isLoading ? (
-                        <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-                            <div className="h-16 w-16 animate-spin rounded-full border-4 border-slate-200 border-t-red-500" />
+                        <div className="flex min-h-screen flex-col items-center justify-center gap-2">
+                            <Loader2 className="h-20 w-20 animate-spin text-red-500" />
                             <h3 className="text-lg font-semibold">
                                 Processing your request
                             </h3>
