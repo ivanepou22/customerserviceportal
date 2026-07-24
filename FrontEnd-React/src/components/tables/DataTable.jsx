@@ -1,6 +1,6 @@
 import { flexRender } from '@tanstack/react-table';
-import { useDataTable } from '../../hooks/useDataTable';
 import { useState } from 'react';
+import { useDataTable } from '../../hooks/useDataTable';
 
 export default function DataTable({ data, columns }) {
     const { table, globalFilter, setGlobalFilter } = useDataTable({ data, columns });

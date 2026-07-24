@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from './Header';
 import DataTable from './tables/DataTable';
-import { salesOrderColumns } from './tables/salesOrderColumns';
+import { salesOrderColumns } from './tables/documentColumns';
 import { documentService } from '../services/documentService';
 
 const SalesOrders = () => {
@@ -9,12 +9,12 @@ const SalesOrders = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const fetchSalesOrder = async (customerNo, entryNo) => {
+    const fetchSalesOrder = async () => {
         setIsLoading(true);
         setError("");
         try {
             const orders = await documentService.fetchSalesOrders();
-            setData(orders.value);
+            setData(orders);
         } catch (err) {
             setError("Fetching Receipt failed. Please try again.");
         } finally {
@@ -25,7 +25,7 @@ const SalesOrders = () => {
     useEffect(() => {
         fetchSalesOrder();
     }, []);
-    console.log(data);
+
     return (
         <div className="min-h-screen bg-background text-foreground">
             <Header />
@@ -33,11 +33,7 @@ const SalesOrders = () => {
                 <div className="mb-4 flex items-end justify-between gap-4">
                     <p className="mb-1 text-sm font-medium text-muted-foreground">Sales Orders</p>
                 </div>
-                {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4"> */}
-                {
-                    data && <DataTable data={data} columns={salesOrderColumns} />
-                }
-                {/* </div> */}
+                {data && <DataTable data={data} columns={salesOrderColumns} />}
             </main>
         </div>
     );
