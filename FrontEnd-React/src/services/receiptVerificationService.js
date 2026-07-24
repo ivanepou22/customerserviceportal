@@ -1,11 +1,18 @@
-import api from "../api/authApi";
+import publicApi from "../api/publicApi";
+
 export const receiptVerificationService = {
     async fetchReceiptPdf(customerNo, entryNo) {
-        const url = `/receipt?customerNo=${customerNo}&entryNo=${entryNo}`;
-        const response = await api.post(url, {});
-        return response.data;
+        if (!customerNo || !entryNo) {
+            throw new Error("Missing customerNo or entryNo");
+        }
+
+        try {
+            const url = `/receipt?customerNo=${customerNo}&entryNo=${entryNo}`;
+            const response = await publicApi.post(url, {});
+            return response.data;
+        } catch (err) {
+            console.error("Receipt fetch error:", err);
+            throw err;
+        }
     }
 };
-
-// Show how to convert base64 to blobHow to preview PDF in React?How to handle large PDF files?
-// How to handle PDF errors?How to preview PDF in browser?How to clean up blob URLs

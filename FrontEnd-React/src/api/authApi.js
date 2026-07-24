@@ -22,13 +22,12 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response Interceptor - Handle Token Expiry + Errors
+// Response Interceptor
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // Token expired → Try refresh (if you have refresh endpoint)
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
 
@@ -37,15 +36,17 @@ api.interceptors.response.use(
                     withCredentials: true
                 });
 
-                const newToken = refreshResponse.data.token;
-                localStorage.setItem('token', newToken);
+                const newToken = refreshResponse.data.token || refreshResponse.data.accessToken;
 
-                originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                return api(originalRequest);   // Retry original request
+                if (newToken) {
+                    localStorage.setItem('token', newToken);
+                    originalRequest.headers.Authorization = `Bearer ${newToken}`;
+                    return api(originalRequest);   // Retry
+                }
             } catch (refreshError) {
+                console.error("Token refresh failed", refreshError);
                 localStorage.removeItem('token');
-                window.location.href = '/';   // Redirect to login
-                return Promise.reject(refreshError);
+                window.location.href = '/';
             }
         }
 
