@@ -81,4 +81,64 @@ export const documentService = {
             throw err;
         }
     },
+    async fetchPostedSalesInvoices() {
+        try {
+            const url = `/posted-sales-invoices`;
+            const response = await documentApi.get(url, {});
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Sales Invoices error:", err);
+            throw err;
+        }
+    },
+    async fetchPostedSalesInvoice(id) {
+        try {
+            const url = `/posted-sales-invoices/${id}`;
+            const response = await documentApi.get(url);
+            return response.data;
+        } catch (err) {
+            console.error("Posted Sales Invoice error:", err);
+            throw err;
+        }
+    },
+    async fetchPostedSalesCreditmemos() {
+        try {
+            const url = `/posted-sales-credit-memos`;
+            const response = await documentApi.get(url, {});
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Sales Creditmemos error:", err);
+            throw err;
+        }
+    },
+    async fetchPostedSalesCreditmemo(id) {
+        try {
+            const url = `/posted-sales-credit-memos/${id}`;
+            const response = await documentApi.get(url);
+            return response.data;
+        } catch (err) {
+            console.error("Posted Sales Creditmemos error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerPayments() {
+        try {
+            const url = `/customer-ledgers/payments`;
+            const response = await documentApi.get(url, {});
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Customer Paymenst error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerLedgerEntries() {
+        try {
+            const url = `/customer-ledgers`;
+            const response = await documentApi.get(url);
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Customer Ledger Entries error:", err);
+            throw err;
+        }
+    },
 }

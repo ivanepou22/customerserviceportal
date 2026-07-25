@@ -17,7 +17,7 @@ const SalesCreditmemo = () => {
             const creditmemos = await documentService.fetchSalesCreditmemos();
             setData(creditmemos);
         } catch (err) {
-            setError("Fetching Receipt failed. Please try again.");
+            setError("Fetching Sales Creditmemos failed. Please try again.");
         } finally {
             setIsLoading(false);
         }

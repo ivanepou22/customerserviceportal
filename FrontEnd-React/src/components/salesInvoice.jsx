@@ -17,7 +17,7 @@ const SalesInvoice = () => {
             const invoices = await documentService.fetchSalesInvoices();
             setData(invoices);
         } catch (err) {
-            setError("Fetching Receipt failed. Please try again.");
+            setError("Fetching Sales Invoices failed. Please try again.");
         } finally {
             setIsLoading(false);
         }

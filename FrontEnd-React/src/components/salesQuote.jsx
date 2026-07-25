@@ -17,7 +17,7 @@ const SalesQuote = () => {
             const quotes = await documentService.fetchSalesQuotes();
             setData(quotes);
         } catch (err) {
-            setError("Fetching Receipt failed. Please try again.");
+            setError("Fetching Sales Quotes failed. Please try again.");
         } finally {
             setIsLoading(false);
         }
