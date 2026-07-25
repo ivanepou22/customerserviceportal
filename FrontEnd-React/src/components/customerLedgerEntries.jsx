@@ -74,7 +74,7 @@ const CustomerLedgerEntries = () => {
                             </button>
                         </div>
                     ) : (
-                        data && <DataTable data={data} columns={customerLedgerColumns} />
+                        data && <DataTable data={data} columns={customerLedgerColumns} title="Customer Ledger Entries" />
                     )
                 }
             </main>
