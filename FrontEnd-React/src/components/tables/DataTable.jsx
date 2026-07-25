@@ -1,5 +1,6 @@
 import { flexRender } from '@tanstack/react-table';
 import { useState, useRef, useEffect } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useDataTable } from '../../hooks/useDataTable';
 import { Button } from '../ui/button';
 import Icon from '../Icon';
@@ -357,7 +358,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                                         {row.getVisibleCells().map((cell) => (
                                             <td
                                                 key={cell.id}
-                                                className="px-3 py-2 text-sm text-foreground whitespace-nowrap"
+                                                className="px-3 py-1 text-sm text-foreground whitespace-nowrap"
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
@@ -391,7 +392,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                         onChange={(e) => table.setPageSize(Number(e.target.value))}
                         className="border border-border rounded-lg md:rounded-none px-3 py-1 bg-background text-sm focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                     >
-                        {[10, 20, 50, 100].map((pageSize) => (
+                        {[10, 20, 50, 100, 200, 500, 700, 1000].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
                                 {pageSize}
                             </option>
@@ -399,15 +400,15 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                     </select>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center">
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="px-3 py-1 rounded-lg md:rounded-none"
+                        className="px-1 py-1 rounded-lg md:rounded-none"
                     >
-                        Previous
+                        <ArrowLeft size={10} />
                     </Button>
 
                     <span className="px-3 font-medium tabular-nums">
@@ -420,9 +421,9 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        className="px-2 py-1 rounded-lg md:rounded-none"
+                        className="px-1 py-1 rounded-lg md:rounded-none"
                     >
-                        Next
+                        <ArrowRight size={10} />
                     </Button>
                 </div>
             </div>

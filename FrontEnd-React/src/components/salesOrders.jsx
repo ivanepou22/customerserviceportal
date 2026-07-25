@@ -4,6 +4,7 @@ import Header from './Header';
 import DataTable from './tables/DataTable';
 import { salesOrderColumns } from './tables/documentColumns';
 import { documentService } from '../services/documentService';
+import RowActions from './RowActions';
 
 const SalesOrders = () => {
     const [data, setData] = useState([]);
@@ -26,6 +27,14 @@ const SalesOrders = () => {
     useEffect(() => {
         fetchSalesOrders();
     }, []);
+
+    const actionsColumn = {
+        header: 'Actions',
+        cell: ({ row }) => (
+            <RowActions row={row.original} />
+        ),
+    };
+    const colomns = [...salesOrderColumns, actionsColumn];
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -74,7 +83,7 @@ const SalesOrders = () => {
                             </button>
                         </div>
                     ) : (
-                        data && <DataTable data={data} columns={salesOrderColumns} />
+                        data && <DataTable data={data} columns={colomns} />
                     )
                 }
             </main>

@@ -1,5 +1,5 @@
 export const navigation = [
-    { dashboard: { caption: 'Dashboard', link: 'dashboard' } },
+    { dashboard: { caption: 'Dashboard', link: '/dashboard' } },
     {
         documents: {
             caption: 'Sales Documents',
