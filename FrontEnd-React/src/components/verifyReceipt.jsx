@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { receiptVerificationService } from '../services/receiptVerificationService';
-import Icon from './Icon';
-import { base64ToPdfUrl } from '../functions/ReceiptVerification';
 import { Loader2 } from "lucide-react";
 
 const VerifyReceipt = () => {
+    const hasFetched = useRef(false);
     const [data, setData] = useState("")
-    const [pdfUrl, setPdfUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [searchParams] = useSearchParams();
@@ -15,6 +13,7 @@ const VerifyReceipt = () => {
     const entryNo = searchParams.get("entryNo");
 
     const fetchReceipt = async (customerNo, entryNo) => {
+        if (!customerNo || !entryNo) setError('Customer No or Entry No cannot be empty!')
         setIsLoading(true);
         setError("");
         try {
@@ -23,8 +22,6 @@ const VerifyReceipt = () => {
                 entryNo
             );
             setData(base64Pdf);
-            const url = base64ToPdfUrl(base64Pdf);
-            setPdfUrl(url);
         } catch (err) {
             setError("Fetching Receipt failed. Please try again.");
         } finally {
@@ -33,6 +30,9 @@ const VerifyReceipt = () => {
     };
 
     useEffect(() => {
+        if (!customerNo || !entryNo) return;
+        if (hasFetched.current) return;
+        hasFetched.current = true;
         fetchReceipt(customerNo, entryNo);
     }, [customerNo, entryNo]);
 
@@ -44,9 +44,9 @@ const VerifyReceipt = () => {
                 </div>
             </header>
 
-            <div className="border-b border-emerald-100 bg-gray-500">
-                <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-white">
-                    Welcome to the Vision Group Customer Portal Document Verification.
+            <div className="border-b border-emerald-100 bg-emerald-50">
+                <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950">
+                    Welcome to the Vision Group Customer Portal
                 </div>
             </div>
             <main id="dashboard" className="mx-auto max-w-[1000px] px-5 pb-10 pt-2 lg:px-0 lg:pt-4">
