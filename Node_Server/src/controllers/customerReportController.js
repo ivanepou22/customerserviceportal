@@ -81,7 +81,7 @@ const getCustomerReceipt = (reportFunction) =>
             if (!base64Pdf)
                 return res.status(404).json({ message: "Report not generated" });
 
-            res.send(base64Pdf);
+            res.status(200).send(base64Pdf);
         } catch (error) {
             res.status(error.response?.status || 500).json({
                 message: "Failed to generate PDF",
