@@ -83,7 +83,7 @@ export const navigation = [
                     icon: "barChart",
                     type: "report",
                     reportType: "detailedTrialBalance",
-                    fields: ["startDate", "endDate"]
+                    fields: ["customerNo", "startDate", "endDate"]
                 },
                 {
                     caption: "Customer Statement",
@@ -91,7 +91,7 @@ export const navigation = [
                     icon: "pieChart",
                     type: "report",
                     reportType: "customerStatement",
-                    fields: ["startDate", "endDate"]
+                    fields: ["customerNo", "startDate", "endDate"]
                 },
                 {
                     caption: "Customer Aging",
@@ -99,7 +99,7 @@ export const navigation = [
                     icon: "lineChart",
                     type: "report",
                     reportType: "customerAging",
-                    fields: ["asOfDate"]
+                    fields: ["customerNo", "asOfDate"]
                 }
             ]
         }

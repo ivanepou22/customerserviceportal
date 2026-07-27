@@ -199,6 +199,7 @@ function Icon({ name, size = 20, className = "", strokeWidth = 2 }) {
                 <path d="M16 9 20 12l-4 3" />
             </>
         ),
+        close: <path d="m6 6 12 12M18 6 6 18" />,
         analytics: (
             <>
                 <path d="M4 20V10" />
