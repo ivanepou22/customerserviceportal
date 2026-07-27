@@ -42,26 +42,13 @@ function Dashboard() {
                 <div className="mb-4 flex items-end justify-between gap-4">
                     <p className="mb-1 text-sm font-medium text-muted-foreground">Documents</p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-8 gap-4">
                     {documents.map((stat, index) => (
                         <TealStatCard key={index} {...stat} />
                     ))}
-                </div>
-
-                <div className="mt-5 mb-4 flex items-end justify-between gap-4">
-                    <p className="mb-1 text-sm font-medium text-muted-foreground">Posted Documents</p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     {postedDocuments.map((stat, index) => (
                         <TealStatCard key={index} {...stat} />
                     ))}
-                </div>
-
-                <div className="mt-5 mb-4 flex items-end justify-between gap-4">
-                    <p className="mb-1 text-sm font-medium text-muted-foreground">Analysis</p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
-                    {metrics.map((metric) => <MetricCard key={metric.title} {...metric} />)}
                 </div>
             </main>
         </div>

@@ -316,8 +316,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                 </div>
             </div>
 
-            {/* Table */}
-            <div className="border border-border rounded-lg overflow-hidden bg-card">
+            <div className="border border-border overflow-hidden bg-card">
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-max border-collapse">
                         <thead className="bg-muted sticky top-0 z-10">
@@ -383,7 +382,6 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                 </div>
             </div>
 
-            {/* Pagination */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
                 <div className="flex items-center gap-3">
                     <span className="text-muted-foreground">Rows per page</span>
