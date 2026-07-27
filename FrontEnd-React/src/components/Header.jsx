@@ -15,8 +15,7 @@ const Header = () => {
         customerNo: "",
         startDate: "",
         endDate: "",
-        asOfDate: "",
-        format: "pdf"
+        asOfDate: ""
     });
 
     const openReportModal = (report) => {
@@ -27,8 +26,7 @@ const Header = () => {
             customerNo: "",
             startDate: "",
             endDate: "",
-            asOfDate: "",
-            format: "pdf"
+            asOfDate: ""
         });
     };
 
