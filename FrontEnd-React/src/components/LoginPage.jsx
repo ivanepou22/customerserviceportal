@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -49,8 +50,8 @@ function LoginPage() {
           </div>
 
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Sign in with email</h1>
-            <p className="text-gray-600 mt-2 text-[15px]">
+            <h1 className="font-semibold text-gray-900">Sign in with email</h1>
+            <p className="text-gray-600 mt-2 text-sm">
               Make sure not to share your password<br />
               with anyone. Keep it safe!
             </p>
@@ -60,14 +61,14 @@ function LoginPage() {
             <div>
               <label className="text-sm text-gray-600 mb-1 block">Email</label>
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">✉️</div>
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><Mail size={18} /></div>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   required
-                  className="w-full pl-11 pr-4 py-2 bg-gray-50 border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
+                  className="w-full pl-11 pr-4 py-2 bg-gray-50 text-sm border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                 />
               </div>
             </div>
@@ -75,21 +76,21 @@ function LoginPage() {
             <div>
               <label className="text-sm text-gray-600 mb-1 block">Password</label>
               <div className="relative">
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">🔒</div>
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><Lock size={18} /></div>
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   required
-                  className="w-full pl-11 pr-12 py-2 bg-gray-50 border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
+                  className="w-full pl-11 pr-12 py-2 bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? "👁️" : "🙈"}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>

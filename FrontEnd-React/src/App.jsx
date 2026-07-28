@@ -11,6 +11,7 @@ import CustomerPayments from "./components/customerPayments";
 import CustomerLedgerEntries from "./components/customerLedgerEntries";
 import VerifyReceipt from "./components/verifyReceipt";
 import SalesOrders from "./components/salesOrders";
+import CustomerLedgers from "./pages/customerLedgers";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -27,6 +28,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer-ledgers"
+        element={
+          <ProtectedRoute>
+            <CustomerLedgers />
           </ProtectedRoute>
         }
       />

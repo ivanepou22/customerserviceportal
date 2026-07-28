@@ -1,15 +1,7 @@
 import Icon from "./Icon";
 import TealStatCard from "./TealStatCard";
-import MetricCard from "./MetricCard";
 import { useAuth } from "../context/AuthContext";
 import Header from "./Header";
-
-const metrics = [
-    { title: "Total Sales", value: "4,850,000", description: "Count: 12" },
-    { title: "Total Creditmemos", value: "12.4M", description: "Across 8 invoices" },
-    { title: "Total Payments", value: "7,000,000", description: "Generic" },
-    { title: "Total Balance", value: "17,000,000", description: "Generic" },
-];
 
 const documents = [
     { title: "Sales Invoices", value: "12.00", subtitle: "Due Today", color: "bg-teal-600 hover:bg-teal-700" },
@@ -24,7 +16,7 @@ const postedDocuments = [
 ];
 
 function Dashboard() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -34,7 +26,7 @@ function Dashboard() {
                     <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white">
                         <Icon name="check" size={11} strokeWidth={3.5} />
                     </span>
-                    Welcome to the Vision Group Customer Portal
+                    Welcome to the Vision Group Customer Portal: {user.name}
                 </div>
             </div>
 

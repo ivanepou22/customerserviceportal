@@ -1,18 +1,30 @@
+"use client"
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { format } from "date-fns";
+import { Calendar } from "../components/ui/calendar"
+import { Field, FieldLabel } from "../components/ui/field"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "../components/ui/popover"
 import { Button } from "./ui/button";
 import Icon from "./Icon";
 import { useAuth } from "../context/AuthContext";
 import { navigation } from "../utils/data";
+import { DatePickerSimple } from "./DatePickerSimple";
 
 const Header = () => {
+    const [open, setOpen] = useState(false);
+    const [date, setDate] = useState();
     const { user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState({});
     const [selectedReport, setSelectedReport] = useState(null);
     const [reportFilters, setReportFilters] = useState({
-        customerNo: "",
+        customerNo: user?.customerNo,
         startDate: "",
         endDate: "",
         asOfDate: ""
@@ -23,7 +35,7 @@ const Header = () => {
         setIsMenuOpen(false);
 
         setReportFilters({
-            customerNo: "",
+            customerNo: user?.customerNo,
             startDate: "",
             endDate: "",
             asOfDate: ""
@@ -35,7 +47,7 @@ const Header = () => {
     };
 
     const handleReportFilterChange = (event) => {
-        const { name, value } = event.target;
+        const { value } = event.target;
 
         setReportFilters((previousFilters) => ({
             ...previousFilters,
@@ -52,8 +64,8 @@ const Header = () => {
         };
 
         console.log("Report request:", reportRequest);
-
-        closeReportModal();
+        console.log('Date: ', format(date, 'yyyy-MM-dd'));
+        // closeReportModal();
     };
 
     useEffect(() => {
@@ -92,7 +104,7 @@ const Header = () => {
         if (children.length > 0) {
             return (
                 <div key={key} className="group relative">
-                    <button className="flex items-center gap-2 text-sm font-medium hover:text-primary">
+                    <button className="flex items-center gap-2 text-sm text-gray-900 hover:text-primary">
                         {menuData.caption}
                         <Icon
                             name="chevronDown"
@@ -109,7 +121,7 @@ const Header = () => {
                                             key={subItem.reportType}
                                             type="button"
                                             onClick={() => openReportModal(subItem)}
-                                            className="group/item flex w-full items-start gap-2 px-2 py-2 text-left transition-colors duration-150 hover:bg-gray-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-950">
+                                            className="group/item flex w-full items-start gap-2 px-2 py-1.5 text-left transition-colors duration-150 hover:bg-gray-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-950">
                                             <div className="flex size-10 shrink-0 items-center justify-center text-gray-900">
                                                 <Icon name={subItem.icon} size={18} />
                                             </div>
@@ -125,7 +137,7 @@ const Header = () => {
                                             <Icon
                                                 name="chevronRight"
                                                 size={18}
-                                                className="mt-1 shrink-0 text-gray-400 transition-transform duration-150 group-hover/item:translate-x-1 group-hover/item:text-gray-900" />
+                                                className="shrink-0 text-gray-400 transition-transform duration-150 group-hover/item:translate-x-1 group-hover/item:text-gray-900" />
                                         </button>
                                     );
                                 }
@@ -134,7 +146,7 @@ const Header = () => {
                                     <Link
                                         key={subItem.link}
                                         to={subItem.link}
-                                        className="group/item flex items-start gap-2 px-2 py-2 transition-colors duration-150 hover:bg-gray-100">
+                                        className="group/item flex items-start gap-2 px-2 py-1.5 transition-colors duration-150 hover:bg-gray-100">
                                         <div
                                             className="flex size-10 shrink-0 items-center justify-center text-gray-900">
                                             <Icon name={subItem.icon} size={18} />
@@ -157,7 +169,7 @@ const Header = () => {
         }
         return (
             <Link key={key} to={menuData.link}
-                className="px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+                className="px-3 py-2 text-[13px] font-medium hover:bg-muted hover:text-primary transition-colors">
                 {menuData.caption}
             </Link>
         );
@@ -202,7 +214,7 @@ const Header = () => {
     };
     return (
         <>
-            <header className="sticky top-0 z-20 border-b border-border/80 bg-background/95 backdrop-blur">
+            <header className="sticky top-0 z-30 border-b border-border/80 bg-background/95 backdrop-blur">
                 <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between px-5 lg:px-0">
                     <Link to="/dashboard" className="flex items-center gap-2.5">
                         <span className="text-[22px] font-bold tracking-[-0.08em]">Customer Portal</span>
@@ -261,7 +273,7 @@ const Header = () => {
                                         <div className="flex size-11 shrink-0 items-center justify-center bg-gray-100 text-gray-950">
                                             <Icon
                                                 name={selectedReport.icon || "report"}
-                                                size={23}
+                                                size={20}
                                             />
                                         </div>
 
@@ -290,30 +302,10 @@ const Header = () => {
                                 </div>
 
                                 <form onSubmit={handleGenerateReport}>
-                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto px-5 py-6 sm:px-6">
-                                        {selectedReport.fields?.includes("customerNo") && (
-                                            <div>
-                                                <label
-                                                    htmlFor="report-customer"
-                                                    className="mb-2 block text-sm font-medium text-gray-900"
-                                                >
-                                                    Customer
-                                                </label>
-                                                <input
-                                                    id="report-customer"
-                                                    type="text"
-                                                    name="startDate"
-                                                    value={user?.customerName ?? ''}
-                                                    disabled={true}
-                                                    required
-                                                    className="h-9 w-full border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
-                                                />
-                                            </div>
-                                        )}
-
+                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto px-5 py-6 sm:px-6 justify-center">
                                         {(selectedReport.fields?.includes("startDate") ||
                                             selectedReport.fields?.includes("endDate")) && (
-                                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 justify-center">
                                                     {selectedReport.fields?.includes(
                                                         "startDate"
                                                     ) && (
@@ -336,7 +328,7 @@ const Header = () => {
                                                                         handleReportFilterChange
                                                                     }
                                                                     required
-                                                                    className="h-9 w-full max-w-2xl border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
+                                                                    className="h-9 w-full max-w-sm border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
                                                                 />
                                                             </div>
                                                         )}
@@ -365,7 +357,7 @@ const Header = () => {
                                                                         undefined
                                                                     }
                                                                     required
-                                                                    className="h-9 w-full border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
+                                                                    className="h-9 w-full max-w-sm border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
                                                                 />
                                                             </div>
                                                         )}
@@ -373,24 +365,27 @@ const Header = () => {
                                             )}
 
                                         {selectedReport.fields?.includes("asOfDate") && (
-                                            <div>
-                                                <label
-                                                    htmlFor="report-as-of-date"
-                                                    className="mb-2 block text-sm font-medium text-gray-900"
-                                                >
-                                                    Aging as of
-                                                </label>
-
-                                                <input
-                                                    id="report-as-of-date"
-                                                    type="date"
-                                                    name="asOfDate"
-                                                    value={reportFilters.asOfDate}
-                                                    onChange={handleReportFilterChange}
-                                                    required
-                                                    className="h-11 w-full border border-gray-300 bg-white px-3 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
-                                                />
-                                            </div>
+                                            <Field className="mx-auto w-44">
+                                                <FieldLabel htmlFor="date">Aging as of:</FieldLabel>
+                                                <Popover open={open} onOpenChange={setOpen}>
+                                                    <PopoverTrigger asChild>
+                                                        <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm justify-start font-normal">
+                                                            {date ? format(date, "yyyy-MM-dd") : <span>Pick a date</span>}
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-auto p-0 z-[9999] bg-white shadow-4xl" align="start">
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={date}
+                                                            onSelect={(date) => {
+                                                                setDate(date)
+                                                                setOpen(false)
+                                                            }}
+                                                            className="z-[10000]"
+                                                        />
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </Field>
                                         )}
                                     </div>
 

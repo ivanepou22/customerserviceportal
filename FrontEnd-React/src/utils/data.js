@@ -1,5 +1,6 @@
 export const navigation = [
     { dashboard: { caption: 'Dashboard', link: '/dashboard' } },
+    { customerLedger: { caption: 'Customer Ledgers', link: '/customer-ledgers' } },
     {
         documents: {
             caption: "Sales Documents",
@@ -51,27 +52,28 @@ export const navigation = [
                 }
             ]
         }
-    },
-    {
-        customerLedgers: {
-            caption: 'Customer Ledgers',
-            link: '',
-            items: [
-                {
-                    caption: 'Customer Payments',
-                    link: '/customer-payments',
-                    description: 'Track your Payments',
-                    icon: 'creditCard'
-                },
-                {
-                    caption: 'Customer Ledger Entries',
-                    link: '/customer-ledger-entries',
-                    description: 'Track your Ledger Entries',
-                    icon: 'database'
-                }
-            ]
-        }
-    },
+    }
+    ,
+    // {
+    //     customerLedgers: {
+    //         caption: 'Customer Ledgers',
+    //         link: '',
+    //         items: [
+    //             {
+    //                 caption: 'Customer Payments',
+    //                 link: '/customer-payments',
+    //                 description: 'Track your Payments',
+    //                 icon: 'creditCard'
+    //             },
+    //             {
+    //                 caption: 'Customer Ledger Entries',
+    //                 link: '/customer-ledger-entries',
+    //                 description: 'Track your Ledger Entries',
+    //                 icon: 'database'
+    //             }
+    //         ]
+    //     }
+    // },
     {
         reports: {
             caption: "Reports",
@@ -104,4 +106,11 @@ export const navigation = [
             ]
         }
     }
+];
+
+export const metrics = [
+    { title: "Total Sales", value: "4,850,000", description: "Count: 12" },
+    { title: "Total Creditmemos", value: "12.4M", description: "Across 8 invoices" },
+    { title: "Total Payments", value: "7,000,000", description: "Generic" },
+    { title: "Total Balance", value: "17,000,000", description: "Generic" },
 ];
