@@ -41,13 +41,7 @@ const getCustomerReport = (reportFunction) =>
             if (!base64Pdf)
                 return res.status(404).json({ message: "Report not generated" });
 
-            const pdfBuffer = Buffer.from(base64Pdf, 'base64');
-            const filename = `${reportFunction.replace('Get', '')}-${customerNo}.pdf`;
-
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-            res.send(pdfBuffer);
-
+            res.status(200).send(base64Pdf);
         } catch (error) {
             res.status(error.response?.status || 500).json({
                 message: "Failed to generate PDF",
