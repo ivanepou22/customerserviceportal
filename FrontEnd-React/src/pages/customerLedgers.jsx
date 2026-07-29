@@ -20,7 +20,6 @@ const CustomerLedgers = () => {
 
     const [ledgerError, setLedgerError] = useState("");
     const [paymentsError, setPaymentsError] = useState("");
-    const [paymentsLoaded, setPaymentsLoaded] = useState(false);
     const [paymentsInitialized, setPaymentsInitialized] = useState(false);
 
     const fetchCustomerLedgerEntries = async () => {
@@ -49,7 +48,6 @@ const CustomerLedgers = () => {
         try {
             const response = await documentService.fetchCustomerPayments();
             setCustomerPayments(response || []);
-            setPaymentsLoaded(true);
         } catch (error) {
             console.error(error);
             setPaymentsError("Fetching Customer Payments failed. Please try again.");
