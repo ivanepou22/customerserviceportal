@@ -14,9 +14,13 @@ import { Button } from "./ui/button";
 import Icon from "./Icon";
 import { useAuth } from "../context/AuthContext";
 import { navigation } from "../utils/data";
-import { DatePickerSimple } from "./DatePickerSimple";
+import { customerReportService } from "../services/customerReportService";
+import { Loader2 } from "lucide-react";
 
 const Header = () => {
+    const [data, setData] = useState("")
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
     const [date, setDate] = useState();
     const { user, logout } = useAuth();
@@ -44,6 +48,9 @@ const Header = () => {
 
     const closeReportModal = () => {
         setSelectedReport(null);
+        setData("");
+        setError("")
+        setDate("")
     };
 
     const handleReportFilterChange = (event) => {
@@ -55,6 +62,20 @@ const Header = () => {
         }));
     };
 
+    const fetchAgingReport = async (agingDate) => {
+        if (!agingDate) setError('Aging As Of Date can not be empty!')
+        setIsLoading(true);
+        setError("");
+        try {
+            const base64Pdf = await customerReportService.fetchAgingReport(agingDate);
+            setData(base64Pdf);
+        } catch (err) {
+            setError("Fetching Aging Report failed. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleGenerateReport = (event) => {
         event.preventDefault();
 
@@ -63,9 +84,12 @@ const Header = () => {
             filters: reportFilters
         };
 
-        console.log("Report request:", reportRequest);
-        console.log('Date: ', format(date, 'yyyy-MM-dd'));
-        // closeReportModal();
+        if (reportRequest.reportType === "customerAging") {
+            if (date === '') setError('Aging As Of Date cannot be empty')
+            const formatDate = new Date(date);
+            const agingAsOfDate = format(formatDate, 'yyyy-MM-dd');
+            fetchAgingReport(agingAsOfDate);
+        }
     };
 
     useEffect(() => {
@@ -302,7 +326,7 @@ const Header = () => {
                                 </div>
 
                                 <form onSubmit={handleGenerateReport}>
-                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto px-5 py-6 sm:px-6 justify-center">
+                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto px-5 py-3 sm:px-6 justify-center">
                                         {(selectedReport.fields?.includes("startDate") ||
                                             selectedReport.fields?.includes("endDate")) && (
                                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 justify-center">
@@ -387,6 +411,61 @@ const Header = () => {
                                                 </Popover>
                                             </Field>
                                         )}
+                                    </div>
+
+                                    <div className="mx-auto max-w-[1000px] px-5 lg:px-0 lg:pt-4">
+                                        {
+                                            isLoading ? (
+                                                <div className="flex min-h-[250px] flex-col items-center justify-center gap-2">
+                                                    <Loader2 className="h-20 w-20 animate-spin text-red-500" />
+                                                    <h3 className="text-sm font-semibold">
+                                                        Processing your request
+                                                    </h3>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        Please wait while we generate your report. Do not refresh the page.
+                                                    </p>
+                                                </div>
+                                            ) : error ? (
+                                                <div className="flex min-h-[200px] flex-col items-center justify-center gap-4 border border-red-200 bg-red-50 p-8 text-center">
+                                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                                                        <svg
+                                                            className="h-8 w-8 text-red-600"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                strokeWidth={2}
+                                                                d="M12 9v2m0 4h.01M12 3L2 21h20L12 3z"
+                                                            />
+                                                        </svg>
+                                                    </div>
+
+                                                    <div>
+                                                        <p className="mt-2 text-sm text-red-600">
+                                                            {error}
+                                                        </p>
+                                                    </div>
+
+                                                    <button
+                                                        onClick={() => handleGenerateReport()}
+                                                        className="bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
+                                                    >
+                                                        Try Again
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                data && (
+                                                    <iframe
+                                                        src={`data:application/pdf;base64,${data}`}
+                                                        width="100%"
+                                                        height="700"
+                                                        title="Customer Aging Report."
+                                                        className="border rounded" />
+                                                ))
+                                        }
                                     </div>
 
                                     <div className="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 px-5 py-4 sm:flex-row sm:justify-end sm:px-6">
