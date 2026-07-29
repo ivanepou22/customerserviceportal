@@ -96,14 +96,12 @@ const CustomerLedgers = () => {
         return (
             <div className="flex min-h-[350px] flex-col items-center justify-center gap-3 border-t border-gray-200">
                 <Loader2 className="h-10 w-10 animate-spin text-indigo-600" />
-
                 <p className="text-sm font-medium text-gray-700">
                     {message}
                 </p>
             </div>
         );
     };
-
     const renderError = (message, retryFunction) => {
         return (
             <div className="flex min-h-[350px] flex-col items-center justify-center gap-4 border-t border-gray-200 bg-red-50 p-8 text-center">
@@ -142,10 +140,8 @@ const CustomerLedgers = () => {
     const ledgerEntryCount = ledgerEntries?.length;
     const paymentCount = customerPayments?.length;
 
-
     const ledger = { title: 'Customer Ledgers', value: ledgerEntryCount, subtitle: "Customer Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
     const payment = { title: 'Customer Payments', value: paymentCount, subtitle: "Customer Payments", color: "bg-teal-600 hover:bg-teal-700" };
-
 
     const currentTitle =
         activeTab === "ledgerEntries"
@@ -189,8 +185,6 @@ const CustomerLedgers = () => {
                             Refresh
                         </button>
                     </div>
-
-
                     <div className="sticky top-[60px] z-10 overflow-hidden border-b border-gray-200 bg-background pt-2">
                         <nav
                             className="flex gap-7 overflow-x-auto"
