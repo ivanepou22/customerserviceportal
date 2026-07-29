@@ -146,8 +146,8 @@ const CustomerLedgers = () => {
         <div className="min-h-screen bg-background text-foreground">
             <Header />
 
-            <main className="mx-auto max-w-[1120px] px-5 pb-10 pt-4 lg:px-0">
-                <div className="sticky top-[60px] z-10 bg-background pt-3">
+            <main className="mx-auto max-w-[1120px] px-5 pb-10 lg:px-0">
+                <div className="sticky top-15 z-10 bg-background pt-2">
                     <div className="mb-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p className="font-bold tracking-tight text-gray-950">
@@ -164,7 +164,7 @@ const CustomerLedgers = () => {
                             type="button"
                             onClick={handleRefresh}
                             disabled={isCurrentTabLoading}
-                            className="inline-flex h-10 items-center justify-center gap-2 self-start border border-gray-300 bg-white px-4 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 sm:self-auto"
+                            className="inline-flex h-9 items-center justify-center gap-2 self-start border border-gray-300 bg-white px-3 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 sm:self-auto"
                         >
                             <RefreshCw
                                 className={`h-4 w-4 ${isCurrentTabLoading ? "animate-spin" : ""
@@ -174,7 +174,7 @@ const CustomerLedgers = () => {
                             Refresh
                         </button>
                     </div>
-                    <div className="sticky top-[60px] z-10 overflow-hidden border-b border-gray-200 bg-background pt-2">
+                    <div className="overflow-hidden border-b border-gray-200 bg-background pt-2">
                         <nav
                             className="flex gap-7 overflow-x-auto"
                             role="tablist"
@@ -226,9 +226,7 @@ const CustomerLedgers = () => {
                             handleTabChange("ledgerEntries")
                         }
                     >
-                        <div className="mt-1 text-xl font-semibold text-gray-950">
-                            <TealStatCard {...ledger} />
-                        </div>
+                        <TealStatCard {...ledger} />
                     </button>
                     <button
                         type="button"
@@ -236,9 +234,7 @@ const CustomerLedgers = () => {
                             handleTabChange("customerPayments")
                         }
                     >
-                        <div className="mt-1 text-xl font-semibold text-gray-950">
-                            <TealStatCard {...payment} />
-                        </div>
+                        <TealStatCard {...payment} />
                     </button>
                 </div>
 
