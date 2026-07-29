@@ -72,11 +72,11 @@ export const salesCreditmemoColumns = [
     columnHelper.accessor('orderDate', { header: 'OrderDate' }),
     columnHelper.accessor('dueDate', { header: 'DueDate' }),
     columnHelper.accessor('currencyCode', { header: 'CurrencyCode' }),
-    columnHelper.accessor('Amount', {
+    columnHelper.accessor('amount', {
         header: 'Amount',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),
-    columnHelper.accessor('AmountIncludingVAT', {
+    columnHelper.accessor('amountIncludingVAT', {
         header: 'AmountIncludingVAT',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),

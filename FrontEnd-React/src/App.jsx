@@ -2,16 +2,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
 import Dashboard from "./components/Dashboard";
-import SalesInvoice from "./components/salesInvoice";
-import SalesCreditmemo from "./components/salesCreditmemo";
-import SalesQuote from "./components/salesQuote";
 import PostedSalesInvoices from "./components/postedSalesInvoices";
 import PostedSalesCreditmemo from "./components/postedSalesCreditmemo";
-import CustomerPayments from "./components/customerPayments";
-import CustomerLedgerEntries from "./components/customerLedgerEntries";
 import VerifyReceipt from "./components/verifyReceipt";
-import SalesOrders from "./components/salesOrders";
 import CustomerLedgers from "./pages/customerLedgers";
+import SalesDocuments from "./pages/salesDocuments";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -40,34 +35,10 @@ function App() {
         }
       />
       <Route
-        path="/sales-invoices"
+        path="/sales-documents"
         element={
           <ProtectedRoute>
-            <SalesInvoice />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/sales-orders"
-        element={
-          <ProtectedRoute>
-            <SalesOrders />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/sales-credit-memos"
-        element={
-          <ProtectedRoute>
-            <SalesCreditmemo />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/sales-quotes"
-        element={
-          <ProtectedRoute>
-            <SalesQuote />
+            <SalesDocuments />
           </ProtectedRoute>
         }
       />
@@ -84,22 +55,6 @@ function App() {
         element={
           <ProtectedRoute>
             <PostedSalesCreditmemo />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/customer-payments"
-        element={
-          <ProtectedRoute>
-            <CustomerPayments />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/customer-ledger-entries"
-        element={
-          <ProtectedRoute>
-            <CustomerLedgerEntries />
           </ProtectedRoute>
         }
       />
