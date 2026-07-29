@@ -40,6 +40,7 @@ const CustomerLedgers = () => {
             });
 
         } catch (error) {
+            console.error(error);
             setLedgerState(prev => ({
                 ...prev,
                 loading: false,
@@ -145,8 +146,8 @@ const CustomerLedgers = () => {
         );
     };
 
-    const ledgerEntryCount = ledgerState.data?.length;
-    const paymentCount = paymentState.data?.length;
+    const ledgerEntryCount = ledgerState.data.length;
+    const paymentCount = paymentState.data.length;
 
     const ledger = { title: 'Customer Ledgers', value: ledgerEntryCount, subtitle: "Customer Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
     const payment = { title: 'Customer Payments', value: paymentCount, subtitle: "Customer Payments", color: "bg-teal-600 hover:bg-teal-700" };
