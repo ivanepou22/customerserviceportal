@@ -200,36 +200,38 @@ const CustomerLedgers = () => {
                             <button
                                 type="button"
                                 role="tab"
-                                aria-selected={
-                                    activeTab === "ledgerEntries"
-                                }
-                                onClick={() =>
-                                    handleTabChange("ledgerEntries")
-                                }
-                                className={`relative whitespace-nowrap border-b-2 px-1 pb-2 text-sm transition-colors ${activeTab === "ledgerEntries"
-                                    ? "border-indigo-600 text-indigo-600"
-                                    : "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-950"
+                                aria-selected={activeTab === "ledgerEntries"}
+                                onClick={() => handleTabChange("ledgerEntries")}
+                                className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "ledgerEntries"
+                                    ? "font-medium text-indigo-600"
+                                    : "text-gray-600 hover:text-gray-950"
                                     }`}
                             >
                                 Customer Ledger Entries
+                                {activeTab === "ledgerEntries" && (
+                                    <span
+                                        aria-hidden="true"
+                                        className="absolute inset-x-0 bottom-0 h-0.5 bg-indigo-400"
+                                    />
+                                )}
                             </button>
-
                             <button
                                 type="button"
                                 role="tab"
-                                aria-selected={
-                                    activeTab === "customerPayments"
-                                }
-                                onClick={() =>
-                                    handleTabChange("customerPayments")
-                                }
-                                className={`relative whitespace-nowrap border-b-2 px-1 pb-2 text-sm transition-colors ${activeTab === "customerPayments"
-                                    ? "border-indigo-600 text-indigo-600"
-                                    : "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-950"
+                                aria-selected={activeTab === "customerPayments"}
+                                onClick={() => handleTabChange("customerPayments")}
+                                className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "customerPayments"
+                                    ? "font-medium text-indigo-600"
+                                    : "text-gray-600 hover:text-gray-950"
                                     }`}
                             >
                                 Customer Payments
+
+                                {activeTab === "customerPayments" && (
+                                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-indigo-400" />
+                                )}
                             </button>
+
                         </nav>
                     </div>
                 </div>
