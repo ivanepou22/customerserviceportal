@@ -11,48 +11,67 @@ import TealStatCard from "../components/TealStatCard";
 
 const CustomerLedgers = () => {
     const [activeTab, setActiveTab] = useState("ledgerEntries");
+    const [ledgerState, setLedgerState] = useState({
+        data: [],
+        loading: false,
+        error: "",
+    });
 
-    const [ledgerEntries, setLedgerEntries] = useState([]);
-    const [customerPayments, setCustomerPayments] = useState([]);
-
-    const [ledgerLoading, setLedgerLoading] = useState(false);
-    const [paymentsLoading, setPaymentsLoading] = useState(false);
-
-    const [ledgerError, setLedgerError] = useState("");
-    const [paymentsError, setPaymentsError] = useState("");
-    const [paymentsInitialized, setPaymentsInitialized] = useState(false);
+    const [paymentState, setPaymentState] = useState({
+        data: [],
+        loading: false,
+        error: "",
+        initialized: false,
+    });
 
     const fetchCustomerLedgerEntries = async () => {
-        setLedgerLoading(true);
-        setLedgerError("");
+        setLedgerState(prev => ({
+            ...prev,
+            loading: true,
+            error: "",
+        }));
 
         try {
             const response = await documentService.fetchCustomerLedgerEntries();
-            setLedgerEntries(response || []);
+            setLedgerState({
+                data: response || [],
+                loading: false,
+                error: "",
+            });
+
         } catch (error) {
-            console.error(error);
-            setLedgerError(
-                "Fetching Customer Ledger Entries failed. Please try again."
-            );
-        } finally {
-            setLedgerLoading(false);
+            setLedgerState(prev => ({
+                ...prev,
+                loading: false,
+                error: "Fetching Customer Ledger Entries failed. Please try again.",
+            }));
         }
     };
 
     const fetchCustomerPayments = async () => {
-        setPaymentsInitialized(true);
-
-        setPaymentsLoading(true);
-        setPaymentsError("");
+        setPaymentState(prev => ({
+            ...prev,
+            initialized: true,
+            loading: true,
+            error: "",
+        }));
 
         try {
             const response = await documentService.fetchCustomerPayments();
-            setCustomerPayments(response || []);
+
+            setPaymentState(prev => ({
+                ...prev,
+                data: response || [],
+                loading: false,
+            }));
         } catch (error) {
             console.error(error);
-            setPaymentsError("Fetching Customer Payments failed. Please try again.");
-        } finally {
-            setPaymentsLoading(false);
+
+            setPaymentState(prev => ({
+                ...prev,
+                loading: false,
+                error: "Fetching Customer Payments failed. Please try again.",
+            }));
         }
     };
 
@@ -63,11 +82,11 @@ const CustomerLedgers = () => {
     useEffect(() => {
         if (
             activeTab === "customerPayments" &&
-            !paymentsInitialized
+            !paymentState.initialized
         ) {
             fetchCustomerPayments();
         }
-    }, [activeTab, paymentsInitialized]);
+    }, [activeTab, paymentState.initialized]);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -126,8 +145,8 @@ const CustomerLedgers = () => {
         );
     };
 
-    const ledgerEntryCount = ledgerEntries?.length;
-    const paymentCount = customerPayments?.length;
+    const ledgerEntryCount = ledgerState.data?.length;
+    const paymentCount = paymentState.data?.length;
 
     const ledger = { title: 'Customer Ledgers', value: ledgerEntryCount, subtitle: "Customer Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
     const payment = { title: 'Customer Payments', value: paymentCount, subtitle: "Customer Payments", color: "bg-teal-600 hover:bg-teal-700" };
@@ -139,8 +158,8 @@ const CustomerLedgers = () => {
 
     const isCurrentTabLoading =
         activeTab === "ledgerEntries"
-            ? ledgerLoading
-            : paymentsLoading;
+            ? ledgerState.loading
+            : paymentState.loading;
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -244,36 +263,36 @@ const CustomerLedgers = () => {
                     aria-label={currentTitle}
                 >
                     {activeTab === "ledgerEntries" &&
-                        (ledgerLoading
+                        (ledgerState.loading
                             ? renderLoading(
                                 "Loading Customer Ledger Entries"
                             )
-                            : ledgerError
+                            : ledgerState.error
                                 ? renderError(
-                                    ledgerError,
+                                    ledgerState.error,
                                     fetchCustomerLedgerEntries
                                 )
                                 : (
                                     <DataTable
-                                        data={ledgerEntries}
+                                        data={ledgerState.data}
                                         columns={customerLedgerColumns}
                                         title="Customer Ledger Entries"
                                     />
                                 ))}
 
                     {activeTab === "customerPayments" &&
-                        (paymentsLoading
+                        (paymentState.loading
                             ? renderLoading(
                                 "Loading Customer Payments"
                             )
-                            : paymentsError
+                            : paymentState.error
                                 ? renderError(
-                                    paymentsError,
+                                    paymentState.error,
                                     fetchCustomerPayments
                                 )
                                 : (
                                     <DataTable
-                                        data={customerPayments}
+                                        data={paymentState.data}
                                         columns={customerPaymentColumns}
                                         title="Customer Payments"
                                     />
