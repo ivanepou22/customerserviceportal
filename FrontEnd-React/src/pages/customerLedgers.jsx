@@ -20,23 +20,18 @@ const CustomerLedgers = () => {
 
     const [ledgerError, setLedgerError] = useState("");
     const [paymentsError, setPaymentsError] = useState("");
-
-    const [ledgerLoaded, setLedgerLoaded] = useState(false);
     const [paymentsLoaded, setPaymentsLoaded] = useState(false);
+    const [paymentsInitialized, setPaymentsInitialized] = useState(false);
 
     const fetchCustomerLedgerEntries = async () => {
         setLedgerLoading(true);
         setLedgerError("");
 
         try {
-            const response =
-                await documentService.fetchCustomerLedgerEntries();
-
+            const response = await documentService.fetchCustomerLedgerEntries();
             setLedgerEntries(response || []);
-            setLedgerLoaded(true);
         } catch (error) {
             console.error(error);
-
             setLedgerError(
                 "Fetching Customer Ledger Entries failed. Please try again."
             );
@@ -46,21 +41,18 @@ const CustomerLedgers = () => {
     };
 
     const fetchCustomerPayments = async () => {
+        setPaymentsInitialized(true);
+
         setPaymentsLoading(true);
         setPaymentsError("");
 
         try {
-            const response =
-                await documentService.fetchCustomerPayments();
-
+            const response = await documentService.fetchCustomerPayments();
             setCustomerPayments(response || []);
             setPaymentsLoaded(true);
         } catch (error) {
             console.error(error);
-
-            setPaymentsError(
-                "Fetching Customer Payments failed. Please try again."
-            );
+            setPaymentsError("Fetching Customer Payments failed. Please try again.");
         } finally {
             setPaymentsLoading(false);
         }
@@ -73,12 +65,11 @@ const CustomerLedgers = () => {
     useEffect(() => {
         if (
             activeTab === "customerPayments" &&
-            !paymentsLoaded &&
-            !paymentsLoading
+            !paymentsInitialized
         ) {
             fetchCustomerPayments();
         }
-    }, [activeTab, paymentsLoaded, paymentsLoading]);
+    }, [activeTab, paymentsInitialized]);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
