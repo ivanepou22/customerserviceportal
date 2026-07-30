@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { user: currentUser, login } = useAuth();
+  const { user: currentUser, login, loading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,10 +31,10 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      navigate('/dashboard');
+    if (!loading && currentUser) {
+      navigate("/dashboard");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, loading, navigate]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#a5d6ff] via-[#e0f0ff] to-[#f0f9ff] flex items-center justify-center p-2 relative overflow-hidden">

@@ -129,7 +129,7 @@ const SalesDocuments = () => {
 
     const renderLoading = (message) => (
         <div className="flex min-h-[350px] flex-col items-center justify-center gap-3 border-t border-gray-200">
-            <Loader2 className="h-10 w-10 animate-spin text-indigo-600" />
+            <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
             <p className="text-sm font-medium text-gray-700">{message}</p>
         </div>
     );
@@ -236,7 +236,7 @@ const SalesDocuments = () => {
                                             tabIndex={isActive ? 0 : -1}
                                             onClick={() => handleTabChange(tab)}
                                             className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${isActive
-                                                ? "font-medium text-indigo-600"
+                                                ? "font-medium text-teal-600"
                                                 : "text-gray-600 hover:text-gray-950"
                                                 }`}
                                         >
@@ -244,7 +244,7 @@ const SalesDocuments = () => {
                                             {isActive && (
                                                 <span
                                                     aria-hidden="true"
-                                                    className="absolute inset-x-0 bottom-0 h-0.5 bg-indigo-400"
+                                                    className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400"
                                                 />
                                             )}
                                         </button>
@@ -255,7 +255,7 @@ const SalesDocuments = () => {
                     </div>
                 </div>
 
-                <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
+                <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
                     {salesDocumentCards.map((card) => (
                         <button
                             key={card.tab}

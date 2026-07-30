@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { createPortal } from "react-dom";
 import { format } from "date-fns";
 import { Calendar } from "../components/ui/calendar"
@@ -51,6 +51,28 @@ const Header = () => {
         setData("");
         setError("")
         setDate("")
+    };
+
+    const location = useLocation();
+
+    const isActiveLink = (link) => {
+        if (!link || link === "#" || link === "") return false;
+        // Exact match, or nested path (e.g. /sales-documents stays active)
+        return (
+            location.pathname === link ||
+            location.pathname.startsWith(link + "/")
+        );
+    };
+    // Parent menu is active if any of its children match the current path
+    const isParentActive = (menuData) => {
+        const children = Object.entries(menuData)
+            .filter(([k]) => k !== "caption" && k !== "link")
+            .map(([, sub]) => sub);
+        // Support both nested-object shape and items[] shape
+        const items = menuData.items || children;
+        return items.some(
+            (item) => item.link && isActiveLink(item.link)
+        );
     };
 
     const handleReportFilterChange = (event) => {
@@ -126,9 +148,13 @@ const Header = () => {
             .map(([_, sub]) => sub);
 
         if (children.length > 0) {
+            const parentActive = isParentActive(menuData);
             return (
                 <div key={key} className="group relative">
-                    <button className="flex items-center gap-2 text-sm text-gray-900 hover:text-primary">
+                    <button className={`flex items-center gap-2 text-sm transition-colors ${parentActive
+                        ? "font-medium text-teal-600"
+                        : "text-gray-900 hover:text-teal-600"
+                        }`}>
                         {menuData.caption}
                         <Icon
                             name="chevronDown"
@@ -170,7 +196,11 @@ const Header = () => {
                                     <Link
                                         key={subItem.link}
                                         to={subItem.link}
-                                        className="group/item flex items-start gap-2 px-2 py-1.5 transition-colors duration-150 hover:bg-gray-100">
+                                        className={`group/item flex items-start gap-2 px-2 py-1.5 transition-colors duration-150 ${isActiveLink(subItem.link)
+                                            ? "bg-teal-50 text-teal-700"
+                                            : "hover:bg-gray-100"
+                                            }`}
+                                    >
                                         <div
                                             className="flex size-10 shrink-0 items-center justify-center text-gray-900">
                                             <Icon name={subItem.icon} size={18} />
@@ -193,7 +223,11 @@ const Header = () => {
         }
         return (
             <Link key={key} to={menuData.link}
-                className="px-3 py-2 text-[13px] font-medium hover:bg-muted hover:text-primary transition-colors">
+                className={`px-2 py-1 text-[14px] font-medium transition-colors ${isActiveLink(menuData.link)
+                    ? "text-teal-600"
+                    : "hover:bg-muted hover:text-teal-600 text-gray-900"
+                    }`}
+            >
                 {menuData.caption}
             </Link>
         );
@@ -221,7 +255,12 @@ const Header = () => {
                     {isOpen && (
                         <div className="ml-4 mt-1 border-l border-border pl-4 space-y-1">
                             {menuData?.items?.map((subItem, idx) => (
-                                <Link key={idx} to={subItem.link} className="block px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
+                                <Link key={idx} to={subItem.link}
+                                    className={`block px-3 py-2 text-sm transition-colors ${isActiveLink(subItem.link)
+                                        ? "bg-teal-50 font-medium text-teal-700"
+                                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                        }`}
+                                >
                                     {subItem.caption}
                                 </Link>
                             ))}
@@ -231,7 +270,12 @@ const Header = () => {
             );
         }
         return (
-            <Link key={key} to={menuData.link} className="block px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+            <Link key={key} to={menuData.link}
+                className={`block px-3 py-2.5 text-sm font-medium transition-colors ${isActiveLink(menuData.link)
+                    ? "bg-teal-50 text-teal-700"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+            >
                 {menuData.caption}
             </Link>
         );

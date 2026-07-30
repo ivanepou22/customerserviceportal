@@ -77,5 +77,55 @@ page 50000 "Portal Users"
         // Factboxes
     }
 
-    // actions
+    actions
+    {
+        area(Navigation)
+        {
+            action(Activate)
+            {
+                ApplicationArea = All;
+                Caption = 'Activate User';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ActivateDiscounts;
+
+                trigger OnAction()
+                begin
+                    PortalUser.Reset();
+                    PortalUser.SetRange(Email, Rec.Email);
+                    PortalUser.SetRange("Customer No.", Rec."Customer No.");
+                    if PortalUser.FindFirst() then begin
+                        PortalUser.TestField(Active, false);
+                        PortalUser.Active := true;
+                        PortalUser.Modify();
+                    end;
+                end;
+            }
+            action(Deactivate)
+            {
+                ApplicationArea = All;
+                Caption = 'Deactivate User';
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ActivateDiscounts;
+
+                trigger OnAction()
+                begin
+                    PortalUser.Reset();
+                    PortalUser.SetRange(Email, Rec.Email);
+                    PortalUser.SetRange("Customer No.", Rec."Customer No.");
+                    if PortalUser.FindFirst() then begin
+                        PortalUser.TestField(Active, true);
+                        PortalUser.Active := false;
+                        PortalUser.Modify();
+                    end;
+                end;
+            }
+        }
+    }
+
+    var
+        PortalUser: Record PortalUser;
 }

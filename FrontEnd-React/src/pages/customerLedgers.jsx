@@ -104,7 +104,7 @@ const CustomerLedgers = () => {
     const renderLoading = (message) => {
         return (
             <div className="flex min-h-[350px] flex-col items-center justify-center gap-3 border-t border-gray-200">
-                <Loader2 className="h-10 w-10 animate-spin text-indigo-600" />
+                <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
                 <p className="text-sm font-medium text-gray-700">
                     {message}
                 </p>
@@ -149,8 +149,8 @@ const CustomerLedgers = () => {
     const ledgerEntryCount = ledgerState.data.length;
     const paymentCount = paymentState.data.length;
 
-    const ledger = { title: 'Customer Ledgers', value: ledgerEntryCount, subtitle: "Customer Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
-    const payment = { title: 'Customer Payments', value: paymentCount, subtitle: "Customer Payments", color: "bg-teal-600 hover:bg-teal-700" };
+    const ledger = { title: 'Ledger Entries', value: ledgerEntryCount, subtitle: "Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
+    const payment = { title: 'Cust. Payments', value: paymentCount, subtitle: "Payments", color: "bg-teal-600 hover:bg-teal-700" };
 
     const currentTitle =
         activeTab === "ledgerEntries"
@@ -206,7 +206,7 @@ const CustomerLedgers = () => {
                                 aria-selected={activeTab === "ledgerEntries"}
                                 onClick={() => handleTabChange("ledgerEntries")}
                                 className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "ledgerEntries"
-                                    ? "font-medium text-indigo-600"
+                                    ? "font-medium text-teal-600"
                                     : "text-gray-600 hover:text-gray-950"
                                     }`}
                             >
@@ -214,7 +214,7 @@ const CustomerLedgers = () => {
                                 {activeTab === "ledgerEntries" && (
                                     <span
                                         aria-hidden="true"
-                                        className="absolute inset-x-0 bottom-0 h-0.5 bg-indigo-400"
+                                        className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400"
                                     />
                                 )}
                             </button>
@@ -224,14 +224,14 @@ const CustomerLedgers = () => {
                                 aria-selected={activeTab === "customerPayments"}
                                 onClick={() => handleTabChange("customerPayments")}
                                 className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "customerPayments"
-                                    ? "font-medium text-indigo-600"
+                                    ? "font-medium text-teal-600"
                                     : "text-gray-600 hover:text-gray-950"
                                     }`}
                             >
                                 Customer Payments
 
                                 {activeTab === "customerPayments" && (
-                                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-indigo-400" />
+                                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400" />
                                 )}
                             </button>
 
@@ -239,7 +239,7 @@ const CustomerLedgers = () => {
                     </div>
                 </div>
 
-                <div className="mt-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-8 gap-4">
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-8 gap-4">
                     <button
                         type="button"
                         onClick={() =>

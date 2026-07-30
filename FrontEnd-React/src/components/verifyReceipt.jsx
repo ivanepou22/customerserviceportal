@@ -53,7 +53,7 @@ const VerifyReceipt = () => {
                 {
                     isLoading ? (
                         <div className="flex min-h-screen flex-col items-center justify-center gap-2">
-                            <Loader2 className="h-20 w-20 animate-spin text-red-500" />
+                            <Loader2 className="h-20 w-20 animate-spin text-teal-500" />
                             <h3 className="text-lg font-semibold">
                                 Processing your request
                             </h3>
