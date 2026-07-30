@@ -2,26 +2,7 @@ export const navigation = [
     { dashboard: { caption: 'Dashboard', link: '/dashboard' } },
     { customerLedger: { caption: 'Customer Ledgers', link: '/customer-ledgers' } },
     { salesDocuments: { caption: 'Sales Documents', link: '/sales-documents' } },
-    {
-        postedDocuments: {
-            caption: 'Posted Documents',
-            link: '#',
-            items: [
-                {
-                    caption: 'Posted Sales Invoices',
-                    link: '/posted-sales-invoices',
-                    description: 'Track Posted Sales Invoices',
-                    icon: 'fileSpreadsheet'
-                },
-                {
-                    caption: 'Posted Sales Creditmemos',
-                    link: '/posted-sales-creditmemos',
-                    description: 'Track Posted Sales CreditMemos',
-                    icon: 'minusSquare'
-                }
-            ]
-        }
-    },
+    { postedSalesDocuments: { caption: 'Posted Sales Documents', link: '/posted-sales-documents' } },
     {
         reports: {
             caption: "Reports",

@@ -2,11 +2,10 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
 import Dashboard from "./components/Dashboard";
-import PostedSalesInvoices from "./components/postedSalesInvoices";
-import PostedSalesCreditmemo from "./components/postedSalesCreditmemo";
 import VerifyReceipt from "./components/verifyReceipt";
 import CustomerLedgers from "./pages/customerLedgers";
 import SalesDocuments from "./pages/salesDocuments";
+import PostedSalesDocuments from "./pages/postedSalesDocuments";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -52,18 +51,10 @@ function App() {
         }
       />
       <Route
-        path="/posted-sales-invoices"
+        path="/posted-sales-documents"
         element={
           <ProtectedRoute>
-            <PostedSalesInvoices />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/posted-sales-creditmemos"
-        element={
-          <ProtectedRoute>
-            <PostedSalesCreditmemo />
+            <PostedSalesDocuments />
           </ProtectedRoute>
         }
       />
