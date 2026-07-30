@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, ShipWheel } from "lucide-react";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -44,8 +44,8 @@ function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white/95 backdrop-blur-xl shadow-2xl p-8 border border-white/60">
           <div className="flex justify-center mb-6">
-            <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center shadow-inner">
-              <span className="text-3xl">↗</span>
+            <div className="w-14 h-14 bg-teal-100 rounded-2xl flex items-center justify-center shadow-inner">
+              <ShipWheel size={18} />
             </div>
           </div>
 

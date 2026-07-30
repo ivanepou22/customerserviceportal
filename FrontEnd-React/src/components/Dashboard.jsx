@@ -23,10 +23,6 @@ function Dashboard() {
             <Header />
             <div className="border-b border-emerald-100 bg-emerald-50">
                 <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950">
-                    <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-500 text-white">
-                        <Icon name="check" size={11} strokeWidth={3.5} />
-                    </span>
-                    Welcome to the Vision Group Customer Portal: {user.name}
                 </div>
             </div>
 
