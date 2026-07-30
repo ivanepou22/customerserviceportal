@@ -106,7 +106,7 @@ function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-red-400 hover:bg-gray-900 disabled:bg-gray-400 text-white py-3 font-medium text-[15px] transition-all active:scale-[0.985]"
+              className="w-full bg-teal-600 hover:bg-teal-900 disabled:bg-gray-400 text-white py-3 font-medium text-[15px] transition-all active:scale-[0.985]"
             >
               {isLoading ? "Signing in..." : "Get Started"}
             </button>
