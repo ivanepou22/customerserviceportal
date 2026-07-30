@@ -14,7 +14,7 @@ const getLedgersFromEndpoint = endpoint =>
         const baseUrl = `${process.env.BASE_URL}/${endpoint}?$filter=customerNo eq '${customerId}'`;
         const url = addPaginationToUrl(baseUrl, pagination);
         const response = await axios.get(url, connectBC);
-        res.send(createPaginatedResponse(response.data, pagination));
+        res.send(response.data);
     });
 
 export const getCustomerLedgers = getLedgersFromEndpoint(process.env.BC_CUSTOMER_LEDGERS);

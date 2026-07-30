@@ -14,7 +14,7 @@ const getDocumentsFromEndpoint = endpoint =>
         const baseUrl = `${process.env.BASE_URL}/${endpoint}?$filter=sellToCustomerNo eq '${customerId}'`;
         const url = addPaginationToUrl(baseUrl, pagination);
         const response = await axios.get(url, connectBC);
-        res.send(createPaginatedResponse(response.data, pagination));
+        res.status(200).send(response.data);
     });
 
 const getDocumentFromEndpoint = (endpoint, expandElement) =>
