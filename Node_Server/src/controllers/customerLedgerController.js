@@ -19,3 +19,6 @@ const getLedgersFromEndpoint = endpoint =>
 
 export const getCustomerLedgers = getLedgersFromEndpoint(process.env.BC_CUSTOMER_LEDGERS);
 export const getCustomerPayments = getLedgersFromEndpoint(process.env.BC_CUSTOMER_PAYMENTS);
+export const getCustomerRefunds = getLedgersFromEndpoint(process.env.BC_CUSTOMER_LEDGER_REFUNDS);
+export const getCustomerInvoices = getLedgersFromEndpoint(process.env.BC_CUSTOMER_LEDGER_INVOICES);
+export const getCustomerCreditMemos = getLedgersFromEndpoint(process.env.BC_CUSTOMER_LEDGER_CREDITMEMOS);
