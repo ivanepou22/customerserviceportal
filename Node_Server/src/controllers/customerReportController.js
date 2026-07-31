@@ -84,7 +84,30 @@ const getCustomerReceipt = (reportFunction) =>
         }
     });
 
+const getCustomerDetails = () =>
+    asyncMiddleware(async (req, res) => {
+        console.log(req.user);
+        const customerNo = req.user?.customerNo;
+        if (!customerNo)
+            return res.status(400).json({ message: "Missing required parameters" });
+
+        const actionUrl = `${process.env.BASE_URL}/${process.env.BC_CUSTOMER_REPORT}('${customerNo}')`;
+        try {
+            const response = await axios.get(actionUrl, connectBC);
+            const customer = response.data;
+            res.status(200).send(customer);
+        } catch (error) {
+            console.log(error);
+            res.status(error.response?.status || 500).json({
+                message: "Failed to get customer",
+                details: error.response?.data?.error?.message || error.message
+            });
+        }
+    });
+
+
 export const getCustomerDetailedTrialBalance = getCustomerReport("getCustomerDetailedTrialBalance");
 export const getCustomerStatement = getCustomerReport("getCustomerStatement");
 export const getARAging = getCustomerReport("getARAging");
 export const getCustomerPaymentReceipt = getCustomerReceipt("generateReceipt")
+export const getCustomer = getCustomerDetails();

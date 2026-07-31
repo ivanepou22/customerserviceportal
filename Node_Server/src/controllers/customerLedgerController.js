@@ -12,7 +12,7 @@ const getLedgersFromEndpoint = endpoint =>
         if (pagination.error) return res.status(400).json({ message: pagination.error });
 
         const baseUrl = `${process.env.BASE_URL}/${endpoint}?$filter=customerNo eq '${customerId}'`;
-        const url = addPaginationToUrl(baseUrl, pagination);
+        const url = baseUrl;
         const response = await axios.get(url, connectBC);
         res.send(response.data);
     });
