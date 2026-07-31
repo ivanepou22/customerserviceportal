@@ -1,142 +1,97 @@
-import { useState, useRef, useEffect } from 'react';
-import { EllipsisVertical } from 'lucide-react';
-import Icon from './Icon';
+import { useState } from "react";
+import { Eye } from "lucide-react";
+import { Button } from "./ui/button";
+import DocumentDetailModal from "./modals/DocumentDetailModal";
+import { documentService } from "../services/documentService";
 
-export default function RowActions({ row }) {
+/**
+ * Row actions for sales document tables.
+ * Opens a detail modal; optionally loads full document + lines from the API.
+ *
+ * Props:
+ *  - row: original row object from the table
+ *  - documentType: key used by the modal / service
+ *    e.g. "salesOrder" | "salesInvoice" | "salesCreditMemo" | "salesQuote"
+ */
+export default function RowActions({ row, documentType = "salesInvoice" }) {
     const [open, setOpen] = useState(false);
-    const menuRef = useRef(null);
+    const [detail, setDetail] = useState(null);
+    const [lines, setLines] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    useEffect(() => {
-        const onClick = (e) => {
-            if (
-                menuRef.current &&
-                !menuRef.current.contains(e.target)
-            ) {
-                setOpen(false);
+    const handleView = async () => {
+        setOpen(true);
+        setError("");
+        setDetail(row);
+        setLines([]);
+
+        const docNo = row?.number ?? row?.no ?? row?.documentNo;
+        if (!docNo) return;
+
+        setLoading(true);
+        try {
+            let response = {};
+
+            switch (documentType) {
+                case "salesInvoice":
+                    response = await documentService.fetchSalesInvoice(docNo);
+                    break;
+                case "salesOrder":
+                    response = await documentService.fetchSalesOrder(docNo);
+                    break;
+                case "salesQuote":
+                    response = await documentService.fetchSalesQuote(docNo);
+                    break;
+                case "salesCreditMemo":
+                    response = await documentService.fetchSalesCreditmemo(docNo);
+                    break;
             }
-        };
 
-        document.addEventListener(
-            'mousedown',
-            onClick
-        );
+            const header = response;
+            const docLines =
+                response?.saleslines ??
+                response?.invoiceLines ??
+                response?.lines ??
+                response?.documentLines ??
+                [];
 
-        return () =>
-            document.removeEventListener(
-                'mousedown',
-                onClick
+            setDetail(header);
+            setLines(Array.isArray(docLines) ? docLines : []);
+        } catch (err) {
+            console.error("Failed to load document detail:", err);
+            setError(
+                "Could not load full document details. Showing list data only."
             );
-    }, []);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <div
-            className="relative"
-            ref={menuRef}
-        >
-            <button
-                onClick={() =>
-                    setOpen(!open)
-                }
-                className="
-                    p-1
-                    rounded
-                    hover:bg-muted
-                "
-            >
-                <EllipsisVertical size={10} />
-            </button>
-
-            {open && (
-                <div
-                    className="
-                        absolute
-                        right-0
-                        top-full
-                        mt-1
-                        w-44
-                        bg-white
-                        border
-                        shadow-lg
-                        rounded-md
-                        z-50
-                    "
+        <>
+            <div className="flex items-center gap-1">
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleView}
+                    className="h-6 gap-1.5 px-2 text-teal-700 hover:bg-teal-50 hover:text-teal-800"
+                    title="View details"
                 >
-                    <button
-                        className="
-                            w-full
-                            text-left
-                            px-3
-                            py-2
-                            hover:bg-muted
-                        "
-                        onClick={() =>
-                            console.log(
-                                'View',
-                                row
-                            )
-                        }
-                    >
-                        View
-                    </button>
+                    <span className="hidden sm:inline">View</span>
+                </Button>
+            </div>
 
-                    {/* <button
-                        className="
-                            w-full
-                            text-left
-                            px-3
-                            py-2
-                            hover:bg-muted
-                        "
-                        onClick={() =>
-                            console.log(
-                                'Edit',
-                                row
-                            )
-                        }
-                    >
-                        Edit
-                    </button> */}
-                    {/* 
-                    <button
-                        className="
-                            w-full
-                            text-left
-                            px-3
-                            py-2
-                            hover:bg-muted
-                        "
-                        onClick={() =>
-                            console.log(
-                                'Duplicate',
-                                row
-                            )
-                        }
-                    >
-                        Duplicate
-                    </button>
-
-                    <div className="border-t" /> */}
-                    {/* 
-                    <button
-                        className="
-                            w-full
-                            text-left
-                            px-3
-                            py-2
-                            text-red-600
-                            hover:bg-red-50
-                        "
-                        onClick={() =>
-                            console.log(
-                                'Delete',
-                                row
-                            )
-                        }
-                    >
-                        Delete
-                    </button> */}
-                </div>
-            )}
-        </div>
+            <DocumentDetailModal
+                open={open}
+                onClose={() => setOpen(false)}
+                document={detail}
+                documentType={documentType}
+                lines={lines}
+                loading={loading}
+                error={error}
+            />
+        </>
     );
 }

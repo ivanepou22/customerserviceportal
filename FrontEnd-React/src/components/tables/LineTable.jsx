@@ -1,6 +1,5 @@
 import { flexRender } from "@tanstack/react-table";
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useDataTable } from "../../hooks/useDataTable";
 import { Button } from "../ui/button";
 import Icon from "../Icon";
@@ -8,7 +7,7 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-export default function DataTable({ data, columns, title = "Export" }) {
+export default function LineTable({ data, columns, title = "Export" }) {
     const selectionColumn = {
         id: "select",
         header: ({ table }) => (
@@ -41,7 +40,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
         ),
         enableSorting: false,
         enableHiding: false,
-        enableColumnFilter: false,
         size: 40,
     };
 
@@ -75,11 +73,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
     }, []);
 
     const selectedCount = Object.keys(table.getState().rowSelection).length;
-    const hasColumnFilters = table.getState().columnFilters.length > 0;
-
-    const clearColumnFilters = () => {
-        table.setColumnFilters([]);
-    };
 
     const getExportRows = (onlySelected = false) => {
         const rows = onlySelected
@@ -201,16 +194,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                         onChange={(e) => setGlobalFilter(e.target.value)}
                         className="border border-border rounded-lg md:rounded-none px-3 py-1 w-full sm:w-80 text-sm border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                     />
-
-                    {hasColumnFilters && (
-                        <button
-                            type="button"
-                            onClick={clearColumnFilters}
-                            className="text-sm text-teal-700 hover:text-teal-800 whitespace-nowrap underline-offset-2 hover:underline"
-                        >
-                            Clear column filters
-                        </button>
-                    )}
 
                     {selectedCount > 0 && (
                         <span className="text-sm text-muted-foreground whitespace-nowrap">
@@ -399,50 +382,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                                     ))}
                                 </tr>
                             ))}
-
-                            {/* Per-column filter row */}
-                            {table.getHeaderGroups().map((headerGroup) => (
-                                <tr
-                                    key={`${headerGroup.id}-filters`}
-                                    className="bg-muted/60"
-                                >
-                                    {headerGroup.headers.map((header) => {
-                                        const canFilter =
-                                            header.column.getCanFilter() &&
-                                            header.column.id !== "select" &&
-                                            header.column.id !== "actions";
-
-                                        return (
-                                            <th
-                                                key={`${header.id}-filter`}
-                                                className="px-2 py-1.5 border-b border-border font-normal"
-                                            >
-                                                {canFilter ? (
-                                                    <input
-                                                        type="text"
-                                                        value={
-                                                            (header.column.getFilterValue() ??
-                                                                "")
-                                                        }
-                                                        onChange={(e) =>
-                                                            header.column.setFilterValue(
-                                                                e.target
-                                                                    .value ||
-                                                                undefined
-                                                            )
-                                                        }
-                                                        onClick={(e) =>
-                                                            e.stopPropagation()
-                                                        }
-                                                        placeholder="Filter…"
-                                                        className="w-full min-w-[80px] border border-gray-200 bg-white px-2 py-1 text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 rounded-md md:rounded-none"
-                                                    />
-                                                ) : null}
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            ))}
                         </thead>
 
                         <tbody className="divide-y divide-border">
@@ -480,54 +419,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                             )}
                         </tbody>
                     </table>
-                </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-                <div className="flex items-center gap-3">
-                    <span className="text-muted-foreground">Rows per page</span>
-                    <select
-                        value={table.getState().pagination.pageSize}
-                        onChange={(e) =>
-                            table.setPageSize(Number(e.target.value))
-                        }
-                        className="border border-border rounded-lg md:rounded-none px-3 py-1 bg-background text-sm focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
-                    >
-                        {[10, 20, 50, 100, 200, 500, 700, 1000].map(
-                            (pageSize) => (
-                                <option key={pageSize} value={pageSize}>
-                                    {pageSize}
-                                </option>
-                            )
-                        )}
-                    </select>
-                </div>
-
-                <div className="flex items-center">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                        className="px-1 py-1 rounded-lg md:rounded-none"
-                    >
-                        <ArrowLeft size={10} />
-                    </Button>
-
-                    <span className="px-3 font-medium tabular-nums">
-                        Page {table.getState().pagination.pageIndex + 1} of{" "}
-                        {table.getPageCount() || 1}
-                    </span>
-
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                        className="px-1 py-1 rounded-lg md:rounded-none"
-                    >
-                        <ArrowRight size={10} />
-                    </Button>
                 </div>
             </div>
         </div>

@@ -80,8 +80,7 @@ const getDocAmount = (doc) => {
     const raw =
         doc.amountIncludingVAT ??
         doc.AmountIncludingVAT ??
-        doc.totalAmountIncludingTax ??
-        doc.TotalAmountIncludingTax ??
+        doc.amountLCY ??
         doc.amount ??
         doc.Amount ??
         doc.remainingAmount ??
@@ -97,7 +96,7 @@ const getDocAmount = (doc) => {
 // Bar chart: posted invoices vs credit memos by year (amounts) 
 const buildYearlyBarData = (invoices, creditMemos) => {
     const cy = new Date().getFullYear();
-    const years = Array.from({ length: 5 }, (_, i) => cy - 4 + i);
+    const years = Array.from({ length: 10 }, (_, i) => cy - 9 + i);
 
     const invoiceTotals = Object.fromEntries(years.map((y) => [y, 0]));
     const creditMemoTotals = Object.fromEntries(years.map((y) => [y, 0]));
@@ -171,14 +170,8 @@ const getCustomerName = (c) => {
 const getCustomerBalance = (c) => {
     if (!c || typeof c !== "object") return 0;
     const raw =
-        c.balance ??
-        c.Balance ??
         c.balanceLCY ??
-        c.Balance_LCY ??
-        c.balanceDue ??
-        c.BalanceDue ??
-        c.availableBalance ??
-        c.Available_Balance ??
+        c.balance ??
         0;
     const n = Number(raw);
     return Number.isFinite(n) ? n : 0;
@@ -194,7 +187,7 @@ const formatCurrency = (value) =>
 
 function Dashboard() {
     const currentYear = new Date().getFullYear();
-    const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
+    const yearOptions = Array.from({ length: 10 }, (_, i) => currentYear - i);
     const [stats, setStats] = useState(initialStats);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -223,8 +216,8 @@ function Dashboard() {
                 documentService.fetchSalesOrders().catch(() => []),
                 documentService.fetchSalesQuotes().catch(() => []),
                 documentService.fetchSalesCreditmemos().catch(() => []),
-                documentService.fetchPostedSalesInvoices().catch(() => []),
-                documentService.fetchPostedSalesCreditmemos().catch(() => []),
+                documentService.fetchCustomerInvoices().catch(() => []),
+                documentService.fetchCustomerCreditMemos().catch(() => []),
                 documentService.fetchCustomerPayments().catch(() => []),
                 customerReportService.fetchCustomer().catch(() => []),
             ]);

@@ -72,11 +72,11 @@ export const salesCreditmemoColumns = [
     columnHelper.accessor('orderDate', { header: 'OrderDate' }),
     columnHelper.accessor('dueDate', { header: 'DueDate' }),
     columnHelper.accessor('currencyCode', { header: 'CurrencyCode' }),
-    columnHelper.accessor('amount', {
+    columnHelper.accessor('Amount', {
         header: 'Amount',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),
-    columnHelper.accessor('amountIncludingVAT', {
+    columnHelper.accessor('AmountIncludingVAT', {
         header: 'AmountIncludingVAT',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),
@@ -177,4 +177,22 @@ export const customerLedgerColumns = [
     }),
     columnHelper.accessor('Reversed', { header: 'Reversed' }),
     columnHelper.accessor('Open', { header: 'Open' }),
+];
+
+export const salesLineColumns = [
+    columnHelper.accessor('type', { header: 'Type' }),
+    columnHelper.accessor('no', { header: 'No.' }),
+    columnHelper.accessor('description', { header: 'Description' }),
+    columnHelper.accessor('description2', { header: 'Description2' }),
+    columnHelper.accessor('unitOfMeasureCode', { header: 'uom' }),
+    columnHelper.accessor('quantity', { header: 'quantity' }),
+    columnHelper.accessor('unitPrice', { header: 'unit Price', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('lineAmount', { header: 'line Amount', cell: info => `${info.getValue().toLocaleString()}` }),
+    columnHelper.accessor('lineDiscountPercentange', { header: 'line Disc. Perc.', cell: info => `${info.getValue().toLocaleString()}` }),
+    columnHelper.accessor('lineDiscountAmount', { header: 'line Disc. Amount', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('invDiscountAmount', { header: 'invDiscountAmount', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('lineAmountExclVAT', { header: 'lineAmountExclVAT', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('vat_Percentage', { header: 'vat_Percentage', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('vatBaseAmount', { header: 'vatBaseAmount', cell: info => `${info.getValue().toLocaleString()}`, }),
+    columnHelper.accessor('lineAmountInclVAT', { header: 'lineAmountInclVAT', cell: info => `${info.getValue().toLocaleString()}`, }),
 ];

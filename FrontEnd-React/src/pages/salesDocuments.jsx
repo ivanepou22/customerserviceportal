@@ -9,14 +9,22 @@ import {
     salesQuoteColumns,
 } from "../components/tables/documentColumns";
 import { documentService } from "../services/documentService";
-import RowActions from "../components/RowActions";
 import TealStatCard from "../components/TealStatCard";
+import RowActions from "../components/RowActions";
 
 const SALES_TABS = {
     ORDERS: "salesOrders",
     INVOICES: "salesInvoices",
     CREDIT_MEMOS: "salesCreditMemos",
     QUOTES: "salesQuotes",
+};
+
+/** Maps UI tab → documentType used by RowActions / detail API */
+const TAB_DOCUMENT_TYPE = {
+    [SALES_TABS.ORDERS]: "salesOrder",
+    [SALES_TABS.INVOICES]: "salesInvoice",
+    [SALES_TABS.CREDIT_MEMOS]: "salesCreditMemo",
+    [SALES_TABS.QUOTES]: "salesQuote",
 };
 
 const initialDocumentState = {
@@ -49,7 +57,7 @@ const salesDocumentConfig = {
         loadingMessage: "Loading Sales Credit Memos",
         errorMessage: "Fetching Sales Credit Memos failed. Please try again.",
         columns: salesCreditmemoColumns,
-        fetchData: () => documentService.fetchPostedSalesCreditmemos(),
+        fetchData: () => documentService.fetchSalesCreditmemos(),
     },
     [SALES_TABS.QUOTES]: {
         tabLabel: "Sales Quotes",
@@ -86,7 +94,6 @@ const SalesDocuments = () => {
 
         try {
             const response = await config.fetchData();
-            console.log(response);
             setDocumentStates((previousStates) => ({
                 ...previousStates,
                 [tab]: {
@@ -98,7 +105,6 @@ const SalesDocuments = () => {
             }));
         } catch (error) {
             console.error(`Failed to fetch ${config.title}:`, error);
-
             setDocumentStates((previousStates) => ({
                 ...previousStates,
                 [tab]: {
@@ -112,6 +118,7 @@ const SalesDocuments = () => {
 
     const activeDocumentState = documentStates[activeTab];
     const activeConfig = salesDocumentConfig[activeTab];
+    const activeDocumentType = TAB_DOCUMENT_TYPE[activeTab] || "salesInvoice";
 
     useEffect(() => {
         if (!activeDocumentState.initialized) {
@@ -163,12 +170,19 @@ const SalesDocuments = () => {
         </div>
     );
 
+    // Pass documentType so View opens the correct detail + print label
     const actionsColumn = {
         id: "actions",
         header: "Actions",
         enableSorting: false,
         enableHiding: false,
-        cell: ({ row }) => <RowActions row={row.original} />,
+        enableColumnFilter: false,
+        cell: ({ row }) => (
+            <RowActions
+                row={row.original}
+                documentType={activeDocumentType}
+            />
+        ),
     };
 
     const activeColumns = [...activeConfig.columns, actionsColumn];
