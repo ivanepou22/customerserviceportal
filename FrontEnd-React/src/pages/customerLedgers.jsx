@@ -24,6 +24,13 @@ const CustomerLedgers = () => {
         initialized: false,
     });
 
+    const [refundState, setRefundState] = useState({
+        data: [],
+        loading: false,
+        error: "",
+        initialized: false,
+    });
+
     const fetchCustomerLedgerEntries = async () => {
         setLedgerState(prev => ({
             ...prev,
@@ -76,6 +83,33 @@ const CustomerLedgers = () => {
         }
     };
 
+    const fetchCustomerRefunds = async () => {
+        setRefundState(prev => ({
+            ...prev,
+            initialized: true,
+            loading: true,
+            error: "",
+        }));
+
+        try {
+            const response = await documentService.fetchCustomerRefunds();
+
+            setRefundState(prev => ({
+                ...prev,
+                data: response || [],
+                loading: false,
+            }));
+        } catch (error) {
+            console.error(error);
+
+            setRefundState(prev => ({
+                ...prev,
+                loading: false,
+                error: "Fetching Customer Refunds failed. Please try again.",
+            }));
+        }
+    };
+
     useEffect(() => {
         fetchCustomerLedgerEntries();
     }, []);
@@ -89,6 +123,15 @@ const CustomerLedgers = () => {
         }
     }, [activeTab, paymentState.initialized]);
 
+    useEffect(() => {
+        if (
+            activeTab === "customerRefunds" &&
+            !refundState.initialized
+        ) {
+            fetchCustomerRefunds();
+        }
+    }, [activeTab, refundState.initialized]);
+
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
@@ -96,8 +139,10 @@ const CustomerLedgers = () => {
     const handleRefresh = () => {
         if (activeTab === "ledgerEntries") {
             fetchCustomerLedgerEntries();
-        } else {
+        } else if (activeTab === 'customerPayments') {
             fetchCustomerPayments();
+        } else if (activeTab === 'customerRefunds') {
+            fetchCustomerRefunds();
         }
     };
 
@@ -148,9 +193,11 @@ const CustomerLedgers = () => {
 
     const ledgerEntryCount = ledgerState.data.length;
     const paymentCount = paymentState.data.length;
+    const refundCount = refundState.data.length;
 
     const ledger = { title: 'Ledger Entries', value: ledgerEntryCount, subtitle: "Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
     const payment = { title: 'Cust. Payments', value: paymentCount, subtitle: "Payments", color: "bg-teal-600 hover:bg-teal-700" };
+    const refund = { title: 'Cust. Payments', value: refundCount, subtitle: "Refunds", color: "bg-teal-600 hover:bg-teal-700" };
 
     const currentTitle =
         activeTab === "ledgerEntries"

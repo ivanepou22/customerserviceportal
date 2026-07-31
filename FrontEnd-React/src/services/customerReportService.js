@@ -14,5 +14,15 @@ export const customerReportService = {
             console.error("Aging Report fetch error:", err);
             throw err;
         }
+    },
+    async fetchCustomer() {
+        try {
+            const url = `/customer-reports/customer`;
+            const response = await documentApi.get(url);
+            return response.data;
+        } catch (err) {
+            console.error("Aging Report fetch error:", err);
+            throw err;
+        }
     }
 };

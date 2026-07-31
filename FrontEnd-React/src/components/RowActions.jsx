@@ -5,7 +5,7 @@ import Icon from './Icon';
 export default function RowActions({ row }) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
-    console.log(row);
+
     useEffect(() => {
         const onClick = (e) => {
             if (

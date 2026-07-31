@@ -16,6 +16,7 @@ import {
 import TealStatCard from "./TealStatCard";
 import Header from "./Header";
 import { documentService } from "../services/documentService";
+import { customerReportService } from "../services/customerReportService";
 
 const initialStats = {
     salesInvoices: 0,
@@ -41,7 +42,7 @@ const MONTHS = [
     "Dec",
 ];
 
-/** Normalise API payload (plain array or BC-style { value: [] }) */
+// Normalise API payload (plain array or BC-style { value: [] }) 
 const asArray = (payload) => {
     if (Array.isArray(payload)) return payload;
     if (Array.isArray(payload?.value)) return payload.value;
@@ -49,7 +50,7 @@ const asArray = (payload) => {
     return [];
 };
 
-/** Pick first valid date from common BC / custom fields */
+// Pick first valid date from common BC / custom fields 
 const getDocDate = (doc) => {
     const raw =
         doc.postingDate ??
@@ -74,7 +75,7 @@ const getDocYear = (doc) => {
     return d ? d.getFullYear() : null;
 };
 
-/** Sum document amount from common field names */
+// Sum document amount from common field names 
 const getDocAmount = (doc) => {
     const raw =
         doc.amountIncludingVAT ??
@@ -93,7 +94,7 @@ const getDocAmount = (doc) => {
     return Number.isFinite(n) ? Math.abs(n) : 0;
 };
 
-/** Bar chart: posted invoices vs credit memos by year (amounts) */
+// Bar chart: posted invoices vs credit memos by year (amounts) 
 const buildYearlyBarData = (invoices, creditMemos) => {
     const cy = new Date().getFullYear();
     const years = Array.from({ length: 5 }, (_, i) => cy - 4 + i);
@@ -122,7 +123,7 @@ const buildYearlyBarData = (invoices, creditMemos) => {
     }));
 };
 
-/** Line chart: invoices vs payments by month for a given year (amounts) */
+// Line chart: invoices vs payments by month for a given year (amounts) 
 const buildMonthlyLineData = (invoices, paymentList, year) => {
     const invoiceByMonth = Array(12).fill(0);
     const paymentByMonth = Array(12).fill(0);
@@ -154,10 +155,46 @@ const formatAxisValue = (v) => {
     return String(v);
 };
 
+const getCustomerName = (c) => {
+    if (!c || typeof c !== "object") return "Account";
+    const raw =
+        c.displayName ??
+        c.Display_Name ??
+        c.name ??
+        c.Name ??
+        c.customerName ??
+        c.Customer_Name ??
+        null;
+    return raw ? String(raw).trim() : "Account";
+};
+
+const getCustomerBalance = (c) => {
+    if (!c || typeof c !== "object") return 0;
+    const raw =
+        c.balance ??
+        c.Balance ??
+        c.balanceLCY ??
+        c.Balance_LCY ??
+        c.balanceDue ??
+        c.BalanceDue ??
+        c.availableBalance ??
+        c.Available_Balance ??
+        0;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : 0;
+};
+
+const formatCurrency = (value) =>
+    Number(value).toLocaleString(undefined, {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
 function Dashboard() {
     const currentYear = new Date().getFullYear();
     const yearOptions = Array.from({ length: 5 }, (_, i) => currentYear - i);
-
     const [stats, setStats] = useState(initialStats);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -165,6 +202,7 @@ function Dashboard() {
     const [postedCreditMemos, setPostedCreditMemos] = useState([]);
     const [payments, setPayments] = useState([]);
     const [selectedYear, setSelectedYear] = useState(currentYear);
+    const [customer, setCustomer] = useState({});
 
     const fetchDashboardStats = useCallback(async () => {
         setLoading(true);
@@ -179,6 +217,7 @@ function Dashboard() {
                 postedSalesInvoices,
                 postedSalesCreditMemos,
                 customerPayments,
+                customer,
             ] = await Promise.all([
                 documentService.fetchSalesInvoices().catch(() => []),
                 documentService.fetchSalesOrders().catch(() => []),
@@ -187,6 +226,7 @@ function Dashboard() {
                 documentService.fetchPostedSalesInvoices().catch(() => []),
                 documentService.fetchPostedSalesCreditmemos().catch(() => []),
                 documentService.fetchCustomerPayments().catch(() => []),
+                customerReportService.fetchCustomer().catch(() => []),
             ]);
 
             const inv = asArray(postedSalesInvoices);
@@ -196,6 +236,7 @@ function Dashboard() {
             setPostedInvoices(inv);
             setPostedCreditMemos(memos);
             setPayments(pays);
+            setCustomer(customer);
 
             setStats({
                 salesInvoices: asArray(salesInvoices).length,
@@ -205,10 +246,6 @@ function Dashboard() {
                 postedSalesInvoices: inv.length,
                 postedSalesCreditMemos: memos.length,
             });
-
-            // Debug once — remove after confirming field names
-            if (inv[0]) console.log("Sample posted invoice:", inv[0]);
-            if (pays[0]) console.log("Sample payment:", pays[0]);
         } catch (err) {
             console.error("Dashboard fetch failed:", err);
             setError("Failed to load dashboard data. Please try again.");
@@ -252,6 +289,9 @@ function Dashboard() {
         },
     ];
 
+    const customerName = getCustomerName(customer);
+    const customerBalance = getCustomerBalance(customer);
+
     const postedDocuments = [
         {
             title: "Posted Sales Invoices",
@@ -269,6 +309,16 @@ function Dashboard() {
         },
     ];
 
+    const customerCreditLimit = [
+        {
+            title: "Credit Limit",
+            value: formatCurrency(customer.creditLimitLCY),
+            subtitle: "Credit Limit",
+            color: (customer.balanceLCY > customer.creditLimitLCY) ? "bg-red-400 hover:bg-red-300" : "bg-teal-600 hover:bg-teal-700",
+            to: "#",
+        }
+    ]
+
     const barChartData = buildYearlyBarData(postedInvoices, postedCreditMemos);
     const lineChartData = buildMonthlyLineData(
         postedInvoices,
@@ -279,17 +329,12 @@ function Dashboard() {
     return (
         <div className="min-h-screen bg-background text-foreground">
             <Header />
-
-            <div className="border-b border-emerald-100 bg-emerald-50">
-                <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950" />
-            </div>
-
             <main
                 id="dashboard"
                 className="mx-auto max-w-[1120px] px-5 pb-10 pt-4 lg:px-0 lg:pt-10"
             >
                 {error && (
-                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <div className="mb-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                         {error}
                     </div>
                 )}
@@ -303,27 +348,55 @@ function Dashboard() {
                     </div>
                 ) : (
                     <>
+                        <div className="mb-6 py-4">
+                            <p className="text-[13px] font-semibold uppercase tracking-wide text-gray-900">
+                                {customerName.toUpperCase()}
+                            </p>
+                            <p className="mt-3 text-xs text-gray-500">
+                                Current balance
+                            </p>
+                            <p className="mt-0.5 text-2xl font-semibold tracking-tight text-gray-950">
+                                {formatCurrency(customerBalance)}
+                            </p>
+                        </div>
+
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7">
-                            {documents.map((stat) => (
-                                <Link
-                                    key={stat.title}
-                                    to={stat.to}
-                                    className="block h-full text-left"
-                                    aria-label={`View ${stat.title}`}
-                                >
-                                    <TealStatCard {...stat} />
-                                </Link>
-                            ))}
-                            {postedDocuments.map((stat) => (
-                                <Link
-                                    key={stat.title}
-                                    to={stat.to}
-                                    className="block h-full text-left"
-                                    aria-label={`View ${stat.title}`}
-                                >
-                                    <TealStatCard {...stat} />
-                                </Link>
-                            ))}
+                            {
+                                documents.map((stat) => (
+                                    <Link
+                                        key={stat.title}
+                                        to={stat.to}
+                                        className="block h-full text-left"
+                                        aria-label={`View ${stat.title}`}
+                                    >
+                                        <TealStatCard {...stat} />
+                                    </Link>
+                                ))
+                            }
+                            {
+                                postedDocuments.map((stat) => (
+                                    <Link
+                                        key={stat.title}
+                                        to={stat.to}
+                                        className="block h-full text-left"
+                                        aria-label={`View ${stat.title}`}
+                                    >
+                                        <TealStatCard {...stat} />
+                                    </Link>
+                                ))
+                            }
+                            {
+                                customerCreditLimit.map((stat) => (
+                                    <Link
+                                        key={stat.title}
+                                        to={stat.to}
+                                        className="block h-full text-left"
+                                        aria-label={`View ${stat.title}`}
+                                    >
+                                        <TealStatCard {...stat} />
+                                    </Link>
+                                ))
+                            }
                         </div>
 
                         {/* Charts */}

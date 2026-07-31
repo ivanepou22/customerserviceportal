@@ -24,7 +24,7 @@ export const documentService = {
     async fetchSalesInvoices() {
         try {
             const url = `/sales-invoices`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
             console.error("Sales Invoices error:", err);
@@ -44,7 +44,7 @@ export const documentService = {
     async fetchSalesQuotes() {
         try {
             const url = `/sales-quotes`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
             console.error("Sales Quotes error:", err);
@@ -64,7 +64,7 @@ export const documentService = {
     async fetchSalesCreditmemos() {
         try {
             const url = `/sales-credit-memos`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
             console.error("Sales Creditmemos error:", err);
@@ -84,7 +84,7 @@ export const documentService = {
     async fetchPostedSalesInvoices() {
         try {
             const url = `/posted-sales-invoices`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
             console.error("Posted Sales Invoices error:", err);
@@ -104,7 +104,7 @@ export const documentService = {
     async fetchPostedSalesCreditmemos() {
         try {
             const url = `/posted-sales-credit-memos`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
             console.error("Posted Sales Creditmemos error:", err);
@@ -124,10 +124,10 @@ export const documentService = {
     async fetchCustomerPayments() {
         try {
             const url = `/customer-ledgers/payments`;
-            const response = await documentApi.get(url, {});
+            const response = await documentApi.get(url);
             return response.data.value;
         } catch (err) {
-            console.error("Posted Customer Paymenst error:", err);
+            console.error("Posted Customer Payments error:", err);
             throw err;
         }
     },
@@ -138,6 +138,36 @@ export const documentService = {
             return response.data.value;
         } catch (err) {
             console.error("Posted Customer Ledger Entries error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerRefunds() {
+        try {
+            const url = `/customer-ledgers/refunds`;
+            const response = await documentApi.get(url);
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Customer Refund error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerInvoices() {
+        try {
+            const url = `/customer-ledgers/invoices`;
+            const response = await documentApi.get(url);
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Customer Invoices error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerCreditMemos() {
+        try {
+            const url = `/customer-ledgers/credit-memos`;
+            const response = await documentApi.get(url);
+            return response.data.value;
+        } catch (err) {
+            console.error("Posted Customer Credit Memos error:", err);
             throw err;
         }
     },

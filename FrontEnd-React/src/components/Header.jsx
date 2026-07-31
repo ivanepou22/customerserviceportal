@@ -223,7 +223,7 @@ const Header = () => {
         }
         return (
             <Link key={key} to={menuData.link}
-                className={`px-1 py-1 text-[14.5px] text-foreground font-medium transition-colors ${isActiveLink(menuData.link)
+                className={`px-1 py-1 text-[14px] text-foreground font-medium transition-colors ${isActiveLink(menuData.link)
                     ? "text-teal-600"
                     : "hover:bg-muted hover:text-teal-600 text-gray-900"
                     }`}

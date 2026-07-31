@@ -44,7 +44,7 @@ function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-white/95 backdrop-blur-xl shadow-2xl p-8 border border-white/60">
           <div className="flex justify-center mb-6">
-            <div className="w-14 h-14 bg-teal-100 rounded-2xl flex items-center justify-center shadow-inner">
+            <div className="w-14 h-14 bg-teal-600 rounded-2xl flex items-center text-white justify-center shadow-inner">
               <ShipWheel size={18} />
             </div>
           </div>
