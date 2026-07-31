@@ -20,6 +20,22 @@ page 50013 "API Customer Reports"
         area(content)
         {
             field(number; Rec."No.") { }
+            field(balance; Rec.Balance) { ApplicationArea = All; }
+            field(balanceLCY; Rec."Balance (LCY)") { ApplicationArea = All; }
+            field(balanceDue; Rec."Balance Due") { ApplicationArea = All; }
+            field(balanceDueLCY; Rec."Balance Due (LCY)") { ApplicationArea = All; }
+            field(balanceonDate; Rec."Balance on Date") { ApplicationArea = All; }
+            field(balanceonDateLCY; Rec."Balance on Date (LCY)") { ApplicationArea = All; }
+            field(name; Rec.Name) { }
+            field(creditLimitLCY; Rec."Credit Limit (LCY)") { }
+            field(address; Rec.Address) { }
+            field(address_2; Rec."Address 2") { }
+            field(countryRegionCode; Rec."Country/Region Code") { }
+            field(city; Rec.City) { }
+            field(phoneNo; Rec."Phone No.") { }
+            field(mobilePhoneNo; Rec."Mobile Phone No.") { }
+            field(contact; Rec.Contact) { }
+            field(vATRegistrationNo; Rec."VAT Registration No.") { }
         }
     }
 
