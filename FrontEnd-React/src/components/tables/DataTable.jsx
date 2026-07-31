@@ -351,7 +351,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                                 table.getRowModel().rows.map((row) => (
                                     <tr
                                         key={row.id}
-                                        className={`hover:bg-gray-100 transition-colors ${row.getIsSelected() ? 'bg-teal-100 hover:bg-teal-200 hover:text-white' : ''
+                                        className={`hover:bg-gray-100 transition-colors ${row.getIsSelected() ? 'bg-cyan-200 hover:bg-cyan-200 hover:text-white' : ''
                                             }`}
                                     >
                                         {row.getVisibleCells().map((cell) => (

@@ -151,7 +151,7 @@ const Header = () => {
             const parentActive = isParentActive(menuData);
             return (
                 <div key={key} className="group relative">
-                    <button className={`flex items-center gap-2 text-sm transition-colors ${parentActive
+                    <button className={`flex items-center gap-2 text-sm text-foreground transition-colors ${parentActive
                         ? "font-medium text-teal-600"
                         : "text-gray-900 hover:text-teal-600"
                         }`}>
@@ -223,7 +223,7 @@ const Header = () => {
         }
         return (
             <Link key={key} to={menuData.link}
-                className={`px-2 py-1 text-[14px] font-medium transition-colors ${isActiveLink(menuData.link)
+                className={`px-1 py-1 text-[14.5px] text-foreground font-medium transition-colors ${isActiveLink(menuData.link)
                     ? "text-teal-600"
                     : "hover:bg-muted hover:text-teal-600 text-gray-900"
                     }`}
