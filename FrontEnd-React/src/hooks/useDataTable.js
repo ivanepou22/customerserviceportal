@@ -1,11 +1,22 @@
-import { useReactTable, getCoreRowModel, getSortedRowModel, getFilteredRowModel, getPaginationRowModel } from '@tanstack/react-table';
-import { useState, useMemo } from 'react';
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+} from "@tanstack/react-table";
+import { useState } from "react";
 
 export function useDataTable({ data, columns, initialState = {} }) {
     const [sorting, setSorting] = useState(initialState.sorting ?? []);
-    const [columnFilters, setColumnFilters] = useState(initialState.columnFilters ?? []);
+    const [columnFilters, setColumnFilters] = useState(
+        initialState.columnFilters ?? []
+    );
     const [globalFilter, setGlobalFilter] = useState("");
-    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 10,
+    });
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState({});
 
@@ -34,5 +45,11 @@ export function useDataTable({ data, columns, initialState = {} }) {
         manualPagination: false,
     });
 
-    return { table, globalFilter, setGlobalFilter };
+    return {
+        table,
+        globalFilter,
+        setGlobalFilter,
+        columnFilters,
+        setColumnFilters,
+    };
 }

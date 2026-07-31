@@ -1,350 +1,357 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Loader2, RefreshCw } from "lucide-react";
 import Header from "../components/Header";
 import DataTable from "../components/tables/DataTable";
 import {
     customerLedgerColumns,
-    customerPaymentColumns
+    customerPaymentColumns,
 } from "../components/tables/documentColumns";
 import { documentService } from "../services/documentService";
 import TealStatCard from "../components/TealStatCard";
 
+const LEDGER_TABS = {
+    ENTRIES: "ledgerEntries",
+    PAYMENTS: "customerPayments",
+    REFUNDS: "customerRefunds",
+    INVOICES: "customerInvoices",
+    CREDIT_MEMOS: "customerCreditMemos",
+};
+
+const initialDocumentState = {
+    data: [],
+    loading: false,
+    error: "",
+    initialized: false,
+};
+
+const ledgerDocumentConfig = {
+    [LEDGER_TABS.ENTRIES]: {
+        tabLabel: "Ledger Entries",
+        title: "Customer Ledger Entries",
+        loadingMessage: "Loading Customer Ledger Entries",
+        errorMessage: "Fetching Customer Ledger Entries failed. Please try again.",
+        columns: customerLedgerColumns,
+        fetchData: () => documentService.fetchCustomerLedgerEntries(),
+    },
+    [LEDGER_TABS.PAYMENTS]: {
+        tabLabel: "Payments",
+        title: "Customer Payments",
+        loadingMessage: "Loading Customer Payments",
+        errorMessage: "Fetching Customer Payments failed. Please try again.",
+        columns: customerPaymentColumns,
+        fetchData: () => documentService.fetchCustomerPayments(),
+    },
+    [LEDGER_TABS.REFUNDS]: {
+        tabLabel: "Refunds",
+        title: "Customer Refunds",
+        loadingMessage: "Loading Customer Refunds",
+        errorMessage: "Fetching Customer Refunds failed. Please try again.",
+        columns: customerPaymentColumns,
+        fetchData: () => documentService.fetchCustomerRefunds(),
+    },
+    [LEDGER_TABS.INVOICES]: {
+        tabLabel: "Invoices",
+        title: "Customer Invoices",
+        loadingMessage: "Loading Customer Invoices",
+        errorMessage: "Fetching Customer Invoices failed. Please try again.",
+        columns: customerLedgerColumns,
+        fetchData: () => documentService.fetchCustomerInvoices(),
+    },
+    [LEDGER_TABS.CREDIT_MEMOS]: {
+        tabLabel: "Credit Memos",
+        title: "Customer Credit Memos",
+        loadingMessage: "Loading Customer Credit Memos",
+        errorMessage: "Fetching Customer Credit Memos failed. Please try again.",
+        columns: customerLedgerColumns,
+        fetchData: () => documentService.fetchCustomerCreditMemos(),
+    },
+};
+
+// Normalize BC / custom API payload → plain array
+const asArray = (payload) => {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.value)) return payload.value;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
+};
+
+// Prefer common BC amount fields (order matters)
+const getDocAmount = (doc) => {
+    if (!doc || typeof doc !== "object") return 0;
+
+    const raw =
+        doc.amountLCY ??
+        doc.Amount_LCY ??
+        doc.amount ??
+        doc.Amount ??
+        doc.remainingAmtLCY ??
+        doc.Remaining_Amt_LCY ??
+        doc.remainingAmount ??
+        doc.Remaining_Amount ??
+        doc.amountIncludingVAT ??
+        doc.Amount_Including_VAT ??
+        doc.totalAmountIncludingTax ??
+        doc.Total_Amount_Including_Tax ??
+        doc.originalAmount ??
+        doc.Original_Amount ??
+        doc.debitAmount ??
+        doc.Debit_Amount ??
+        doc.creditAmount ??
+        doc.Credit_Amount ??
+        0;
+
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : 0; // keep sign while summing
+};
+
+const sumAmounts = (rows) =>
+    asArray(rows).reduce((total, row) => total + getDocAmount(row), 0);
+
+// Display absolute value — no minus sign
+const formatAmount = (value) =>
+    Math.abs(Number(value)).toLocaleString(undefined, {
+        style: "currency",
+        currency: "UGX",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+
 const CustomerLedgers = () => {
-    const [activeTab, setActiveTab] = useState("ledgerEntries");
-    const [ledgerState, setLedgerState] = useState({
-        data: [],
-        loading: false,
-        error: "",
+    const [activeTab, setActiveTab] = useState(LEDGER_TABS.ENTRIES);
+
+    const [documentStates, setDocumentStates] = useState({
+        [LEDGER_TABS.ENTRIES]: { ...initialDocumentState },
+        [LEDGER_TABS.PAYMENTS]: { ...initialDocumentState },
+        [LEDGER_TABS.REFUNDS]: { ...initialDocumentState },
+        [LEDGER_TABS.INVOICES]: { ...initialDocumentState },
+        [LEDGER_TABS.CREDIT_MEMOS]: { ...initialDocumentState },
     });
 
-    const [paymentState, setPaymentState] = useState({
-        data: [],
-        loading: false,
-        error: "",
-        initialized: false,
-    });
+    const fetchLedgerDocuments = useCallback(async (tab) => {
+        const config = ledgerDocumentConfig[tab];
+        if (!config) return;
 
-    const [refundState, setRefundState] = useState({
-        data: [],
-        loading: false,
-        error: "",
-        initialized: false,
-    });
-
-    const fetchCustomerLedgerEntries = async () => {
-        setLedgerState(prev => ({
-            ...prev,
-            loading: true,
-            error: "",
-        }));
-
-        try {
-            const response = await documentService.fetchCustomerLedgerEntries();
-            setLedgerState({
-                data: response || [],
-                loading: false,
+        setDocumentStates((previousStates) => ({
+            ...previousStates,
+            [tab]: {
+                ...previousStates[tab],
+                initialized: true,
+                loading: true,
                 error: "",
-            });
-
-        } catch (error) {
-            console.error(error);
-            setLedgerState(prev => ({
-                ...prev,
-                loading: false,
-                error: "Fetching Customer Ledger Entries failed. Please try again.",
-            }));
-        }
-    };
-
-    const fetchCustomerPayments = async () => {
-        setPaymentState(prev => ({
-            ...prev,
-            initialized: true,
-            loading: true,
-            error: "",
+            },
         }));
 
         try {
-            const response = await documentService.fetchCustomerPayments();
+            const response = await config.fetchData();
+            const rows = asArray(response);
 
-            setPaymentState(prev => ({
-                ...prev,
-                data: response || [],
-                loading: false,
+            // Debug once per fetch — remove when totals look right
+            if (rows[0]) {
+                console.log(`[${tab}] sample keys:`, Object.keys(rows[0]));
+                console.log(`[${tab}] sample row:`, rows[0]);
+            }
+
+            setDocumentStates((previousStates) => ({
+                ...previousStates,
+                [tab]: {
+                    ...previousStates[tab],
+                    data: rows,
+                    loading: false,
+                    error: "",
+                },
             }));
         } catch (error) {
-            console.error(error);
-
-            setPaymentState(prev => ({
-                ...prev,
-                loading: false,
-                error: "Fetching Customer Payments failed. Please try again.",
+            console.error(`Failed to fetch ${config.title}:`, error);
+            setDocumentStates((previousStates) => ({
+                ...previousStates,
+                [tab]: {
+                    ...previousStates[tab],
+                    loading: false,
+                    error: config.errorMessage,
+                },
             }));
         }
-    };
-
-    const fetchCustomerRefunds = async () => {
-        setRefundState(prev => ({
-            ...prev,
-            initialized: true,
-            loading: true,
-            error: "",
-        }));
-
-        try {
-            const response = await documentService.fetchCustomerRefunds();
-
-            setRefundState(prev => ({
-                ...prev,
-                data: response || [],
-                loading: false,
-            }));
-        } catch (error) {
-            console.error(error);
-
-            setRefundState(prev => ({
-                ...prev,
-                loading: false,
-                error: "Fetching Customer Refunds failed. Please try again.",
-            }));
-        }
-    };
-
-    useEffect(() => {
-        fetchCustomerLedgerEntries();
     }, []);
 
-    useEffect(() => {
-        if (
-            activeTab === "customerPayments" &&
-            !paymentState.initialized
-        ) {
-            fetchCustomerPayments();
-        }
-    }, [activeTab, paymentState.initialized]);
+    const activeDocumentState = documentStates[activeTab];
+    const activeConfig = ledgerDocumentConfig[activeTab];
 
     useEffect(() => {
-        if (
-            activeTab === "customerRefunds" &&
-            !refundState.initialized
-        ) {
-            fetchCustomerRefunds();
+        if (!activeDocumentState.initialized) {
+            fetchLedgerDocuments(activeTab);
         }
-    }, [activeTab, refundState.initialized]);
+    }, [activeTab, activeDocumentState.initialized, fetchLedgerDocuments]);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
     };
 
     const handleRefresh = () => {
-        if (activeTab === "ledgerEntries") {
-            fetchCustomerLedgerEntries();
-        } else if (activeTab === 'customerPayments') {
-            fetchCustomerPayments();
-        } else if (activeTab === 'customerRefunds') {
-            fetchCustomerRefunds();
-        }
+        fetchLedgerDocuments(activeTab);
     };
 
-    const renderLoading = (message) => {
-        return (
-            <div className="flex min-h-[350px] flex-col items-center justify-center gap-3 border-t border-gray-200">
-                <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
-                <p className="text-sm font-medium text-gray-700">
-                    {message}
-                </p>
-            </div>
-        );
-    };
-    const renderError = (message, retryFunction) => {
-        return (
-            <div className="flex min-h-[350px] flex-col items-center justify-center gap-4 border-t border-gray-200 bg-red-50 p-8 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
-                    <svg
-                        className="h-7 w-7 text-red-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 9v2m0 4h.01M12 3L2 21h20L12 3z"
-                        />
-                    </svg>
-                </div>
+    const renderLoading = (message) => (
+        <div className="flex min-h-[350px] flex-col items-center justify-center gap-3 border-t border-gray-200">
+            <Loader2 className="h-10 w-10 animate-spin text-teal-600" />
+            <p className="text-sm font-medium text-gray-700">{message}</p>
+        </div>
+    );
 
-                <p className="max-w-md text-sm text-red-700">
-                    {message}
-                </p>
-
-                <button
-                    type="button"
-                    onClick={retryFunction}
-                    className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+    const renderError = (message, retryFunction) => (
+        <div className="flex min-h-[350px] flex-col items-center justify-center gap-4 border-t border-gray-200 bg-red-50 p-8 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
+                <svg
+                    className="h-7 w-7 text-red-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                 >
-                    Try Again
-                </button>
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v2m0 4h.01M12 3L2 21h20L12 3z"
+                    />
+                </svg>
             </div>
-        );
-    };
+            <p className="max-w-md text-sm text-red-700">{message}</p>
+            <button
+                type="button"
+                onClick={retryFunction}
+                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+            >
+                Try Again
+            </button>
+        </div>
+    );
 
-    const ledgerEntryCount = ledgerState.data.length;
-    const paymentCount = paymentState.data.length;
-    const refundCount = refundState.data.length;
+    const ledgerDocumentCards = Object.entries(ledgerDocumentConfig).map(
+        ([tab, config]) => {
+            const total = sumAmounts(documentStates[tab].data);
 
-    const ledger = { title: 'Ledger Entries', value: ledgerEntryCount, subtitle: "Ledgers", color: "bg-teal-600 hover:bg-teal-700" };
-    const payment = { title: 'Cust. Payments', value: paymentCount, subtitle: "Payments", color: "bg-teal-600 hover:bg-teal-700" };
-    const refund = { title: 'Cust. Payments', value: refundCount, subtitle: "Refunds", color: "bg-teal-600 hover:bg-teal-700" };
-
-    const currentTitle =
-        activeTab === "ledgerEntries"
-            ? "Customer Ledger Entries"
-            : "Customer Payments";
-
-    const isCurrentTabLoading =
-        activeTab === "ledgerEntries"
-            ? ledgerState.loading
-            : paymentState.loading;
+            return {
+                tab,
+                title: config.tabLabel,
+                value: documentStates[tab].loading
+                    ? "…"
+                    : formatAmount(total),
+                subtitle: config.title,
+                color: "bg-teal-600 hover:bg-teal-700",
+            };
+        }
+    );
 
     return (
         <div className="min-h-screen bg-background text-foreground">
             <Header />
 
             <main className="mx-auto max-w-[1120px] px-5 pb-10 lg:px-0">
-                <div className="sticky top-15 z-10 bg-background pt-2">
+                <div className="sticky top-[60px] z-10 bg-background pt-2">
                     <div className="mb-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <p className="font-bold tracking-tight text-gray-950">
                                 Customer Ledgers
                             </p>
-
                             <p className="mt-0.5 text-sm text-gray-500">
-                                View customer ledger entries and payment
-                                transactions.
+                                View customer ledger entries, payments, refunds,
+                                invoices and credit memos.
                             </p>
                         </div>
 
                         <button
                             type="button"
                             onClick={handleRefresh}
-                            disabled={isCurrentTabLoading}
+                            disabled={activeDocumentState.loading}
                             className="inline-flex h-9 items-center justify-center gap-2 self-start border border-gray-300 bg-white px-3 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60 sm:self-auto"
                         >
                             <RefreshCw
-                                className={`h-4 w-4 ${isCurrentTabLoading ? "animate-spin" : ""
+                                className={`h-4 w-4 ${activeDocumentState.loading
+                                    ? "animate-spin"
+                                    : ""
                                     }`}
                             />
-
                             Refresh
                         </button>
                     </div>
+
                     <div className="overflow-hidden border-b border-gray-200 bg-background pt-2">
                         <nav
                             className="flex gap-7 overflow-x-auto"
                             role="tablist"
                             aria-label="Customer ledger tabs"
                         >
-                            <button
-                                type="button"
-                                role="tab"
-                                aria-selected={activeTab === "ledgerEntries"}
-                                onClick={() => handleTabChange("ledgerEntries")}
-                                className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "ledgerEntries"
-                                    ? "font-medium text-teal-600"
-                                    : "text-gray-600 hover:text-gray-950"
-                                    }`}
-                            >
-                                Customer Ledger Entries
-                                {activeTab === "ledgerEntries" && (
-                                    <span
-                                        aria-hidden="true"
-                                        className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400"
-                                    />
-                                )}
-                            </button>
-                            <button
-                                type="button"
-                                role="tab"
-                                aria-selected={activeTab === "customerPayments"}
-                                onClick={() => handleTabChange("customerPayments")}
-                                className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${activeTab === "customerPayments"
-                                    ? "font-medium text-teal-600"
-                                    : "text-gray-600 hover:text-gray-950"
-                                    }`}
-                            >
-                                Customer Payments
-
-                                {activeTab === "customerPayments" && (
-                                    <span className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400" />
-                                )}
-                            </button>
-
+                            {Object.entries(ledgerDocumentConfig).map(
+                                ([tab, config]) => {
+                                    const isActive = activeTab === tab;
+                                    return (
+                                        <button
+                                            key={tab}
+                                            type="button"
+                                            role="tab"
+                                            id={`${tab}-tab`}
+                                            aria-selected={isActive}
+                                            aria-controls={`${tab}-panel`}
+                                            tabIndex={isActive ? 0 : -1}
+                                            onClick={() => handleTabChange(tab)}
+                                            className={`relative whitespace-nowrap px-1 pb-3 text-sm transition-colors ${isActive
+                                                ? "font-medium text-teal-600"
+                                                : "text-gray-600 hover:text-gray-950"
+                                                }`}
+                                        >
+                                            {config.tabLabel}
+                                            {isActive && (
+                                                <span
+                                                    aria-hidden="true"
+                                                    className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-400"
+                                                />
+                                            )}
+                                        </button>
+                                    );
+                                }
+                            )}
                         </nav>
                     </div>
                 </div>
 
-                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-8 gap-4">
-                    <button
-                        type="button"
-                        onClick={() =>
-                            handleTabChange("ledgerEntries")
-                        }
-                    >
-                        <TealStatCard {...ledger} />
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() =>
-                            handleTabChange("customerPayments")
-                        }
-                    >
-                        <TealStatCard {...payment} />
-                    </button>
+                <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                    {ledgerDocumentCards.map((card) => (
+                        <button
+                            key={card.tab}
+                            type="button"
+                            onClick={() => handleTabChange(card.tab)}
+                            aria-label={`View ${card.title}`}
+                            className="text-left"
+                        >
+                            <TealStatCard
+                                title={card.title}
+                                value={card.value}
+                                subtitle={card.subtitle}
+                                color={card.color}
+                            />
+                        </button>
+                    ))}
                 </div>
 
                 <section
+                    id={`${activeTab}-panel`}
                     className="mt-5"
                     role="tabpanel"
-                    aria-label={currentTitle}
+                    aria-labelledby={`${activeTab}-tab`}
                 >
-                    {activeTab === "ledgerEntries" &&
-                        (ledgerState.loading
-                            ? renderLoading(
-                                "Loading Customer Ledger Entries"
+                    {activeDocumentState.loading
+                        ? renderLoading(activeConfig.loadingMessage)
+                        : activeDocumentState.error
+                            ? renderError(activeDocumentState.error, () =>
+                                fetchLedgerDocuments(activeTab)
                             )
-                            : ledgerState.error
-                                ? renderError(
-                                    ledgerState.error,
-                                    fetchCustomerLedgerEntries
-                                )
-                                : (
-                                    <DataTable
-                                        data={ledgerState.data}
-                                        columns={customerLedgerColumns}
-                                        title="Customer Ledger Entries"
-                                    />
-                                ))}
-
-                    {activeTab === "customerPayments" &&
-                        (paymentState.loading
-                            ? renderLoading(
-                                "Loading Customer Payments"
-                            )
-                            : paymentState.error
-                                ? renderError(
-                                    paymentState.error,
-                                    fetchCustomerPayments
-                                )
-                                : (
-                                    <DataTable
-                                        data={paymentState.data}
-                                        columns={customerPaymentColumns}
-                                        title="Customer Payments"
-                                    />
-                                ))}
+                            : (
+                                <DataTable
+                                    data={activeDocumentState.data}
+                                    columns={activeConfig.columns}
+                                    title={activeConfig.title}
+                                />
+                            )}
                 </section>
             </main>
         </div>

@@ -1,17 +1,16 @@
-import { flexRender } from '@tanstack/react-table';
-import { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useDataTable } from '../../hooks/useDataTable';
-import { Button } from '../ui/button';
-import Icon from '../Icon';
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { flexRender } from "@tanstack/react-table";
+import { useState, useRef, useEffect } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useDataTable } from "../../hooks/useDataTable";
+import { Button } from "../ui/button";
+import Icon from "../Icon";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
-export default function DataTable({ data, columns, title = 'Export' }) {
-    // Selection column (always first)
+export default function DataTable({ data, columns, title = "Export" }) {
     const selectionColumn = {
-        id: 'select',
+        id: "select",
         header: ({ table }) => (
             <button
                 type="button"
@@ -42,6 +41,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
         ),
         enableSorting: false,
         enableHiding: false,
+        enableColumnFilter: false,
         size: 40,
     };
 
@@ -55,23 +55,32 @@ export default function DataTable({ data, columns, title = 'Export' }) {
     const columnToggleRef = useRef(null);
     const exportMenuRef = useRef(null);
 
-    // Close dropdowns when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (columnToggleRef.current && !columnToggleRef.current.contains(e.target)) {
+            if (
+                columnToggleRef.current &&
+                !columnToggleRef.current.contains(e.target)
+            ) {
                 setShowColumnToggle(false);
             }
-            if (exportMenuRef.current && !exportMenuRef.current.contains(e.target)) {
+            if (
+                exportMenuRef.current &&
+                !exportMenuRef.current.contains(e.target)
+            ) {
                 setShowExportMenu(false);
             }
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     const selectedCount = Object.keys(table.getState().rowSelection).length;
+    const hasColumnFilters = table.getState().columnFilters.length > 0;
 
-    // Build export data
+    const clearColumnFilters = () => {
+        table.setColumnFilters([]);
+    };
+
     const getExportRows = (onlySelected = false) => {
         const rows = onlySelected
             ? table.getFilteredSelectedRowModel().rows
@@ -80,9 +89,10 @@ export default function DataTable({ data, columns, title = 'Export' }) {
         return rows.map((row) => {
             const obj = {};
             row.getVisibleCells().forEach((cell) => {
-                if (cell.column.id === 'select') return;
-                const header = cell.column.columnDef.header?.toString() || cell.column.id;
-                obj[header] = cell.getValue() ?? '';
+                if (cell.column.id === "select") return;
+                const header =
+                    cell.column.columnDef.header?.toString() || cell.column.id;
+                obj[header] = cell.getValue() ?? "";
             });
             return obj;
         });
@@ -94,8 +104,11 @@ export default function DataTable({ data, columns, title = 'Export' }) {
 
         const worksheet = XLSX.utils.json_to_sheet(rows);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-        XLSX.writeFile(workbook, `${title}${onlySelected ? '-selected' : ''}.xlsx`);
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+        XLSX.writeFile(
+            workbook,
+            `${title}${onlySelected ? "-selected" : ""}.xlsx`
+        );
         setShowExportMenu(false);
     };
 
@@ -103,9 +116,11 @@ export default function DataTable({ data, columns, title = 'Export' }) {
         const rows = getExportRows(onlySelected);
         if (!rows.length) return;
 
-        const doc = new jsPDF({ orientation: 'landscape' });
+        const doc = new jsPDF({ orientation: "landscape" });
         const headers = Object.keys(rows[0]);
-        const body = rows.map((row) => headers.map((h) => String(row[h] ?? '')));
+        const body = rows.map((row) =>
+            headers.map((h) => String(row[h] ?? ""))
+        );
 
         autoTable(doc, {
             head: [headers],
@@ -115,7 +130,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
             margin: { top: 20 },
         });
 
-        doc.save(`${title}${onlySelected ? '-selected' : ''}.pdf`);
+        doc.save(`${title}${onlySelected ? "-selected" : ""}.pdf`);
         setShowExportMenu(false);
     };
 
@@ -131,12 +146,12 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                   xmlns="http://www.w3.org/TR/REC-html40">
             <head><meta charset="utf-8"><title>${title}</title></head>
             <body>
-                <h2>${title}${onlySelected ? ' (Selected)' : ''}</h2>
+                <h2>${title}${onlySelected ? " (Selected)" : ""}</h2>
                 <table border="1" cellspacing="0" cellpadding="5"
                        style="border-collapse:collapse;width:100%;font-family:Arial,sans-serif;font-size:11px;">
                     <thead>
                         <tr style="background:#0f172a;color:white;">
-                            ${headers.map((h) => `<th>${h}</th>`).join('')}
+                            ${headers.map((h) => `<th>${h}</th>`).join("")}
                         </tr>
                     </thead>
                     <tbody>
@@ -144,21 +159,25 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                 .map(
                     (row) => `
                             <tr>
-                                ${headers.map((h) => `<td>${row[h] ?? ''}</td>`).join('')}
+                                ${headers
+                            .map((h) => `<td>${row[h] ?? ""}</td>`)
+                            .join("")}
                             </tr>`
                 )
-                .join('')}
+                .join("")}
                     </tbody>
                 </table>
             </body>
             </html>
         `;
 
-        const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+        const blob = new Blob(["\ufeff", html], {
+            type: "application/msword",
+        });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.download = `${title}${onlySelected ? '-selected' : ''}.doc`;
+        link.download = `${title}${onlySelected ? "-selected" : ""}.doc`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -175,13 +194,24 @@ export default function DataTable({ data, columns, title = 'Export' }) {
         <div className="space-y-4">
             {/* Toolbar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3 flex-1">
+                <div className="flex items-center gap-3 flex-1 flex-wrap">
                     <input
                         placeholder="Search all columns..."
-                        value={globalFilter ?? ''}
+                        value={globalFilter ?? ""}
                         onChange={(e) => setGlobalFilter(e.target.value)}
                         className="border border-border rounded-lg md:rounded-none px-3 py-1 w-full sm:w-80 text-sm border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                     />
+
+                    {hasColumnFilters && (
+                        <button
+                            type="button"
+                            onClick={clearColumnFilters}
+                            className="text-sm text-teal-700 hover:text-teal-800 whitespace-nowrap underline-offset-2 hover:underline"
+                        >
+                            Clear column filters
+                        </button>
+                    )}
+
                     {selectedCount > 0 && (
                         <span className="text-sm text-muted-foreground whitespace-nowrap">
                             {selectedCount} selected
@@ -195,12 +225,18 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                         <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setShowColumnToggle(!showColumnToggle)}
+                            onClick={() =>
+                                setShowColumnToggle(!showColumnToggle)
+                            }
                             className="gap-1.5 px-3 py-1 rounded-lg md:rounded-none"
                         >
                             <Icon name="columns" size={15} />
                             Columns
-                            <Icon name="chevronDown" size={14} className="opacity-70" />
+                            <Icon
+                                name="chevronDown"
+                                size={14}
+                                className="opacity-70"
+                            />
                         </Button>
 
                         {showColumnToggle && (
@@ -220,7 +256,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
 
                                 {table
                                     .getAllLeafColumns()
-                                    .filter((col) => col.id !== 'select')
+                                    .filter((col) => col.id !== "select")
                                     .map((column) => (
                                         <label
                                             key={column.id}
@@ -233,7 +269,8 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                                                 className="rounded border-border"
                                             />
                                             <span className="truncate">
-                                                {column.columnDef.header?.toString() || column.id}
+                                                {column.columnDef.header?.toString() ||
+                                                    column.id}
                                             </span>
                                         </label>
                                     ))}
@@ -251,7 +288,11 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                         >
                             <Icon name="download" size={15} />
                             Export
-                            <Icon name="chevronDown" size={14} className="opacity-70" />
+                            <Icon
+                                name="chevronDown"
+                                size={14}
+                                className="opacity-70"
+                            />
                         </Button>
 
                         {showExportMenu && (
@@ -291,7 +332,10 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                                             onClick={() => exportToExcel(true)}
                                             className="w-full flex items-center gap-2 text-left px-3 py-2 text-sm hover:bg-muted transition-colors"
                                         >
-                                            <Icon name="fileSpreadsheet" size={15} />
+                                            <Icon
+                                                name="fileSpreadsheet"
+                                                size={15}
+                                            />
                                             Excel
                                         </button>
                                         <button
@@ -320,38 +364,95 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-max border-collapse">
                         <thead className="bg-muted sticky top-0 z-5">
+                            {/* Column headers + sort */}
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
                                         <th
                                             key={header.id}
                                             className={`px-3 py-2.5 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider whitespace-nowrap select-none border-b border-border
-                                                ${header.column.getCanSort() ? 'cursor-pointer hover:bg-muted/80' : ''}
+                                                ${header.column.getCanSort()
+                                                    ? "cursor-pointer hover:bg-muted/80"
+                                                    : ""
+                                                }
                                             `}
                                             onClick={header.column.getToggleSortingHandler()}
                                             style={{
-                                                width: header.getSize() !== 150 ? header.getSize() : undefined,
+                                                width:
+                                                    header.getSize() !== 150
+                                                        ? header.getSize()
+                                                        : undefined,
                                             }}
                                         >
                                             <div className="flex items-center gap-1.5">
                                                 {flexRender(
-                                                    header.column.columnDef.header,
+                                                    header.column.columnDef
+                                                        .header,
                                                     header.getContext()
                                                 )}
-                                                {header.column.getIsSorted() === 'asc' && <span>↑</span>}
-                                                {header.column.getIsSorted() === 'desc' && <span>↓</span>}
+                                                {header.column.getIsSorted() ===
+                                                    "asc" && <span>↑</span>}
+                                                {header.column.getIsSorted() ===
+                                                    "desc" && <span>↓</span>}
                                             </div>
                                         </th>
                                     ))}
                                 </tr>
                             ))}
+
+                            {/* Per-column filter row */}
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr
+                                    key={`${headerGroup.id}-filters`}
+                                    className="bg-muted/60"
+                                >
+                                    {headerGroup.headers.map((header) => {
+                                        const canFilter =
+                                            header.column.getCanFilter() &&
+                                            header.column.id !== "select" &&
+                                            header.column.id !== "actions";
+
+                                        return (
+                                            <th
+                                                key={`${header.id}-filter`}
+                                                className="px-2 py-1.5 border-b border-border font-normal"
+                                            >
+                                                {canFilter ? (
+                                                    <input
+                                                        type="text"
+                                                        value={
+                                                            (header.column.getFilterValue() ??
+                                                                "")
+                                                        }
+                                                        onChange={(e) =>
+                                                            header.column.setFilterValue(
+                                                                e.target
+                                                                    .value ||
+                                                                undefined
+                                                            )
+                                                        }
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                        placeholder="Filter…"
+                                                        className="w-full min-w-[80px] border border-gray-200 bg-white px-2 py-1 text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 rounded-md md:rounded-none"
+                                                    />
+                                                ) : null}
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
                         </thead>
+
                         <tbody className="divide-y divide-border">
                             {table.getRowModel().rows.length ? (
                                 table.getRowModel().rows.map((row) => (
                                     <tr
                                         key={row.id}
-                                        className={`hover:bg-gray-100 transition-colors ${row.getIsSelected() ? 'bg-cyan-200 hover:bg-cyan-200 hover:text-white' : ''
+                                        className={`hover:bg-gray-100 transition-colors ${row.getIsSelected()
+                                                ? "bg-cyan-200 hover:bg-cyan-200 hover:text-white"
+                                                : ""
                                             }`}
                                     >
                                         {row.getVisibleCells().map((cell) => (
@@ -387,14 +488,18 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                     <span className="text-muted-foreground">Rows per page</span>
                     <select
                         value={table.getState().pagination.pageSize}
-                        onChange={(e) => table.setPageSize(Number(e.target.value))}
+                        onChange={(e) =>
+                            table.setPageSize(Number(e.target.value))
+                        }
                         className="border border-border rounded-lg md:rounded-none px-3 py-1 bg-background text-sm focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                     >
-                        {[10, 20, 50, 100, 200, 500, 700, 1000].map((pageSize) => (
-                            <option key={pageSize} value={pageSize}>
-                                {pageSize}
-                            </option>
-                        ))}
+                        {[10, 20, 50, 100, 200, 500, 700, 1000].map(
+                            (pageSize) => (
+                                <option key={pageSize} value={pageSize}>
+                                    {pageSize}
+                                </option>
+                            )
+                        )}
                     </select>
                 </div>
 
@@ -410,7 +515,7 @@ export default function DataTable({ data, columns, title = 'Export' }) {
                     </Button>
 
                     <span className="px-3 font-medium tabular-nums">
-                        Page {table.getState().pagination.pageIndex + 1} of{' '}
+                        Page {table.getState().pagination.pageIndex + 1} of{" "}
                         {table.getPageCount() || 1}
                     </span>
 
