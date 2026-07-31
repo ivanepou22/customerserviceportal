@@ -1,15 +1,15 @@
-page 50011 "API Customer Payments"
+page 50014 "API Customer Refund"
 {
     PageType = API;
     APIPublisher = 'serviceportal';
     APIGroup = 'customerserviceportal';
     DelayedInsert = true;
-    Caption = 'API Customer Payments';
+    Caption = 'API Customer Refunds';
     APIVersion = 'v1.0';
-    EntityName = 'customerpayments';
-    EntitySetName = 'customerpayments';
+    EntityName = 'customerrefunds';
+    EntitySetName = 'customerrefunds';
     SourceTable = "Cust. Ledger Entry";
-    SourceTableView = where("Document Type" = filter(Payment | " "));
+    SourceTableView = where("Document Type" = filter(Refund));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
