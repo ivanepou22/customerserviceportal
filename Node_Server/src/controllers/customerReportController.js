@@ -86,7 +86,6 @@ const getCustomerReceipt = (reportFunction) =>
 
 const getCustomerDetails = () =>
     asyncMiddleware(async (req, res) => {
-        console.log(req.user);
         const customerNo = req.user?.customerNo;
         if (!customerNo)
             return res.status(400).json({ message: "Missing required parameters" });

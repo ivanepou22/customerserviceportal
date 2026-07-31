@@ -20,6 +20,9 @@ export const authenticate = asyncMiddleware(async (req, res) => {
         return res.status(404).send(`User with ID: ${userEmail} not found.`);
     }
 
+    if (!existingUserResponse.data.active)
+        return res.status(400).send('Please contact your systems Admin.');
+
     const isMatch = await bcrypt.compare(req.body.password, existingUserResponse.data.password);
     if (!isMatch) return res.status(400).send('Invalid email or password');
 
