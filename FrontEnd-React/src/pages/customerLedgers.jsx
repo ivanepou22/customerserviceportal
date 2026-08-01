@@ -67,7 +67,6 @@ const ledgerDocumentConfig = {
     },
 };
 
-// Normalize BC / custom API payload → plain array
 const asArray = (payload) => {
     if (Array.isArray(payload)) return payload;
     if (Array.isArray(payload?.value)) return payload.value;
@@ -75,7 +74,6 @@ const asArray = (payload) => {
     return [];
 };
 
-// Prefer common BC amount fields (order matters)
 const getDocAmount = (doc) => {
     if (!doc || typeof doc !== "object") return 0;
 
@@ -101,13 +99,12 @@ const getDocAmount = (doc) => {
         0;
 
     const n = Number(raw);
-    return Number.isFinite(n) ? n : 0; // keep sign while summing
+    return Number.isFinite(n) ? n : 0;
 };
 
 const sumAmounts = (rows) =>
     asArray(rows).reduce((total, row) => total + getDocAmount(row), 0);
 
-// Display absolute value — no minus sign
 const formatAmount = (value) =>
     Math.abs(Number(value)).toLocaleString(undefined, {
         style: "currency",
@@ -145,7 +142,6 @@ const CustomerLedgers = () => {
             const response = await config.fetchData();
             const rows = asArray(response);
 
-            // Debug once per fetch — remove when totals look right
             if (rows[0]) {
                 console.log(`[${tab}] sample keys:`, Object.keys(rows[0]));
                 console.log(`[${tab}] sample row:`, rows[0]);

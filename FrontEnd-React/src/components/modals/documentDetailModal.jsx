@@ -43,18 +43,17 @@ export default function DocumentDetailModal({
         postedSalesInvoice: "Posted Sales Invoice",
         postedSalesCreditMemo: "Posted Sales Credit Memo",
     };
-    const title = titleMap[documentType] || documentType || "Document";
 
-    const docNo =
-        doc?.number ?? doc?.no ?? doc?.documentNo ?? doc?.entryNo ?? "—";
+    const title = titleMap[documentType] || documentType || "Document";
+    const docNo = doc?.number ?? doc?.no ?? doc?.documentNo ?? doc?.entryNo ?? "—";
     const customerNo = doc?.sellToCustomerNo ?? doc?.customerNo ?? "—";
     const customerName = doc?.sellToCustomerName ?? doc?.customerName ?? "—";
     const contact = doc?.SellToContact ?? doc?.sellToContact ?? "—";
     const currency = doc?.currencyCode || "LCY";
-    const amount = doc?.Amount ?? doc?.amount ?? 0;
-    const amountInclVat =
-        doc?.AmountIncludingVAT ?? doc?.amountIncludingVAT ?? amount;
+    const postingDescription = doc?.postingDescription ?? "—";
     const postingDate = doc?.postingDate ?? "—";
+    const amount = doc?.Amount ?? doc?.amount ?? 0;
+    const amountInclVat = doc?.AmountIncludingVAT ?? doc?.amountIncludingVAT ?? amount;
     const orderDate = doc?.orderDate ?? "—";
     const dueDate = doc?.dueDate ?? "—";
     const docType = doc?.documentType ?? "—";
@@ -82,7 +81,7 @@ export default function DocumentDetailModal({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-6"
+            className="fixed inset-0 z-50 flex items-start justify-center pt-2"
             role="dialog"
             aria-modal="true"
             aria-labelledby="document-detail-title"
@@ -105,7 +104,7 @@ export default function DocumentDetailModal({
                             </span>
                         </h2>
                         <p className="text-xs text-muted-foreground">
-                            {customerName} · {customerNo}
+                            {docNo} - {customerName} · {customerNo}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -135,55 +134,111 @@ export default function DocumentDetailModal({
                     ) : (
                         <div>
                             <div className="border border-border p-4 mb-4">
-                                <div className="mb-1">
-                                    <h1 className="text-lg font-bold text-foreground">
+                                <div className="mb-2">
+                                    <h1 className="text-lg font-bold text-foreground py-2">
                                         {title} {docNo}
                                     </h1>
-                                    <p className="meta text-sm text-muted-foreground">
-                                        {formatDate(postingDate)}
-                                    </p>
                                 </div>
 
                                 <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                                     <div>
-                                        <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
-                                            Customer
-                                        </p>
-                                        <p className="value text-sm font-medium">
-                                            {customerName}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            No. {customerNo}
-                                            {contact && contact !== "—" ? ` · ${contact}` : ""}
-                                        </p>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-2 text-sm">
-                                        <div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
-                                                Doc. Type
+                                                No.
                                             </p>
-                                            <p className="value font-medium">{docType}</p>
+                                            <p className="value text-sm font-medium">
+                                                {docNo}
+                                            </p>
                                         </div>
-                                        <div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Customer No.
+                                            </p>
+                                            <p className="value text-sm font-medium">
+                                                {customerNo}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Customer Name
+                                            </p>
+                                            <p className="value text-sm font-medium">
+                                                {customerName}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Contact
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                No. {customerNo}
+                                                {contact && contact !== "—" ? ` · ${contact}` : ""}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Currency
                                             </p>
-                                            <p className="value font-medium">{currency}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {currency ? currency : "—"}
+                                            </p>
                                         </div>
-                                        <div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Posting Date
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatDate(postingDate)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Document Type
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {docType ? docType : "—"}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Order Date
                                             </p>
-                                            <p className="value font-medium">
+                                            <p className="text-xs text-muted-foreground">
                                                 {formatDate(orderDate)}
                                             </p>
                                         </div>
-                                        <div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Due Date
                                             </p>
-                                            <p className="value font-medium">
+                                            <p className="text-xs text-muted-foreground">
                                                 {formatDate(dueDate)}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Posting Description
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {postingDescription}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Amount
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatMoney(amount)}
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-1 text-sm">
+                                            <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
+                                                Amount Incl. VAT
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatMoney(amountInclVat)}
                                             </p>
                                         </div>
                                     </div>

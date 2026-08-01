@@ -19,7 +19,6 @@ const SALES_TABS = {
     QUOTES: "salesQuotes",
 };
 
-/** Maps UI tab → documentType used by RowActions / detail API */
 const TAB_DOCUMENT_TYPE = {
     [SALES_TABS.ORDERS]: "salesOrder",
     [SALES_TABS.INVOICES]: "salesInvoice",
@@ -170,7 +169,6 @@ const SalesDocuments = () => {
         </div>
     );
 
-    // Pass documentType so View opens the correct detail + print label
     const actionsColumn = {
         id: "actions",
         header: "Actions",
