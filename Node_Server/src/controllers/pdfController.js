@@ -18,12 +18,7 @@ const getDocumentPdfAction = endpoint =>
 
         if (!base64Pdf)
             return res.status(404).json({ message: "PDF not available" });
-
-        const pdfBuffer = Buffer.from(base64Pdf, 'base64');
-
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="${endpoint}-${documentId}.pdf"`);
-        res.send(pdfBuffer);
+        res.status(200).send(base64Pdf);
     });
 
 const getPostedDocumentPdfAction = endpoint =>
@@ -42,11 +37,7 @@ const getPostedDocumentPdfAction = endpoint =>
         if (!base64Pdf)
             return res.status(404).json({ message: "PDF not available" });
 
-        const pdfBuffer = Buffer.from(base64Pdf, 'base64');
-
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="${endpoint}-${documentId}.pdf"`);
-        res.send(pdfBuffer);
+        res.status(200).send(base64Pdf);
     });
 
 export const getQuotePdf = getDocumentPdfAction(process.env.BC_QUOTES);
