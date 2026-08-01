@@ -46,14 +46,25 @@ export default function RowActions({ row, documentType = "salesInvoice" }) {
                 case "salesCreditMemo":
                     response = await documentService.fetchSalesCreditmemo(docNo);
                     break;
+                case "postedSalesInvoices":
+                    response = await documentService.fetchPostedSalesInvoice(docNo);
+                    break;
+                case "postedSalesCreditMemos":
+                    response = await documentService.fetchPostedSalesCreditmemo(docNo);
+                    break;
+                default:
+                    console.warn(
+                        `RowActions: Unknown documentType "${documentType}". No detail fetch performed.`
+                    );
             }
 
             const header = response;
             const docLines =
                 response?.saleslines ??
-                response?.invoiceLines ??
+                response?.salesinvoicelines ??
                 response?.lines ??
                 response?.documentLines ??
+                response?.salescreditmemolines ??
                 [];
 
             setDetail(header);

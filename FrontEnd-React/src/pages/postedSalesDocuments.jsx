@@ -92,6 +92,7 @@ const PostedSalesDocuments = () => {
 
     const activeDocumentState = documentStates[activeTab];
     const activeConfig = postedDocumentConfig[activeTab];
+    const activeDocumentType = activeTab || "postedSalesInvoices";
 
     useEffect(() => {
         if (!activeDocumentState.initialized) {
@@ -148,7 +149,7 @@ const PostedSalesDocuments = () => {
         header: "Actions",
         enableSorting: false,
         enableHiding: false,
-        cell: ({ row }) => <RowActions row={row.original} />,
+        cell: ({ row }) => <RowActions row={row.original} documentType={activeDocumentType} />,
     };
 
     const activeColumns = [...activeConfig.columns, actionsColumn];

@@ -17,7 +17,8 @@ export default function DocumentDetailModal({
     const [pdfData, setPdfData] = useState(null);
     const [pdfLoading, setPdfLoading] = useState(false);
     const [pdfError, setPdfError] = useState("");
-
+    console.log(doc);
+    console.log(documentType);
     useEffect(() => {
         if (!open) return;
         const onKey = (e) => {
@@ -79,6 +80,12 @@ export default function DocumentDetailModal({
                     case "salesCreditMemo":
                         base64Pdf = await customerReportService.fetchSalesCreditMemo(docNo);
                         break;
+                    case "postedSalesInvoices":
+                        base64Pdf = await customerReportService.fetchPostedSalesInvoice(docNo);
+                        break;
+                    case "postedSalesCreditMemos":
+                        base64Pdf = await customerReportService.fetchPostedSalesCreditMemo(docNo);
+                        break;
                     default:
                         throw new Error(
                             `PDF generation is not yet available for ${titleMap[documentType] || documentType}`
@@ -115,6 +122,8 @@ export default function DocumentDetailModal({
         salesInvoice: "Sales Invoice",
         salesCreditMemo: "Credit Memo",
         salesQuote: "Sales Quote",
+        postedSalesInvoices: "Posted Sales Invoice",
+        postedSalesCreditMemos: "Posted Sales Credit Memo",
     };
 
     const title = titleMap[documentType] || documentType || "Document";
