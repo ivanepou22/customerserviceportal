@@ -253,12 +253,6 @@ export default function DocumentDetailModal({
                             ) : (
                                 <p className="rounded-md border border-dashed border-border bg-muted/30 px-3 py-6 text-center text-sm text-muted-foreground">
                                     No line items loaded for this document.
-                                    {!lines?.length && (
-                                        <span className="mt-1 block text-xs">
-                                            Connect a detail endpoint to show lines (see
-                                            documentService.fetchDocumentById).
-                                        </span>
-                                    )}
                                 </p>
                             )}
 
