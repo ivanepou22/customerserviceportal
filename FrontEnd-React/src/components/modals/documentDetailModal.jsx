@@ -66,13 +66,23 @@ export default function DocumentDetailModal({
 
             try {
                 let base64Pdf;
-
-                if (documentType === "salesOrder") {
-                    base64Pdf = await customerReportService.fetchSalesOrder(docNo);
-                } else {
-                    throw new Error(
-                        `PDF generation is not yet available for ${titleMap[documentType] || documentType}`
-                    );
+                switch (documentType) {
+                    case "salesOrder":
+                        base64Pdf = await customerReportService.fetchSalesOrder(docNo);
+                        break;
+                    case "salesInvoice":
+                        base64Pdf = await customerReportService.fetchSalesInvoice(docNo);
+                        break;
+                    case "salesQuote":
+                        base64Pdf = await customerReportService.fetchSalesQuote(docNo);
+                        break;
+                    case "salesCreditMemo":
+                        base64Pdf = await customerReportService.fetchSalesCreditMemo(docNo);
+                        break;
+                    default:
+                        throw new Error(
+                            `PDF generation is not yet available for ${titleMap[documentType] || documentType}`
+                        );
                 }
 
                 if (!cancelled) {
@@ -105,8 +115,6 @@ export default function DocumentDetailModal({
         salesInvoice: "Sales Invoice",
         salesCreditMemo: "Credit Memo",
         salesQuote: "Sales Quote",
-        postedSalesInvoice: "Posted Sales Invoice",
-        postedSalesCreditMemo: "Posted Sales Credit Memo",
     };
 
     const title = titleMap[documentType] || documentType || "Document";
@@ -190,7 +198,7 @@ export default function DocumentDetailModal({
                         type="button"
                         onClick={() => setActiveTab("details")}
                         className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${activeTab === "details"
-                            ? "text-foreground"
+                            ? "text-foreground text-teal-600 hover:text-teal-800"
                             : "text-muted-foreground hover:text-foreground"
                             }`}
                     >
@@ -203,7 +211,7 @@ export default function DocumentDetailModal({
                         type="button"
                         onClick={() => setActiveTab("pdf")}
                         className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${activeTab === "pdf"
-                            ? "text-foreground"
+                            ? "text-foreground text-teal-600 hover:text-teal-800"
                             : "text-muted-foreground hover:text-foreground"
                             }`}
                     >
