@@ -57,18 +57,17 @@ const Header = () => {
 
     const isActiveLink = (link) => {
         if (!link || link === "#" || link === "") return false;
-        // Exact match, or nested path (e.g. /sales-documents stays active)
         return (
             location.pathname === link ||
             location.pathname.startsWith(link + "/")
         );
     };
-    // Parent menu is active if any of its children match the current path
+
     const isParentActive = (menuData) => {
         const children = Object.entries(menuData)
             .filter(([k]) => k !== "caption" && k !== "link")
             .map(([, sub]) => sub);
-        // Support both nested-object shape and items[] shape
+
         const items = menuData.items || children;
         return items.some(
             (item) => item.link && isActiveLink(item.link)
