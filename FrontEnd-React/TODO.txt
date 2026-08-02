@@ -1,0 +1,4 @@
+- Work on the forgot password flow, Frontend,Backend,
+- Work on the create user interface - Frontend.
+- Work on report generation [Customer Detailed trial Balance, Customer Statement and complete aging]
+- Add receipt printout.
