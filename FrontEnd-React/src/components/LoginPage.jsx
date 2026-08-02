@@ -20,9 +20,9 @@ function LoginPage() {
     setError("");
 
     try {
-      const { user, token } = await authService.login(email, password);
-      login(user, token);
-      navigate('/dashboard');
+      const { user, accessToken, refreshToken, token } = await authService.login(email, password);
+      login(user, accessToken || token, refreshToken);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     } finally {
@@ -68,6 +68,7 @@ function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   required
+                  autoComplete="email"
                   className="w-full pl-11 pr-4 py-2 bg-gray-50 text-sm border border-gray-200 focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                 />
               </div>
@@ -83,6 +84,7 @@ function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   required
+                  autoComplete="current-password"
                   className="w-full pl-11 pr-12 py-2 bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 text-gray-900 placeholder:text-gray-400"
                 />
                 <button

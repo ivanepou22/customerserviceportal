@@ -142,11 +142,6 @@ const CustomerLedgers = () => {
             const response = await config.fetchData();
             const rows = asArray(response);
 
-            if (rows[0]) {
-                console.log(`[${tab}] sample keys:`, Object.keys(rows[0]));
-                console.log(`[${tab}] sample row:`, rows[0]);
-            }
-
             setDocumentStates((previousStates) => ({
                 ...previousStates,
                 [tab]: {

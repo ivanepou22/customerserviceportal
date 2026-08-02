@@ -1,4 +1,4 @@
-import documentApi from "../api/documentApi";
+import api from "../api/authApi";
 
 export const customerReportService = {
     async fetchAgingReport(agingAsOfDate) {
@@ -8,7 +8,7 @@ export const customerReportService = {
 
         try {
             const url = `/customer-reports/aging?asOfDate=${agingAsOfDate}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Aging Report fetch error:", err);
@@ -18,7 +18,7 @@ export const customerReportService = {
     async fetchCustomer() {
         try {
             const url = `/customer-reports/customer`;
-            const response = await documentApi.get(url);
+            const response = await api.get(url);
             return response.data;
         } catch (err) {
             console.error("Customer Report fetch error:", err);
@@ -31,7 +31,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/sales-orders/${orderNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Sales Order Report fetch error:", err);
@@ -44,7 +44,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/sales-invoices/${invoiceNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Sales Invoice Report fetch error:", err);
@@ -57,7 +57,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/sales-quotes/${quoteNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Sales Quote Report fetch error:", err);
@@ -70,7 +70,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/sales-credit-memos/${creditMemoNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Sales Credit Memo Report fetch error:", err);
@@ -83,7 +83,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/posted-sales-invoices/${invoiceNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Posted Sales Invoice Report fetch error:", err);
@@ -96,7 +96,7 @@ export const customerReportService = {
         }
         try {
             const url = `/pdf/posted-sales-credit-memos/${creditMemoNumber}`;
-            const response = await documentApi.post(url, {});
+            const response = await api.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Posted Sales Credit Memo Report fetch error:", err);

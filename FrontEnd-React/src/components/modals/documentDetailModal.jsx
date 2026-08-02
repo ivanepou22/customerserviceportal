@@ -17,8 +17,7 @@ export default function DocumentDetailModal({
     const [pdfData, setPdfData] = useState(null);
     const [pdfLoading, setPdfLoading] = useState(false);
     const [pdfError, setPdfError] = useState("");
-    console.log(doc);
-    console.log(documentType);
+
     useEffect(() => {
         if (!open) return;
         const onKey = (e) => {
