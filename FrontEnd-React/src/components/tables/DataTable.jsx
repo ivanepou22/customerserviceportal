@@ -192,7 +192,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
 
     return (
         <div className="space-y-4">
-            {/* Toolbar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3 flex-1 flex-wrap">
                     <input
@@ -220,7 +219,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    {/* Columns Toggle */}
                     <div className="relative" ref={columnToggleRef}>
                         <Button
                             variant="outline"
@@ -278,7 +276,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                         )}
                     </div>
 
-                    {/* Export Menu */}
                     <div className="relative" ref={exportMenuRef}>
                         <Button
                             variant="outline"
@@ -364,7 +361,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                 <div className="overflow-x-auto">
                     <table className="w-full min-w-max border-collapse">
                         <thead className="bg-muted sticky top-0 z-5">
-                            {/* Column headers + sort */}
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
@@ -400,7 +396,6 @@ export default function DataTable({ data, columns, title = "Export" }) {
                                 </tr>
                             ))}
 
-                            {/* Per-column filter row */}
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr
                                     key={`${headerGroup.id}-filters`}

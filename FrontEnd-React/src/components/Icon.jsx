@@ -1,6 +1,5 @@
 function Icon({ name, size = 20, className = "", strokeWidth = 2 }) {
     const paths = {
-        // Existing icons
         shield: (
             <>
                 <path d="M12 3 4.75 6v5.4c0 4.6 3.1 7.6 7.25 9.6 4.15-2 7.25-5 7.25-9.6V6L12 3Z" />
@@ -35,8 +34,6 @@ function Icon({ name, size = 20, className = "", strokeWidth = 2 }) {
                 <path d="M9.6 9a2.5 2.5 0 1 1 3.7 2.2c-.9.5-1.3 1-1.3 2.1M12 16.5h.01" />
             </>
         ),
-
-        // New icons for DataTable
         download: (
             <>
                 <path d="M12 3v12" />

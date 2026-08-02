@@ -1,18 +1,8 @@
 import { useState } from "react";
-import { Eye } from "lucide-react";
 import { Button } from "./ui/button";
 import DocumentDetailModal from "./modals/DocumentDetailModal";
 import { documentService } from "../services/documentService";
 
-/**
- * Row actions for sales document tables.
- * Opens a detail modal; optionally loads full document + lines from the API.
- *
- * Props:
- *  - row: original row object from the table
- *  - documentType: key used by the modal / service
- *    e.g. "salesOrder" | "salesInvoice" | "salesCreditMemo" | "salesQuote"
- */
 export default function RowActions({ row, documentType = "salesInvoice" }) {
     const [open, setOpen] = useState(false);
     const [detail, setDetail] = useState(null);

@@ -42,7 +42,6 @@ const MONTHS = [
     "Dec",
 ];
 
-// Normalise API payload (plain array or BC-style { value: [] }) 
 const asArray = (payload) => {
     if (Array.isArray(payload)) return payload;
     if (Array.isArray(payload?.value)) return payload.value;
@@ -50,7 +49,6 @@ const asArray = (payload) => {
     return [];
 };
 
-// Pick first valid date from common BC / custom fields 
 const getDocDate = (doc) => {
     const raw =
         doc.postingDate ??
@@ -75,7 +73,6 @@ const getDocYear = (doc) => {
     return d ? d.getFullYear() : null;
 };
 
-// Sum document amount from common field names 
 const getDocAmount = (doc) => {
     const raw =
         doc.amountIncludingVAT ??
@@ -93,7 +90,6 @@ const getDocAmount = (doc) => {
     return Number.isFinite(n) ? Math.abs(n) : 0;
 };
 
-// Bar chart: posted invoices vs credit memos by year (amounts) 
 const buildYearlyBarData = (invoices, creditMemos) => {
     const cy = new Date().getFullYear();
     const years = Array.from({ length: 10 }, (_, i) => cy - 9 + i);
@@ -122,7 +118,6 @@ const buildYearlyBarData = (invoices, creditMemos) => {
     }));
 };
 
-// Line chart: invoices vs payments by month for a given year (amounts) 
 const buildMonthlyLineData = (invoices, paymentList, year) => {
     const invoiceByMonth = Array(12).fill(0);
     const paymentByMonth = Array(12).fill(0);
@@ -392,9 +387,7 @@ function Dashboard() {
                             }
                         </div>
 
-                        {/* Charts */}
                         <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                            {/* Bar: posted invoices vs credit memos by year */}
                             <div className="border border-gray-200 bg-white p-4 shadow-sm">
                                 <p className="mb-1 text-sm font-semibold text-gray-950">
                                     POSTED DOCUMENTS BY YEAR
@@ -455,7 +448,6 @@ function Dashboard() {
                                 </div>
                             </div>
 
-                            {/* Line: invoices vs payments by month */}
                             <div className="border border-gray-200 bg-white p-4 shadow-sm">
                                 <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
