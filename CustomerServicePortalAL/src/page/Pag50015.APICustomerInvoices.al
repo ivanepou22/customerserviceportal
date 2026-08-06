@@ -9,7 +9,7 @@ page 50015 "API Customer Invoices"
     EntityName = 'customerinvoices';
     EntitySetName = 'customerinvoices';
     SourceTable = "Cust. Ledger Entry";
-    SourceTableView = where("Document Type" = filter(Invoice));
+    SourceTableView = where("Document Type" = filter(Invoice), Reversed = const(false));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

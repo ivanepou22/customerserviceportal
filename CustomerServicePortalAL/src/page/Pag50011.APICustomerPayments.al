@@ -9,7 +9,7 @@ page 50011 "API Customer Payments"
     EntityName = 'customerpayments';
     EntitySetName = 'customerpayments';
     SourceTable = "Cust. Ledger Entry";
-    SourceTableView = where("Document Type" = filter(Payment | " "));
+    SourceTableView = where("Document Type" = filter(Payment | " "), Reversed = const(false));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

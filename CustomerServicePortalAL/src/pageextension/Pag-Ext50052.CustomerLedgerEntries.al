@@ -3,6 +3,14 @@ pageextension 50052 "Customer Ledger Entries" extends "Customer Ledger Entries"
     layout
     {
         // Add changes to page layout here
+        addafter(RecipientBankAccount)
+        {
+            field(SystemId; Rec.SystemId)
+            {
+                ApplicationArea = All;
+            }
+
+        }
     }
 
     actions

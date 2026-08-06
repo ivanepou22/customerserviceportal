@@ -9,7 +9,7 @@ page 50014 "API Customer Refund"
     EntityName = 'customerrefunds';
     EntitySetName = 'customerrefunds';
     SourceTable = "Cust. Ledger Entry";
-    SourceTableView = where("Document Type" = filter(Refund));
+    SourceTableView = where("Document Type" = filter(Refund), Reversed = const(false));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

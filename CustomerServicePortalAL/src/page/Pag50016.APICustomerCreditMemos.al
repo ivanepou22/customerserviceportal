@@ -9,7 +9,7 @@ page 50016 "API Customer Credit Memos"
     EntityName = 'customercreditmemos';
     EntitySetName = 'customercreditmemos';
     SourceTable = "Cust. Ledger Entry";
-    SourceTableView = where("Document Type" = filter("Credit Memo"));
+    SourceTableView = where("Document Type" = filter("Credit Memo"), Reversed = const(false));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;

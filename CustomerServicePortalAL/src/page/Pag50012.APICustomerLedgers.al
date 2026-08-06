@@ -9,6 +9,7 @@ page 50012 "API Customer Ledgers"
     EntityName = 'customerledgers';
     EntitySetName = 'customerledgers';
     SourceTable = "Cust. Ledger Entry";
+    SourceTableView = where(Reversed = const(false));
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
