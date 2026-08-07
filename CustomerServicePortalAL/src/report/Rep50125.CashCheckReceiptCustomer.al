@@ -326,16 +326,18 @@ report 50125 "Cash/Check Receipt (Customer)"
                         END;
                 END;
 
-                VerificationURL :=
-                          StrSubstNo(
-                            GLSetup."QRCode Verification URL" + '?customerNo=%1&entryNo=%2',
-                            "Cust. Ledger Entry"."Customer No.", "Cust. Ledger Entry"."Entry No.");
+                // Generate Receipt Verification token and QR code
+                ReceiptToken.Reset();
+                ReceiptToken.SetRange("Customer No.", "Customer No.");
+                ReceiptToken.SetRange("Entry No.", "Entry No.");
+                if not ReceiptToken.FindFirst() then begin
+                    Token := ReceiptToken.GenerateToken("Cust. Ledger Entry");
+                end else begin
+                    Token := ReceiptToken.Token;
+                end;
 
-                VerificationUrl := VerificationUrl.Replace(':', '%3A');
-                VerificationUrl := VerificationUrl.Replace('/', '%2F');
-                VerificationUrl := VerificationUrl.Replace('?', '%3F');
-                VerificationUrl := VerificationUrl.Replace('&', '%26');
-                VerificationUrl := VerificationUrl.Replace('=', '%3D');
+                GLSetup.TestField("QRCode Verification URL");
+                VerificationURL := GLSetup."QRCode Verification URL" + Token;
 
                 QRImage := GenerateQRCode(VerificationURL);
             end;
@@ -441,6 +443,8 @@ report 50125 "Cash/Check Receipt (Customer)"
         Signed_CaptionLbl: Label 'Signed:';
         With_ThanksCaptionLbl: Label 'With Thanks';
         Amount_in_wordsCaptionLbl: Label 'Amount in words';
+        ReceiptToken: Record "Receipt Verification Token";
+        Token: Text;
 
     /// <summary>
     /// FormatNoText.
@@ -621,7 +625,7 @@ report 50125 "Cash/Check Receipt (Customer)"
         QRServiceURL :=
           GLSetup."QrCode Url" +
           EncodedURL;
-        Message(QRServiceURL);
+
         if not HttpClient.Get(QRServiceURL, HttpResponse)
         then
             Error('Unable to get QR code.');
