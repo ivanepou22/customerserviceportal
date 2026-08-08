@@ -22,7 +22,7 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
-    const [date, setDate] = useState();
+    const [dateAsOf, setDateAsOf] = useState();
     const { user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState({});
@@ -30,8 +30,7 @@ const Header = () => {
     const [reportFilters, setReportFilters] = useState({
         customerNo: user?.customerNo,
         startDate: "",
-        endDate: "",
-        asOfDate: ""
+        endDate: ""
     });
 
     const openReportModal = (report) => {
@@ -41,8 +40,7 @@ const Header = () => {
         setReportFilters({
             customerNo: user?.customerNo,
             startDate: "",
-            endDate: "",
-            asOfDate: ""
+            endDate: ""
         });
     };
 
@@ -50,7 +48,7 @@ const Header = () => {
         setSelectedReport(null);
         setData("");
         setError("")
-        setDate("")
+        setDateAsOf("")
     };
 
     const location = useLocation();
@@ -81,6 +79,7 @@ const Header = () => {
             ...previousFilters,
             value
         }));
+        console.log(reportFilters);
     };
 
     const fetchAgingReport = async (agingDate) => {
@@ -106,8 +105,8 @@ const Header = () => {
         };
 
         if (reportRequest.reportType === "customerAging") {
-            if (date === '') setError('Aging As Of Date cannot be empty')
-            const formatDate = new Date(date);
+            if (dateAsOf === '') setError('Aging As Of Date cannot be empty')
+            const formatDate = new Date(dateAsOf);
             const agingAsOfDate = format(formatDate, 'yyyy-MM-dd');
             fetchAgingReport(agingAsOfDate);
         }
@@ -330,7 +329,7 @@ const Header = () => {
                             type="button"
                             aria-label="Close report modal"
                             onClick={closeReportModal}
-                            className="fixed inset-0 h-full w-full cursor-default bg-black/60 backdrop-blur-[5px]"
+                            className="fixed inset-0 h-full w-full cursor-default bg-black/60 backdrop-blur-[1px]"
                         />
 
                         <div className="relative z-10 flex min-h-full items-start justify-center px-2 py-4 sm:px-4">
@@ -437,15 +436,15 @@ const Header = () => {
                                                 <Popover open={open} onOpenChange={setOpen}>
                                                     <PopoverTrigger asChild>
                                                         <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm justify-start font-normal">
-                                                            {date ? format(date, "yyyy-MM-dd") : <span>Pick a date</span>}
+                                                            {dateAsOf ? format(dateAsOf, "yyyy-MM-dd") : <span>Pick a date</span>}
                                                         </Button>
                                                     </PopoverTrigger>
                                                     <PopoverContent className="w-auto p-0 z-[9999] bg-white shadow-4xl" align="start">
                                                         <Calendar
                                                             mode="single"
-                                                            selected={date}
+                                                            selected={dateAsOf}
                                                             onSelect={(date) => {
-                                                                setDate(date)
+                                                                setDateAsOf(date)
                                                                 setOpen(false)
                                                             }}
                                                             className="z-[10000]"

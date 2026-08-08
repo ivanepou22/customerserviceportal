@@ -59,7 +59,7 @@ function App() {
         }
       />
       <Route
-        path="/receipt"
+        path="/customer-receipt"
         element={
           <ProtectedRoute>
             <VerifyReceipt />
@@ -67,7 +67,7 @@ function App() {
         }
       />
       <Route
-        path="/verify/receipt"
+        path="/receipt/:token"
         element={
           <VerifyReceipt />
         }

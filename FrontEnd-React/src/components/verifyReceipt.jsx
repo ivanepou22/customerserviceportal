@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { receiptVerificationService } from '../services/receiptVerificationService';
 import { Loader2 } from "lucide-react";
 
@@ -8,18 +8,17 @@ const VerifyReceipt = () => {
     const [data, setData] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [searchParams] = useSearchParams();
-    const customerNo = searchParams.get("customerNo");
-    const entryNo = searchParams.get("entryNo");
 
-    const fetchReceipt = async (customerNo, entryNo) => {
-        if (!customerNo || !entryNo) setError('Customer No or Entry No cannot be empty!')
+    const { token } = useParams();
+    console.log(token);
+
+    const fetchReceipt = async (token) => {
+        if (token) setError('Token cannot be empty!')
         setIsLoading(true);
         setError("");
         try {
             const base64Pdf = await receiptVerificationService.fetchReceiptPdf(
-                customerNo,
-                entryNo
+                token,
             );
             setData(base64Pdf);
         } catch (err) {
@@ -30,11 +29,11 @@ const VerifyReceipt = () => {
     };
 
     useEffect(() => {
-        if (!customerNo || !entryNo) return;
+        if (!token) setError('Receipt Id provided is not valid');
         if (hasFetched.current) return;
         hasFetched.current = true;
-        fetchReceipt(customerNo, entryNo);
-    }, [customerNo, entryNo]);
+        fetchReceipt(token);
+    }, [token]);
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -46,7 +45,7 @@ const VerifyReceipt = () => {
 
             <div className="border-b border-emerald-100 bg-emerald-50">
                 <div className="mx-auto flex h-8 max-w-[1120px] items-center justify-center gap-2 px-5 text-center text-[13px] font-semibold text-emerald-950">
-                    Welcome to the Vision Group Customer Portal
+
                 </div>
             </div>
             <main id="dashboard" className="mx-auto max-w-[1000px] px-5 pb-10 pt-2 lg:px-0 lg:pt-4">
@@ -86,7 +85,7 @@ const VerifyReceipt = () => {
                             </div>
 
                             <button
-                                onClick={() => fetchReceipt(customerNo, entryNo)}
+                                onClick={() => fetchReceipt(token)}
                                 className="rounded-md bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
                             >
                                 Try Again

@@ -1,14 +1,14 @@
 import publicApi from "../api/publicApi";
 
 export const receiptVerificationService = {
-    async fetchReceiptPdf(customerNo, entryNo) {
-        if (!customerNo || !entryNo) {
-            throw new Error("Missing customerNo or entryNo");
+    async fetchReceiptPdf(token) {
+        if (!token) {
+            throw new Error("Missing token parameter");
         }
 
         try {
-            const url = `/receipt?customerNo=${customerNo}&entryNo=${entryNo}`;
-            const response = await publicApi.post(url, {});
+            const url = `/receipt/${token}`;
+            const response = await publicApi.post(url, { token });
             return response.data;
         } catch (err) {
             console.error("Receipt fetch error:", err);

@@ -350,18 +350,6 @@ function Dashboard() {
 
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7">
                             {
-                                documents.map((stat) => (
-                                    <Link
-                                        key={stat.title}
-                                        to={stat.to}
-                                        className="block h-full text-left"
-                                        aria-label={`View ${stat.title}`}
-                                    >
-                                        <TealStatCard {...stat} />
-                                    </Link>
-                                ))
-                            }
-                            {
                                 postedDocuments.map((stat) => (
                                     <Link
                                         key={stat.title}
@@ -385,6 +373,19 @@ function Dashboard() {
                                     </Link>
                                 ))
                             }
+                            {
+                                documents.map((stat) => (
+                                    <Link
+                                        key={stat.title}
+                                        to={stat.to}
+                                        className="block h-full text-left"
+                                        aria-label={`View ${stat.title}`}
+                                    >
+                                        <TealStatCard {...stat} />
+                                    </Link>
+                                ))
+                            }
+
                         </div>
 
                         <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
