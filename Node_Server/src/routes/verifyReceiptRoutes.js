@@ -3,5 +3,5 @@ import { auth } from "../middleware/auth.js";
 import { getCustomerPaymentReceipt } from "../controllers/customerReportController.js";
 
 const customerReceiptRouter = express.Router();
-customerReceiptRouter.post('/', getCustomerPaymentReceipt);
+customerReceiptRouter.post('/:token', getCustomerPaymentReceipt);
 export default customerReceiptRouter;

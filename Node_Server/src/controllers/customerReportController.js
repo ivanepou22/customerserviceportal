@@ -52,20 +52,14 @@ const getCustomerReport = (reportFunction) =>
 
 const getCustomerReceipt = (reportFunction) =>
     asyncMiddleware(async (req, res) => {
-        const customerNo = req.query.customerNo;
-        const entryNo = req.query.entryNo;
-
-        if (!customerNo)
+        const token = req.params.token;
+        if (!token)
             return res.status(400).json({ message: "Missing required parameters" });
 
-        if (!entryNo)
-            return res.status(400).json({ message: "Missing required parameters" })
-
-        const actionUrl = `${process.env.BASE_URL}/${process.env.BC_CUSTOMER_PAYMENTS}('${customerNo}')/Microsoft.NAV.${reportFunction}`;
+        const actionUrl = `${process.env.BASE_URL}/${process.env.BC_CUSTOMER_RECEIPT}('${token}')/Microsoft.NAV.${reportFunction}`;
 
         const payload = {
-            customerNo,
-            entryNo
+            token
         };
 
         try {
@@ -108,5 +102,5 @@ const getCustomerDetails = () =>
 export const getCustomerDetailedTrialBalance = getCustomerReport("getCustomerDetailedTrialBalance");
 export const getCustomerStatement = getCustomerReport("getCustomerStatement");
 export const getARAging = getCustomerReport("getARAging");
-export const getCustomerPaymentReceipt = getCustomerReceipt("generateReceipt")
+export const getCustomerPaymentReceipt = getCustomerReceipt("generateCustomerReceipt")
 export const getCustomer = getCustomerDetails();
