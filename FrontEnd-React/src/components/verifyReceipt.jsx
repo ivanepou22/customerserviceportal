@@ -8,9 +8,7 @@ const VerifyReceipt = () => {
     const [data, setData] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-
     const { token } = useParams();
-    console.log(token);
 
     const fetchReceipt = async (token) => {
         if (token) setError('Token cannot be empty!')

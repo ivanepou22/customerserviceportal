@@ -145,8 +145,6 @@ export const customerPaymentColumns = [
         header: 'RemainingAmountLCY',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),
-    columnHelper.accessor('Reversed', { header: 'Reversed' }),
-    columnHelper.accessor('Open', { header: 'Open' }),
 ];
 
 export const customerLedgerColumns = [
@@ -175,8 +173,6 @@ export const customerLedgerColumns = [
         header: 'RemainingAmountLCY',
         cell: info => `${info.getValue().toLocaleString()}`,
     }),
-    columnHelper.accessor('Reversed', { header: 'Reversed' }),
-    columnHelper.accessor('Open', { header: 'Open' }),
 ];
 
 export const salesLineColumns = [

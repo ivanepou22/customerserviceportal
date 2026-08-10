@@ -22,33 +22,31 @@ const Header = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
+    const [openStartDate, setOpenStartDate] = useState(false);
+    const [openEndDate, setOpenEndDate] = useState(false);
     const [dateAsOf, setDateAsOf] = useState();
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
     const { user, logout } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openSubMenus, setOpenSubMenus] = useState({});
     const [selectedReport, setSelectedReport] = useState(null);
-    const [reportFilters, setReportFilters] = useState({
-        customerNo: user?.customerNo,
-        startDate: "",
-        endDate: ""
-    });
 
     const openReportModal = (report) => {
         setSelectedReport(report);
         setIsMenuOpen(false);
-
-        setReportFilters({
-            customerNo: user?.customerNo,
-            startDate: "",
-            endDate: ""
-        });
+        setDateAsOf("");
+        setStartDate("");
+        setEndDate("");
     };
 
     const closeReportModal = () => {
         setSelectedReport(null);
         setData("");
-        setError("")
-        setDateAsOf("")
+        setError("");
+        setDateAsOf("");
+        setStartDate("");
+        setEndDate("");
     };
 
     const location = useLocation();
@@ -72,16 +70,6 @@ const Header = () => {
         );
     };
 
-    const handleReportFilterChange = (event) => {
-        const { value } = event.target;
-
-        setReportFilters((previousFilters) => ({
-            ...previousFilters,
-            value
-        }));
-        console.log(reportFilters);
-    };
-
     const fetchAgingReport = async (agingDate) => {
         if (!agingDate) setError('Aging As Of Date can not be empty!')
         setIsLoading(true);
@@ -96,13 +84,44 @@ const Header = () => {
         }
     };
 
+    const fetchDetailedTrialBalReport = async (startDate, endDate) => {
+        if (!startDate) setError('Start Date can not be empty!');
+        if (!endDate) setError('End Date can not be empty!')
+        setIsLoading(true);
+        setError("");
+        try {
+            const base64Pdf = await customerReportService.fetchDetailedTrialBalance(startDate, endDate);
+            setData(base64Pdf);
+        } catch (err) {
+            setError("Fetching Deatiled Trial Balance Report failed. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const fetchCustomerStatementReport = async (startDate, endDate) => {
+        if (!startDate) setError('Start Date can not be empty!');
+        if (!endDate) setError('End Date can not be empty!')
+        setIsLoading(true);
+        setError("");
+        try {
+            const base64Pdf = await customerReportService.fetchCustomerStatement(startDate, endDate);
+            setData(base64Pdf);
+        } catch (err) {
+            setError("Fetching Customer Statement Report failed. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleGenerateReport = (event) => {
         event.preventDefault();
 
         const reportRequest = {
-            reportType: selectedReport.reportType,
-            filters: reportFilters
+            reportType: selectedReport.reportType
         };
+
+        console.log(reportRequest.reportType);
 
         if (reportRequest.reportType === "customerAging") {
             if (dateAsOf === '') setError('Aging As Of Date cannot be empty')
@@ -110,6 +129,25 @@ const Header = () => {
             const agingAsOfDate = format(formatDate, 'yyyy-MM-dd');
             fetchAgingReport(agingAsOfDate);
         }
+        if (reportRequest.reportType === "detailedTrialBalance") {
+            if (startDate === '') setError('Please select a start Date.');
+            if (endDate === '') setError('Please select an End Date.');
+            const formatStartDate = new Date(startDate);
+            const formatEndDate = new Date(endDate);
+            const sDate = format(formatStartDate, 'yyyy-MM-dd');
+            const eDate = format(formatEndDate, 'yyyy-MM-dd');
+            fetchDetailedTrialBalReport(sDate, eDate);
+        }
+        if (reportRequest.reportType === "customerStatement") {
+            if (startDate === '') setError('Please select a start Date.');
+            if (endDate === '') setError('Please select an End Date.');
+            const formatStartDate = new Date(startDate);
+            const formatEndDate = new Date(endDate);
+            const sDate = format(formatStartDate, 'yyyy-MM-dd');
+            const eDate = format(formatEndDate, 'yyyy-MM-dd');
+            fetchCustomerStatementReport(sDate, eDate);
+        }
+
     };
 
     useEffect(() => {
@@ -368,64 +406,60 @@ const Header = () => {
                                 </div>
 
                                 <form onSubmit={handleGenerateReport}>
-                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto px-5 py-3 sm:px-6 justify-center">
+                                    <div className="max-h-[calc(100vh-15rem)] space-y-5 overflow-y-auto border-b border-gray-200 px-5 py-3 sm:px-6 justify-center">
                                         {(selectedReport.fields?.includes("startDate") ||
                                             selectedReport.fields?.includes("endDate")) && (
                                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 justify-center">
                                                     {selectedReport.fields?.includes(
                                                         "startDate"
                                                     ) && (
-                                                            <div>
-                                                                <label
-                                                                    htmlFor="report-start-date"
-                                                                    className="mb-2 block text-sm font-medium text-gray-900"
-                                                                >
-                                                                    Start date
-                                                                </label>
-
-                                                                <input
-                                                                    id="report-start-date"
-                                                                    type="date"
-                                                                    name="startDate"
-                                                                    value={
-                                                                        reportFilters.startDate
-                                                                    }
-                                                                    onChange={
-                                                                        handleReportFilterChange
-                                                                    }
-                                                                    required
-                                                                    className="h-9 w-full max-w-sm border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
-                                                                />
-                                                            </div>
+                                                            <Field className="mx-auto w-44">
+                                                                <FieldLabel htmlFor="startDate">Start Date</FieldLabel>
+                                                                <Popover open={openStartDate} onOpenChange={setOpenStartDate}>
+                                                                    <PopoverTrigger asChild>
+                                                                        <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm rounded-none justify-start font-normal">
+                                                                            {startDate ? format(startDate, "yyyy-MM-dd") : <span>Pick a start date</span>}
+                                                                        </Button>
+                                                                    </PopoverTrigger>
+                                                                    <PopoverContent className="w-auto p-0 z-[9999] bg-white shadow-4xl" align="start">
+                                                                        <Calendar
+                                                                            mode="single"
+                                                                            selected={startDate}
+                                                                            onSelect={(sDate) => {
+                                                                                setStartDate(sDate)
+                                                                                setOpenStartDate(false)
+                                                                            }}
+                                                                            className="z-[10000]"
+                                                                        />
+                                                                    </PopoverContent>
+                                                                </Popover>
+                                                            </Field>
                                                         )}
 
                                                     {selectedReport.fields?.includes(
                                                         "endDate"
                                                     ) && (
-                                                            <div>
-                                                                <label
-                                                                    htmlFor="report-end-date"
-                                                                    className="mb-2 block text-sm font-medium text-gray-900"
-                                                                >
-                                                                    End date
-                                                                </label>
-
-                                                                <input
-                                                                    id="report-end-date"
-                                                                    type="date"
-                                                                    name="endDate"
-                                                                    value={reportFilters.endDate}
-                                                                    onChange={
-                                                                        handleReportFilterChange
-                                                                    }
-                                                                    min={
-                                                                        reportFilters.startDate ||
-                                                                        undefined
-                                                                    }
-                                                                    required
-                                                                    className="h-9 w-full max-w-sm border border-gray-300 bg-white px-2 text-sm text-gray-900 outline-none focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
-                                                                />
-                                                            </div>
+                                                            <Field className="mx-auto w-44">
+                                                                <FieldLabel htmlFor="enDdate">End Date</FieldLabel>
+                                                                <Popover open={openEndDate} onOpenChange={setOpenEndDate}>
+                                                                    <PopoverTrigger asChild>
+                                                                        <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm rounded-none justify-start font-normal">
+                                                                            {endDate ? format(endDate, "yyyy-MM-dd") : <span>Pick an End date</span>}
+                                                                        </Button>
+                                                                    </PopoverTrigger>
+                                                                    <PopoverContent className="w-auto p-0 z-[9999] bg-white shadow-4xl" align="start">
+                                                                        <Calendar
+                                                                            mode="single"
+                                                                            selected={endDate}
+                                                                            onSelect={(date) => {
+                                                                                setEndDate(date)
+                                                                                setOpenEndDate(false)
+                                                                            }}
+                                                                            className="z-[10000]"
+                                                                        />
+                                                                    </PopoverContent>
+                                                                </Popover>
+                                                            </Field>
                                                         )}
                                                 </div>
                                             )}
@@ -435,7 +469,7 @@ const Header = () => {
                                                 <FieldLabel htmlFor="date">Aging as of:</FieldLabel>
                                                 <Popover open={open} onOpenChange={setOpen}>
                                                     <PopoverTrigger asChild>
-                                                        <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm justify-start font-normal">
+                                                        <Button variant="outline" id="date-picker-simple" className="w-full max-w-sm rounded-none justify-start font-normal">
                                                             {dateAsOf ? format(dateAsOf, "yyyy-MM-dd") : <span>Pick a date</span>}
                                                         </Button>
                                                     </PopoverTrigger>
@@ -452,6 +486,7 @@ const Header = () => {
                                                     </PopoverContent>
                                                 </Popover>
                                             </Field>
+
                                         )}
                                     </div>
 
@@ -459,7 +494,7 @@ const Header = () => {
                                         {
                                             isLoading ? (
                                                 <div className="flex min-h-[250px] flex-col items-center justify-center gap-2">
-                                                    <Loader2 className="h-20 w-20 animate-spin text-red-500" />
+                                                    <Loader2 className="h-20 w-20 animate-spin text-teal-600" />
                                                     <h3 className="text-sm font-semibold">
                                                         Processing your request
                                                     </h3>

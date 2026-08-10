@@ -8,7 +8,7 @@ export const receiptVerificationService = {
 
         try {
             const url = `/receipt/${token}`;
-            const response = await publicApi.post(url, { token });
+            const response = await publicApi.post(url, {});
             return response.data;
         } catch (err) {
             console.error("Receipt fetch error:", err);

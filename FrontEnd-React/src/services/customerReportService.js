@@ -15,6 +15,36 @@ export const customerReportService = {
             throw err;
         }
     },
+    async fetchDetailedTrialBalance(startDate, endDate) {
+        if (!startDate)
+            throw new Error("Start Date can not be empty.");
+        if (!endDate)
+            throw new Error("End Date can not be empty.");
+
+        try {
+            const url = `/customer-reports/detailed-trialbalance?startDate=${startDate}&endDate=${endDate}`;
+            const response = await api.post(url, {});
+            return response.data;
+        } catch (err) {
+            console.error("Detailed Trial Balance Report fetch error:", err);
+            throw err;
+        }
+    },
+    async fetchCustomerStatement(startDate, endDate) {
+        if (!startDate)
+            throw new Error("Start Date can not be empty.");
+        if (!endDate)
+            throw new Error("End Date can not be empty.");
+
+        try {
+            const url = `/customer-reports/statement?startDate=${startDate}&endDate=${endDate}`;
+            const response = await api.post(url, {});
+            return response.data;
+        } catch (err) {
+            console.error("Customer Statement Report fetch error:", err);
+            throw err;
+        }
+    },
     async fetchCustomer() {
         try {
             const url = `/customer-reports/customer`;

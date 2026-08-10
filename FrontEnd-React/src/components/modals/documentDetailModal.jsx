@@ -275,7 +275,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Contact
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {customerNo}
                                                 {contact && contact !== "—" ? ` · ${contact}` : ""}
                                             </p>
@@ -284,7 +284,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Currency
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {currency || "—"}
                                             </p>
                                         </div>
@@ -292,7 +292,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Posting Date
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {formatDate(postingDate)}
                                             </p>
                                         </div>
@@ -302,7 +302,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Document Type
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {docType || "—"}
                                             </p>
                                         </div>
@@ -310,7 +310,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Order Date
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {formatDate(orderDate)}
                                             </p>
                                         </div>
@@ -318,7 +318,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Due Date
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {formatDate(dueDate)}
                                             </p>
                                         </div>
@@ -326,7 +326,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Posting Description
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {postingDescription}
                                             </p>
                                         </div>
@@ -334,7 +334,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Amount
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {formatMoney(amount)}
                                             </p>
                                         </div>
@@ -342,7 +342,7 @@ export default function DocumentDetailModal({
                                             <p className="label text-[11px] uppercase tracking-wide text-muted-foreground">
                                                 Amount Incl. VAT
                                             </p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="value text-sm font-medium">
                                                 {formatMoney(amountInclVat)}
                                             </p>
                                         </div>
@@ -398,7 +398,7 @@ export default function DocumentDetailModal({
                                 </div>
                             ) : pdfData ? (
                                 <iframe
-                                    src={`data:application/pdf;base64,${pdfData}#toolbar=1&navpanes=0&scrollbar=1&view=FitW`}
+                                    src={`data:application/pdf;base64,${pdfData}`}
                                     title={`${title} ${docNo} - PDF`}
                                     className="h-full min-h-[95vh] w-full border-0"
                                 />
