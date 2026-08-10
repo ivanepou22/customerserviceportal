@@ -53,6 +53,7 @@ const getCustomerReport = (reportFunction) =>
 const getCustomerReceipt = (reportFunction) =>
     asyncMiddleware(async (req, res) => {
         const token = req.params.token;
+
         if (!token)
             return res.status(400).json({ message: "Missing required parameters" });
 
@@ -73,7 +74,8 @@ const getCustomerReceipt = (reportFunction) =>
         } catch (error) {
             res.status(error.response?.status || 500).json({
                 message: "Failed to generate PDF",
-                details: error.response?.data?.error?.message || error.message
+                details: error.response?.data?.error?.message || error.message,
+                statusText: error.response.statusText,
             });
         }
     });
