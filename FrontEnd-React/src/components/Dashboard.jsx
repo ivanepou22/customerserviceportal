@@ -300,7 +300,7 @@ function Dashboard() {
     const customerCreditLimit = [
         {
             title: "Credit Limit",
-            value: formatCurrency(customer.creditLimitLCY),
+            value: formatCurrency(customer.creditLimitLCY || 0),
             subtitle: "Credit Limit",
             color: (customer.balanceLCY > customer.creditLimitLCY) ? "bg-red-400 hover:bg-red-300" : "bg-teal-600 hover:bg-teal-700",
             to: "#",
