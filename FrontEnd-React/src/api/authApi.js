@@ -76,12 +76,14 @@ api.interceptors.response.use(
         const url = originalRequest.url || '';
         const isRefreshCall = url.includes('/auth/refresh');
         const isLoginCall = url.endsWith('/auth') || url.endsWith('/auth/');
+        const isSignupCall = url.includes('/auth/signup') || url.includes('/auth/register');
 
         if (
             error.response?.status !== 401 ||
             originalRequest._retry ||
             isRefreshCall ||
-            isLoginCall
+            isLoginCall ||
+            isSignupCall
         ) {
             return Promise.reject(error);
         }

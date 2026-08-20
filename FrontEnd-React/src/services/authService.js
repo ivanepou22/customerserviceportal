@@ -21,4 +21,31 @@ export const authService = {
             refreshToken,
         };
     },
+    async signup({ email, name, password, customerNo }) {
+        const response = await api.post("/users", {
+            email,
+            name,
+            password,
+            customerNo,
+        });
+        const data = response.data;
+
+        const accessToken = data.accessToken || data.token;
+        const refreshToken = data.refreshToken;
+
+        if (accessToken) {
+            setTokens({ accessToken, refreshToken, token: accessToken });
+            if (data.user) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+            }
+        }
+
+        return {
+            user: data.user,
+            token: accessToken,
+            accessToken,
+            refreshToken,
+            message: data.message,
+        };
+    },
 };

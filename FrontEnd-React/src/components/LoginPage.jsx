@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
 import { authService } from "../services/authService";
 import { Eye, EyeOff, Lock, Mail, ShipWheel } from "lucide-react";
@@ -100,9 +100,9 @@ function LoginPage() {
             {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
             <div className="flex justify-end">
-              <a href="#forgot" className="text-sm text-gray-600 hover:text-gray-900 underline">
+              <Link to="#forgot" className="text-sm text-gray-600 hover:text-gray-900 underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             <button
@@ -113,14 +113,17 @@ function LoginPage() {
               {isLoading ? "Signing in..." : "Get Started"}
             </button>
           </form>
+          <p className="text-center text-sm text-gray-600 mt-6">
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              className="text-black font-medium hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Don't have an account?{" "}
-          <a href="#signup" className="text-black font-medium hover:underline">
-            Sign up
-          </a>
-        </p>
       </div>
     </main>
   );

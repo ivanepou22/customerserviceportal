@@ -335,7 +335,7 @@ const Header = () => {
                             <Icon name="chevron" size={15} className="text-muted-foreground" />
                         </button>
                         <div className="absolute right-0 top-full z-50 mt-1 w-48 border border-border bg-popover p-1 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all bg-slate-50">
-                            <Link to="#profile" className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted hover:text-foreground text-muted-foreground">
+                            <Link to="/profile" className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted hover:text-foreground text-muted-foreground">
                                 <Icon name="user" size={15} /> Profile
                             </Link>
                             <div className="border-t border-border"></div>

@@ -1,11 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import LoginPage from "./components/LoginPage";
+import SignupPage from "./components/SignupPage";
 import Dashboard from "./components/Dashboard";
 import VerifyReceipt from "./components/verifyReceipt";
 import CustomerLedgers from "./pages/customerLedgers";
 import SalesDocuments from "./pages/salesDocuments";
 import PostedSalesDocuments from "./pages/postedSalesDocuments";
+import Profile from "./pages/profile";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -25,7 +27,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
-
+      <Route path="/signup" element={<SignupPage />} />
       <Route
         path="/dashboard"
         element={
@@ -47,6 +49,14 @@ function App() {
         element={
           <ProtectedRoute>
             <SalesDocuments />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
           </ProtectedRoute>
         }
       />
