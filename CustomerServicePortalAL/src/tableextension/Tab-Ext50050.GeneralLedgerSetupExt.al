@@ -12,14 +12,4 @@ tableextension 50050 "General Ledger SetupExt" extends "General Ledger Setup"
             DataClassification = ToBeClassified;
         }
     }
-
-    keys
-    {
-        // Add changes to keys here
-    }
-
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
 }
