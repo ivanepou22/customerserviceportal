@@ -37,6 +37,26 @@ page 50010 "API Sales Credit Memo Lines"
             field(vat_Percentage; Rec."VAT %") { }
             field(vatBaseAmount; Rec."VAT Base Amount") { }
             field(lineAmountInclVAT; Rec."Amount Including VAT") { }
+            field(dimensionSetID; Rec."Dimension Set ID")
+            {
+                Caption = 'Dimension Set ID';
+            }
+            field(shortcutDimension2Code; Rec."Shortcut Dimension 2 Code")
+            {
+                Caption = 'Shortcut Dimension 2 Code';
+            }
+            field(shortcutDimension1Code; Rec."Shortcut Dimension 1 Code")
+            {
+                Caption = 'Shortcut Dimension 1 Code';
+            }
+            field(locationCode; Rec."Location Code")
+            {
+                Caption = 'Location Code';
+            }
+            field(faPostingDate; Rec."FA Posting Date")
+            {
+                Caption = 'FA Posting Date';
+            }
         }
     }
 }
