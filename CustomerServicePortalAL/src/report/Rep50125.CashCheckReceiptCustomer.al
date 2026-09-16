@@ -340,7 +340,6 @@ report 50125 "Cash/Check Receipt (Customer)"
                 VerificationURL := GLSetup."QRCode Verification URL" + Token;
 
                 QRImage := GenerateQRCode(VerificationURL);
-                Message(QRImage);
             end;
 
             trigger OnPostDataItem();
